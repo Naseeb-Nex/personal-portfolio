@@ -36,6 +36,11 @@
       "sourceType": "github",
       "computedHash": "595d911a46b2953b97ad2d77bf3bd59b335a5a728355a8ef1091f3615c08c0db"
     },
+    "liquid-glass-design": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "computedHash": "cdd47ce273b84d1e630aa6ea8086baa9b4affd9f881b3f95a7b25334b67a1dc5"
+    },
     "r3f-animation": {
       "source": "enzed/r3f-skills",
       "sourceType": "github",

@@ -3,13 +3,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform, useSpring, useMotionValue, useAnimationFrame, AnimatePresence } from "framer-motion";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
-import * as random from "mathjs"; // Or standard Math.random logic
+
+import { Component as FlowGradientHero } from "@/components/ui/flow-gradient-hero-section";
+import logoImg from "@/assets/logo.png";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -169,16 +171,20 @@ const Magnetic = ({ children }: { children: React.ReactElement }) => {
   );
 };
 
+const PARTICLE_COUNT = 5000;
+const INITIAL_POSITIONS = new Float32Array(PARTICLE_COUNT * 3);
+for (let i = 0; i < PARTICLE_COUNT * 3; i++) {
+  INITIAL_POSITIONS[i] = (Math.random() - 0.5) * 10;
+}
+
 /**
  * Three.js Background Component
  * Subtle particle network / neural node simulation
  */
 const ParticleBackground = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ref = useRef<any>(null);
-  const sphere = new Float32Array(5000 * 3);
-  for (let i = 0; i < 5000 * 3; i++) {
-    sphere[i] = (Math.random() - 0.5) * 10;
-  }
+  const sphere = React.useMemo(() => INITIAL_POSITIONS, []);
 
   useFrame((state, delta) => {
     if (ref.current) {
@@ -317,50 +323,207 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   );
 };
 
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="fixed top-3 md:top-4 left-0 w-full flex justify-center z-[100] px-4 pointer-events-none">
+      <motion.header
+        className="relative w-[100%] max-w-[800px] rounded-full bg-transparent px-4 md:px-6 py-2 flex items-center justify-between pointer-events-auto"
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="absolute top-0 left-0 z-0 h-full w-full rounded-full shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]" />
+        <div
+          className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-full bg-[#141414]/10"
+          style={{ backdropFilter: 'url("#container-glass") blur(16px)' }}
+        />
+
+        <svg className="hidden">
+          <defs>
+            <filter
+              id="container-glass"
+              x="0%"
+              y="0%"
+              width="100%"
+              height="100%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.05 0.05"
+                numOctaves="1"
+                seed="1"
+                result="turbulence"
+              />
+              <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
+              <feDisplacementMap
+                in="SourceGraphic"
+                in2="blurredNoise"
+                scale="70"
+                xChannelSelector="R"
+                yChannelSelector="B"
+                result="displaced"
+              />
+              <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
+              <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+            </filter>
+          </defs>
+        </svg>
+
+        <Magnetic>
+          <Link href="/" className="relative z-10 flex items-center p-2 group">
+            <motion.div
+              whileHover={{ scale: 1.15, rotate: 5 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              <Image src={logoImg} alt="Logo" width={32} height={32} className="w-8 h-8 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" />
+            </motion.div>
+          </Link>
+        </Magnetic>
+
+        {/* Desktop Menu */}
+        <nav className="relative z-10 hidden md:flex items-center gap-2 md:gap-4 font-medium text-xs md:text-sm uppercase tracking-wider text-gray-300">
+          {["Home", "About", "Projects", "Skills"].map((item) => (
+            <Magnetic key={item}>
+              <Link
+                href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
+                className="relative block px-3 py-2 group hover:text-white transition-colors duration-300"
+              >
+                <span className="relative inline-flex flex-col overflow-hidden">
+                  <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
+                    {item}
+                  </span>
+                  <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-semibold">
+                    {item}
+                  </span>
+                </span>
+                <span className="absolute left-3 right-3 bottom-0.5 h-[2px] rounded-full bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center ease-[cubic-bezier(0.22,1,0.36,1)]" />
+              </Link>
+            </Magnetic>
+          ))}
+        </nav>
+
+        {/* Mobile Menu Toggle */}
+        <Magnetic>
+          <button
+            className="relative z-10 md:hidden text-gray-300 hover:text-white p-2 overflow-hidden rounded-full group outline-none transition-colors duration-300"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <div className="absolute inset-0 bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] rounded-full" />
+            <motion.svg
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" className="relative z-10 w-5 h-5 transition-transform duration-300"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </motion.svg>
+          </button>
+        </Magnetic>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              className="absolute top-[calc(100%+0.5rem)] left-0 w-full bg-[#141414]/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex flex-col gap-6 md:hidden overflow-hidden origin-top"
+              initial={{ opacity: 0, scaleY: 0.95, y: -10 }}
+              animate={{ opacity: 1, scaleY: 1, y: 0 }}
+              exit={{ opacity: 0, scaleY: 0.95, y: -10 }}
+            >
+              <nav className="flex flex-col gap-4 font-mono text-sm uppercase text-gray-300 text-center">
+                {["Home", "About", "Projects", "Skills"].map((item) => (
+                  <Link
+                    key={item}
+                    href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
+                    onClick={() => setIsOpen(false)}
+                    className="relative block py-2 group"
+                  >
+                    <span className="relative inline-flex flex-col overflow-hidden">
+                      <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
+                        {item}
+                      </span>
+                      <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-bold">
+                        {item}
+                      </span>
+                    </span>
+                  </Link>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+    </div>
+  );
+};
+
+import { AnimatePresence } from "framer-motion";
+
 const Hero = () => {
   return (
-    <section className="relative w-full h-[150vh] flex flex-col items-center justify-start pt-[30vh] px-4 md:px-12 z-10">
-      <div className="w-full max-w-[1400px]">
-        <h1 className="text-5xl md:text-8xl lg:text-[10vw] font-bold font-space leading-[0.9] tracking-tighter uppercase text-white mix-blend-difference z-20">
-          <RevealText text="Muhammed Naseeb" delay={0.5} />
-          <br />
-          <span className="text-gray-500">
-            <RevealText text="// AI Engineer" delay={0.8} />
-          </span>
-        </h1>
+    <section id="home" className="relative w-full h-[100vh] flex items-center justify-center px-4 md:px-12 z-10 overflow-hidden">
+      {/* Background Interactive Animation */}
+      <div className="absolute inset-0 z-0">
+        <FlowGradientHero
+          title=""
+          showPauseButton={false}
+        />
+        {/* Dark overlay for text legibility */}
+        <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
+      </div>
 
-        <motion.div
-          className="mt-12 md:mt-24 max-w-xl text-lg md:text-xl text-gray-400 font-inter"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 1 }}
-        >
-          Architecting production-grade Generative AI, LLM Orchestration, and RAG pipelines. Shaping the future of applied intelligence.
-        </motion.div>
+      <div className="w-full max-w-[1400px] flex flex-col md:flex-row items-center relative z-20 h-full pt-24 md:pt-0">
+        {/* Left Section */}
+        <div className="flex-1 flex flex-col items-start justify-center pr-0 md:pr-12 text-left">
+          <motion.h1
+            className="text-5xl md:text-7xl lg:text-[6vw] font-medium tracking-tighter leading-[0.9] text-white drop-shadow-xl"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 1 }}
+          >
+            Building minds that think and act
+          </motion.h1>
 
-        <motion.div
-          className="mt-16"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 2, duration: 0.8, type: "spring" }}
-        >
-          <Magnetic>
-            <button className="px-8 py-4 rounded-full border border-white/20 hover:border-[#00f0ff] hover:bg-[#00f0ff]/10 text-white font-mono text-sm uppercase tracking-widest transition-colors backdrop-blur-sm">
-              View Projects
-            </button>
-          </Magnetic>
-        </motion.div>
+          <motion.p
+            className="mt-6 md:mt-8 max-w-[650px] text-lg text-white/70 font-sans leading-relaxed z-20"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 1 }}
+          >
+            Engineering enterprise-grade agent frameworks that automate complex workflows, orchestrate multi-agent systems, and scale intelligent decision-making across organizations.
+          </motion.p>
+
+          <motion.div
+            className="mt-10 md:mt-12 z-20 flex gap-4"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
+          >
+            <Magnetic>
+              <button className="px-8 py-4 rounded-full border border-white/30 hover:border-white hover:bg-white/10 text-white font-semibold text-sm transition-colors backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                View Projects
+              </button>
+            </Magnetic>
+          </motion.div>
+        </div>
+
+        {/* Right Section (MD Placeholder) */}
+        <div className="flex-1 flex items-center justify-center w-full h-full min-h-[40vh] md:min-h-full">
+          {/* Add Image Here */}
+        </div>
       </div>
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-[40vh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-xs font-mono text-gray-500 uppercase tracking-widest"
+        className="absolute bottom-[8vh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-[10px] font-medium text-white/60 uppercase tracking-wider z-20 pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 1 }}
       >
         <span>Scroll Trajectory</span>
-        <div className="w-[1px] h-16 bg-gradient-to-b from-gray-500 to-transparent" />
+        <div className="w-[1px] h-12 md:h-16 bg-gradient-to-b from-white/60 to-transparent" />
       </motion.div>
     </section>
   );
@@ -372,7 +535,7 @@ const Experience = () => {
   return (
     <section ref={containerRef} className="relative w-full py-32 px-4 md:px-12 z-20 bg-[#030303]">
       <div className="max-w-[1400px] mx-auto">
-        <h2 className="text-3xl md:text-5xl font-space font-bold uppercase mb-24 text-white">
+        <h2 className="text-3xl md:text-5xl font-medium tracking-tighter leading-[0.9] text-white">
           The Neural Pathway
         </h2>
 
@@ -388,21 +551,21 @@ const Experience = () => {
               {/* HUD Panel Content */}
               <div className="glass-panel p-8 md:p-12 border border-white/5 rounded-2xl hover:border-[#8a2be2]/50 transition-colors duration-500 bg-white/[0.02] backdrop-blur-md">
                 <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-8">
-                  <h3 className="text-2xl md:text-4xl font-space font-bold text-white mb-2 md:mb-0">
+                  <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-white mb-2 md:mb-0">
                     <ScrambleText text={exp.role} />
                   </h3>
-                  <span className="font-mono text-sm text-[#00f0ff] uppercase tracking-widest">
+                  <span className="font-medium text-sm text-[#00f0ff] uppercase tracking-wider">
                     {exp.period}
                   </span>
                 </div>
 
-                <h4 className="text-xl md:text-2xl text-gray-400 font-inter mb-6">
+                <h4 className="font-medium text-sm text-zinc-400 mb-6 uppercase tracking-wider">
                   {exp.company}
                 </h4>
 
                 <ul className="space-y-4">
                   {exp.bullets.map((bullet, i) => (
-                    <li key={i} className="flex items-start text-gray-300 font-inter leading-relaxed">
+                    <li key={i} className="flex items-start text-gray-300 font-sans text-lg leading-relaxed">
                       <span className="text-[#00f0ff] mr-4 mt-1">▹</span>
                       {bullet}
                     </li>
@@ -422,7 +585,7 @@ const FeaturedProjects = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       const cards = gsap.utils.toArray(".project-card");
 
       gsap.to(cards, {
@@ -443,8 +606,8 @@ const FeaturedProjects = () => {
 
   return (
     <section ref={sectionRef} className="h-screen w-full overflow-hidden bg-[#050505] flex items-center z-20 relative">
-      <div className="absolute top-12 left-4 md:left-12 text-white font-space z-30 opacity-50">
-        <h2 className="text-2xl md:text-4xl uppercase tracking-wider font-bold">Featured Nodes</h2>
+      <div className="absolute top-12 left-4 md:left-12 text-white z-30 opacity-50">
+        <h2 className="text-2xl md:text-4xl font-medium tracking-tighter leading-[0.9]">Featured Nodes</h2>
       </div>
 
       <div ref={scrollRef} className="flex h-[70vh] items-center w-[400vw] sm:w-[300vw] lg:w-[200vw] pl-4 md:pl-12 pt-20">
@@ -459,18 +622,20 @@ const FeaturedProjects = () => {
               <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-[#00f0ff]/10 rounded-full blur-[100px] group-hover:bg-[#00f0ff]/20 transition-all duration-700" />
 
               <div>
-                <div className="font-mono mb-6 text-sm text-gray-500">0{index + 1} // PROTOCOL ENGAGED</div>
-                <h3 className="text-4xl md:text-6xl font-space font-bold uppercase text-white mb-6">
+                <div className="font-medium text-[10px] uppercase tracking-wider mb-6 text-gray-500">
+                  {`0${index + 1} // PROTOCOL ENGAGED`}
+                </div>
+                <h3 className="text-4xl md:text-6xl font-medium tracking-tighter leading-[0.9] text-white mb-6">
                   {project.title}
                 </h3>
-                <p className="text-xl text-gray-400 font-inter md:w-3/4 leading-relaxed">
+                <p className="text-lg font-sans leading-relaxed text-gray-400 md:w-3/4">
                   {project.description}
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-3 mt-8 z-10">
                 {project.tech.map((t, i) => (
-                  <span key={i} className="px-4 py-2 rounded-full border border-white/20 text-xs font-mono text-[#00f0ff]">
+                  <span key={i} className="px-4 py-2 rounded-full border border-white/20 text-[10px] font-medium uppercase tracking-wider text-[#00f0ff]">
                     {t}
                   </span>
                 ))}
@@ -492,7 +657,7 @@ const SkillsMarquee = () => {
       {/* Top row flowing left */}
       <div className="flex w-max animate-marquee pb-8">
         {[...SKILLS, ...SKILLS].map((skill, index) => (
-          <div key={index} className="px-8 text-3xl md:text-6xl font-space text-white/20 whitespace-nowrap hover:text-white transition-colors duration-300">
+          <div key={index} className="px-8 text-3xl md:text-6xl font-bold tracking-tight text-white/20 whitespace-nowrap hover:text-white transition-colors duration-300">
             <ScrambleText text={`+ ${skill} `} />
           </div>
         ))}
@@ -501,7 +666,7 @@ const SkillsMarquee = () => {
       {/* Bottom row flowing right */}
       <div className="flex w-max animate-marquee-reverse">
         {[...SKILLS.reverse(), ...SKILLS.reverse()].map((skill, index) => (
-          <div key={index} className="px-8 text-3xl md:text-6xl font-space text-white/20 whitespace-nowrap hover:text-white transition-colors duration-300">
+          <div key={index} className="px-8 text-3xl md:text-6xl font-bold tracking-tight text-white/20 whitespace-nowrap hover:text-white transition-colors duration-300">
             <ScrambleText text={`+ ${skill} `} />
           </div>
         ))}
@@ -516,24 +681,24 @@ const Footer = () => {
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
 
       <Magnetic>
-        <h2 className="text-6xl md:text-[10vw] font-space font-extrabold uppercase leading-[0.8] tracking-tighter mb-12 mix-blend-multiply">
-          Let's Build<br />The Future
+        <h2 className="text-6xl md:text-[10vw] font-medium tracking-tighter leading-[0.9] mb-12 mix-blend-multiply text-white">
+          Let&apos;s Build<br />The Future
         </h2>
       </Magnetic>
 
-      <div className="flex gap-8 font-mono text-sm md:text-xl font-bold uppercase z-10 text-black/80">
+      <div className="flex gap-8 font-semibold text-sm uppercase z-10 text-white/80">
         <Magnetic>
-          <a href="mailto:muhammednaseeb02@gmail.com" className="hover:text-white transition-colors">Email_</a>
+          <a href="mailto:muhammednaseeb02@gmail.com" className="hover:text-white transition-colors">Email</a>
         </Magnetic>
         <Magnetic>
-          <a href="https://linkedin.com/in/naseeb-nex" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn_</a>
+          <a href="https://linkedin.com/in/naseeb-nex" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
         </Magnetic>
         <Magnetic>
-          <a href="https://github.com/Naseeb-Nex" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub_</a>
+          <a href="https://github.com/Naseeb-Nex" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
         </Magnetic>
       </div>
 
-      <div className="absolute bottom-8 text-xs font-mono font-bold col-span-full opacity-60">
+      <div className="absolute bottom-8 font-medium text-[10px] uppercase tracking-wider col-span-full opacity-60 text-white">
         © {new Date().getFullYear()} MUHAMMED NASEEB // AWWWARDS GRADE
       </div>
     </footer>
@@ -577,12 +742,14 @@ export default function Portfolio() {
 
       <CustomCursor />
 
-      {/* Persistent WebGL Background layer */}
+      {/* Persistent WebGL Background layer (for other sections if needed, though Hero has its own) */}
       <div className="fixed inset-0 z-0 pointer-events-none opacity-60">
         <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
           <ParticleBackground />
         </Canvas>
       </div>
+
+      {!loading && <Navbar />}
 
       <motion.main
         initial={{ opacity: 0 }}
@@ -615,13 +782,6 @@ export default function Portfolio() {
         }
         .animate-marquee-reverse {
           animation: marquee-reverse 30s linear infinite;
-        }
-        
-        .font-space {
-          font-family: 'Space Grotesk', sans-serif;
-        }
-        .font-inter {
-          font-family: 'Inter', sans-serif;
         }
       `}} />
     </div>
