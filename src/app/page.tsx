@@ -3,7 +3,19 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Pacifico } from "next/font/google";
+import localFont from "next/font/local";
 import { motion, useSpring, useMotionValue } from "framer-motion";
+
+const pacifico = Pacifico({
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const asgard = localFont({
+  src: "../assets/fonts/AsgardTrial-FitFat.ttf",
+  weight: "900", // Extra black/fat weight
+});
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -11,7 +23,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 
 import { Component as FlowGradientHero } from "@/components/ui/flow-gradient-hero-section";
-import logoImg from "@/assets/logo.png";
+import logoImg from "@/assets/images/logo.png";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -329,7 +341,7 @@ const Navbar = () => {
   return (
     <div className="fixed top-3 md:top-4 left-0 w-full flex justify-center z-[100] px-4 pointer-events-none">
       <motion.header
-        className="relative w-[100%] max-w-[800px] rounded-full bg-transparent px-4 md:px-6 py-2 flex items-center justify-between pointer-events-auto"
+        className="relative w-[100%] max-w-[800px] rounded-full bg-transparent px-4 md:px-6 py-1 flex items-center justify-between pointer-events-auto"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -373,13 +385,13 @@ const Navbar = () => {
         </svg>
 
         <Magnetic>
-          <Link href="/" className="relative z-10 flex items-center p-2 group">
+          <Link href="/" className="relative z-10 flex items-center p-1 group">
             <motion.div
               whileHover={{ scale: 1.15, rotate: 5 }}
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <Image src={logoImg} alt="Logo" width={32} height={32} className="w-8 h-8 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" />
+              <Image src={logoImg} alt="Logo" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" />
             </motion.div>
           </Link>
         </Magnetic>
@@ -390,7 +402,7 @@ const Navbar = () => {
             <Magnetic key={item}>
               <Link
                 href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
-                className="relative block px-3 py-2 group hover:text-white transition-colors duration-300"
+                className="relative block px-3 py-1 group hover:text-white transition-colors duration-300"
               >
                 <span className="relative inline-flex flex-col overflow-hidden">
                   <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
@@ -409,7 +421,7 @@ const Navbar = () => {
         {/* Mobile Menu Toggle */}
         <Magnetic>
           <button
-            className="relative z-10 md:hidden text-gray-300 hover:text-white p-2 overflow-hidden rounded-full group outline-none transition-colors duration-300"
+            className="relative z-10 md:hidden text-gray-300 hover:text-white p-1 overflow-hidden rounded-full group outline-none transition-colors duration-300"
             onClick={() => setIsOpen(!isOpen)}
           >
             <div className="absolute inset-0 bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] rounded-full" />
@@ -483,7 +495,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
-            Building minds that think and act
+            Building <br></br> minds that <br></br> <span className={`${asgard.className} tracking-[4px]`}>think</span> <span className={pacifico.className}>&</span> <span className={`${asgard.className} tracking-[4px]`}>act</span>
           </motion.h1>
 
           <motion.p
