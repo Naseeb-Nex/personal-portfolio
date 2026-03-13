@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Pacifico } from "next/font/google";
 import localFont from "next/font/local";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import { motion, useSpring, useMotionValue, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 const pacifico = Pacifico({
   weight: "400",
@@ -30,86 +30,9 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// ----------------------------------------------------------------------------
-// DATA STRUCTURES
-// ----------------------------------------------------------------------------
-
-type Project = {
-  title: string;
-  tech: string[];
-  description: string;
-  link?: string;
-};
-
-type ExperienceType = {
-  company: string;
-  role: string;
-  period: string;
-  bullets: string[];
-};
-
-const PROJECTS: Project[] = [
-  {
-    title: "GenBI",
-    tech: ["Azure", "Microsoft Agent Framework", "FastAPI"],
-    description: "Autonomous Generative BI Dashboard Platform. Natural language to interactive Power-BI style dashboards.",
-  },
-  {
-    title: "Patient Screening Platform",
-    tech: ["AWS Bedrock", "Lex", "QuickSight"],
-    description: "Multi-modal conversational interface parsing protocol docs and generating eligibility questionnaires.",
-  },
-  {
-    title: "AI Talent Acquisition",
-    tech: ["Azure Semantic Kernel"],
-    description: "Autonomous recruitment system with JD Generation, Resume Sourcing, and Interview Scheduling agents.",
-  },
-  {
-    title: "Agentic Doc Parser",
-    tech: ["GCP", "Llama Vision", "Google ADK"],
-    description: "Multimodal parsing extracting text, tables, graphs with 96% accuracy.",
-  }
-];
-
-const EXPERIENCE: ExperienceType[] = [
-  {
-    company: "Smartavya Analytica",
-    role: "AI Engineer",
-    period: "Jan 2025 - Present | Bengaluru",
-    bullets: [
-      "Engineered 3 enterprise AI products serving 500+ users.",
-      "Architected Multi-Agent GenBI platform using Microsoft Agent Framework.",
-      "Deployed Gen AI Talent Acquisition platform, reducing manual effort by 40%.",
-      "Built AI clinical screening agent accelerating patient enrollment by 90%."
-    ]
-  },
-  {
-    company: "FIA Global Technology",
-    role: "Data Analyst - AI Engineer",
-    period: "Feb 2024 - Jan 2025 | Kerala",
-    bullets: [
-      "Built AI financial wellbeing tool (GPT-4 + LangChain + Pinecone), improving goal-completion by 35%.",
-      "Engineered document classification system (Vertex AI), cutting manual review by 50%."
-    ]
-  },
-  {
-    company: "LetsBay",
-    role: "Mobile App Developer",
-    period: "Dec 2022 - Dec 2023",
-    bullets: [
-      "Built award-winning Flutter app.",
-      "Integrated Firebase, reduced startup time by 40%."
-    ]
-  }
-];
-
-const SKILLS = [
-  "Python", "SQL", "C++", "REST API", "FastAPI", "Flask",
-  "OpenAI GPT-4o", "Claude 3.5", "LLAMA", "Gemini Pro", "RAG", "Fine-Tuning", "Prompt Engineering",
-  "Microsoft Agent Framework", "Semantic Kernel", "Google ADK", "LangChain", "LangGraph",
-  "AWS", "Azure", "GCP", "Docker", "Kubernetes", "Terraform", "MLflow",
-  "Pinecone", "ChromaDB", "Weaviate", "pgvector", "PostgreSQL", "MongoDB"
-];
+import {
+  NAV_LINKS, HERO, ABOUT, PROCESS, EXPERIENCE, PROJECTS, SKILLS, RECOGNITION, CONTACT, FOOTER
+} from "@/lib/data";
 
 // ----------------------------------------------------------------------------
 // MICRO-COMPONENTS
@@ -222,24 +145,40 @@ const ParticleBackground = () => {
 };
 
 /**
+ * ScrollReveal Component
+ * Fades in and translates up smoothly when scrolled into view
+ */
+const ScrollReveal = ({ children, delay = 0, yOffset = 50 }: { children: React.ReactNode; delay?: number; yOffset?: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: yOffset }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+  >
+    {children}
+  </motion.div>
+);
+
+/**
  * Kinetic Text Animation
- * Splits text into staggered characters or words
+ * Splits text into staggered characters or words, triggers on scroll
  */
 const RevealText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
   const words = text.split(" ");
   return (
     <span className="inline-block overflow-hidden">
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden mr-[0.25em]">
+        <span key={i} className="inline-block overflow-hidden mr-[0.25em] pb-1">
           <motion.span
             initial={{ y: "100%", rotate: 10, opacity: 0 }}
-            animate={{ y: 0, rotate: 0, opacity: 1 }}
+            whileInView={{ y: 0, rotate: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{
               duration: 1,
               ease: [0.16, 1, 0.3, 1], // Expo out curve
               delay: delay + i * 0.05
             }}
-            className="inline-block"
+            className="inline-block origin-top-left"
           >
             {word}
           </motion.span>
@@ -398,18 +337,18 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <nav className="relative z-10 hidden md:flex items-center gap-2 md:gap-4 font-medium text-xs md:text-sm uppercase tracking-wider text-gray-300">
-          {["Home", "About", "Projects", "Skills"].map((item) => (
-            <Magnetic key={item}>
+          {NAV_LINKS.map((item) => (
+            <Magnetic key={item.name}>
               <Link
-                href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
+                href={item.href}
                 className="relative block px-3 py-1 group hover:text-white transition-colors duration-300"
               >
                 <span className="relative inline-flex flex-col overflow-hidden">
                   <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-                    {item}
+                    {item.name}
                   </span>
                   <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-semibold">
-                    {item}
+                    {item.name}
                   </span>
                 </span>
                 <span className="absolute left-3 right-3 bottom-0.5 h-[2px] rounded-full bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center ease-[cubic-bezier(0.22,1,0.36,1)]" />
@@ -445,19 +384,19 @@ const Navbar = () => {
               exit={{ opacity: 0, scaleY: 0.95, y: -10 }}
             >
               <nav className="flex flex-col gap-4 font-mono text-sm uppercase text-gray-300 text-center">
-                {["Home", "About", "Projects", "Skills"].map((item) => (
+                {NAV_LINKS.map((item) => (
                   <Link
-                    key={item}
-                    href={item === "Home" ? "#" : `#${item.toLowerCase()}`}
+                    key={item.name}
+                    href={item.href}
                     onClick={() => setIsOpen(false)}
                     className="relative block py-2 group"
                   >
                     <span className="relative inline-flex flex-col overflow-hidden">
                       <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-                        {item}
+                        {item.name}
                       </span>
                       <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-bold">
-                        {item}
+                        {item.name}
                       </span>
                     </span>
                   </Link>
@@ -471,7 +410,7 @@ const Navbar = () => {
   );
 };
 
-import { AnimatePresence } from "framer-motion";
+
 
 const Hero = () => {
   return (
@@ -495,7 +434,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
-            Building <br></br> minds that <br></br> <span className={`${asgard.className} tracking-[4px]`}>think</span> <span className={pacifico.className}>&</span> <span className={`${asgard.className} tracking-[4px]`}>act</span>
+            {HERO.heading[0]} <br></br> {HERO.heading[1]} <br></br> <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[2]}</span> <span className={pacifico.className}>&</span> <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[3]}</span>.
           </motion.h1>
 
           <motion.p
@@ -504,7 +443,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1, duration: 1 }}
           >
-            Engineering enterprise-grade agent frameworks that automate complex workflows, orchestrate multi-agent systems, and scale intelligent decision-making across organizations.
+            {HERO.subheading}
           </motion.p>
 
           <motion.div
@@ -514,9 +453,9 @@ const Hero = () => {
             transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
           >
             <Magnetic>
-              <button className="px-8 py-4 rounded-full border border-white/30 hover:border-white hover:bg-white/10 text-white font-semibold text-sm transition-colors backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                View Projects
-              </button>
+              <Link href="#about" className="inline-block px-8 py-4 rounded-full border border-white/30 hover:border-white hover:bg-white/10 text-white font-semibold text-sm transition-colors backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                {HERO.cta}
+              </Link>
             </Magnetic>
           </motion.div>
         </div>
@@ -541,50 +480,191 @@ const Hero = () => {
   );
 };
 
-const Experience = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+const About = () => {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [-50, 200]);
+  const opacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0.5, 0]);
 
   return (
-    <section ref={containerRef} className="relative w-full py-32 px-4 md:px-12 z-20 bg-[#030303]">
+    <section id="about" ref={targetRef} className="relative w-full py-32 px-4 md:px-12 z-20 bg-[#030303] overflow-hidden">
+      <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row gap-16 md:gap-24 relative z-10">
+        <div className="flex-1">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-6xl font-medium tracking-tighter leading-[0.9] text-white mb-12">
+              <RevealText text={ABOUT.title} />
+            </h2>
+          </ScrollReveal>
+          <div className="space-y-6 text-lg text-gray-400 font-sans leading-relaxed">
+            {ABOUT.paragraphs.map((p, i) => (
+              <ScrollReveal key={i} delay={i * 0.1}>
+                <p>{p}</p>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col justify-center">
+          <motion.div style={{ y }} className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
+            <ScrollReveal delay={0.2}>
+              <h3 className="text-2xl font-bold text-white mb-4">
+                {ABOUT.sublineTitle}
+              </h3>
+            </ScrollReveal>
+            <ScrollReveal delay={0.4}>
+              <p className="text-[#00f0ff] font-medium leading-relaxed">
+                {ABOUT.sublineDescription}
+              </p>
+            </ScrollReveal>
+          </motion.div>
+        </div>
+      </div>
+      <motion.div 
+        style={{ y: bgY, opacity: opacity }}
+        className="absolute top-0 right-0 w-[80vw] h-[80vw] bg-[#00f0ff]/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"
+      />
+    </section>
+  );
+};
+
+const Process = () => {
+  return (
+    <section id="process" className="relative w-full py-32 px-4 md:px-12 z-20 bg-[#000]">
       <div className="max-w-[1400px] mx-auto">
-        <h2 className="text-3xl md:text-5xl font-medium tracking-tighter leading-[0.9] text-white">
-          The Neural Pathway
-        </h2>
+        <div className="text-center max-w-4xl mx-auto mb-20">
+          <ScrollReveal>
+            <h2 className="text-4xl md:text-6xl font-medium tracking-tighter leading-[0.9] text-white mb-8">
+              <RevealText text={PROCESS.title} />
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={0.2}>
+            <p className="text-lg text-gray-400 font-sans leading-relaxed">
+              {PROCESS.intro}
+            </p>
+          </ScrollReveal>
+        </div>
 
-        <div className="relative pl-8 md:pl-24 border-l border-white/10 space-y-32">
-          {EXPERIENCE.map((exp, index) => (
-            <div key={index} className="relative group">
-              {/* Glowing Node on Pathway */}
-              <div className="absolute -left-8 md:-left-24 top-0 w-8 h-8 md:w-16 md:h-16 -translate-x-1/2 flex items-center justify-center">
-                <div className="w-3 h-3 bg-[#8a2be2] rounded-full group-hover:scale-150 transition-transform duration-500 z-10" />
-                <div className="absolute inset-0 bg-[#8a2be2]/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          {PROCESS.phases.map((phase, i) => (
+            <ScrollReveal key={i} delay={i * 0.1}>
+              <div className="p-8 rounded-2xl bg-[#0a0a0a] border border-white/5 hover:border-[#00f0ff]/30 hover:-translate-y-2 transition-all duration-500 group h-full">
+                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-[#00f0ff] transition-colors">{phase.title}</h3>
+                <p className="text-sm text-gray-400 font-sans leading-relaxed">{phase.description}</p>
               </div>
+            </ScrollReveal>
+          ))}
+        </div>
 
-              {/* HUD Panel Content */}
-              <div className="glass-panel p-8 md:p-12 border border-white/5 rounded-2xl hover:border-[#8a2be2]/50 transition-colors duration-500 bg-white/[0.02] backdrop-blur-md">
-                <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-8">
-                  <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-white mb-2 md:mb-0">
-                    <ScrambleText text={exp.role} />
-                  </h3>
-                  <span className="font-medium text-sm text-[#00f0ff] uppercase tracking-wider">
-                    {exp.period}
-                  </span>
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          {PROCESS.closing.map((line, i) => (
+            <ScrollReveal key={i} delay={i * 0.1 + 0.4}>
+              <p className={`text-xl md:text-2xl font-medium ${i === PROCESS.closing.length - 1 ? 'text-[#00f0ff]' : 'text-white'}`}>
+                {line}
+              </p>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Recognition = () => {
+  return (
+    <section id="recognition" className="relative w-full py-32 px-4 md:px-12 z-20 bg-[#050505]">
+      <div className="max-w-[1400px] mx-auto">
+        <ScrollReveal>
+          <h2 className="text-3xl md:text-5xl font-medium tracking-tighter leading-[0.9] text-white mb-16 text-center">
+            <RevealText text={RECOGNITION.title} />
+          </h2>
+        </ScrollReveal>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {RECOGNITION.items.map((item, i) => (
+            <ScrollReveal key={i} delay={i * 0.2}>
+              <div className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 relative overflow-hidden group hover:border-yellow-500/30 transition-colors h-full">
+                <div className="absolute top-0 right-0 p-8 text-white/10 font-bold text-6xl group-hover:text-yellow-500/10 transition-colors pointer-events-none">
+                  {String(i + 1).padStart(2, '0')}
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-4 pr-12 leading-snug">
+                  {item.title}
+                </h3>
+                <div className="text-yellow-500 font-medium text-sm mb-6 uppercase tracking-wider">
+                  {item.organization} // {item.date}
+                </div>
+                <p className="text-gray-400 font-sans leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Experience = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start end", "end start"]});
+
+  return (
+    <section id="experience" ref={containerRef} className="relative w-full py-32 px-4 md:px-12 z-20 bg-[#030303]">
+      <div className="max-w-[1400px] mx-auto">
+        <ScrollReveal>
+          <h2 className="text-3xl md:text-5xl font-medium tracking-tighter leading-[0.9] text-white mb-4">
+            <RevealText text={EXPERIENCE.title} />
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal delay={0.2}>
+          <p className="text-xl text-gray-400 mb-16">{EXPERIENCE.subtitle}</p>
+        </ScrollReveal>
+
+        <div className="relative pl-8 md:pl-28 border-l border-white/10 space-y-32">
+          {/* Animated line representing the pathway */}
+          <motion.div 
+            className="absolute left-[-1px] top-0 w-[2px] bg-gradient-to-b from-[#8a2be2] via-[#00f0ff] to-transparent origin-top"
+            style={{ scaleY: scrollYProgress, height: "100%" }}
+          />
+
+          {EXPERIENCE.roles.map((exp, index) => (
+            <ScrollReveal key={index} delay={0.1}>
+              <div className="relative group">
+                {/* Glowing Node on Pathway */}
+                <div className="absolute -left-[33px] md:-left-[113px] top-0 w-8 h-8 md:w-16 md:h-16 -translate-x-1/2 flex items-center justify-center">
+                  <div className="w-3 h-3 bg-[#8a2be2] rounded-full group-hover:scale-150 transition-transform duration-500 z-10 shadow-[0_0_10px_#8a2be2]" />
+                  <div className="absolute inset-0 bg-[#8a2be2]/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
-                <h4 className="font-medium text-sm text-zinc-400 mb-6 uppercase tracking-wider">
-                  {exp.company}
-                </h4>
+                {/* HUD Panel Content */}
+                <div className="glass-panel p-8 md:p-12 border border-white/5 rounded-2xl hover:border-[#8a2be2]/50 hover:-translate-y-1 transition-all duration-500 bg-white/[0.02] backdrop-blur-md">
+                  <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-8">
+                    <h3 className="text-2xl md:text-4xl font-bold tracking-tight text-white mb-2 md:mb-0">
+                      <ScrambleText text={exp.title} />
+                    </h3>
+                    <span className="font-medium text-sm text-[#00f0ff] uppercase tracking-wider">
+                      {exp.duration} | {exp.location}
+                    </span>
+                  </div>
 
-                <ul className="space-y-4">
-                  {exp.bullets.map((bullet, i) => (
-                    <li key={i} className="flex items-start text-gray-300 font-sans text-lg leading-relaxed">
-                      <span className="text-[#00f0ff] mr-4 mt-1">▹</span>
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
+                  <h4 className="font-medium text-sm text-zinc-400 mb-6 uppercase tracking-wider">
+                    {exp.company}
+                  </h4>
+
+                  <ul className="space-y-4">
+                    {exp.bullets.map((bullet, i) => (
+                      <li key={i} className="flex items-start text-gray-300 font-sans text-lg leading-relaxed">
+                        <span className="text-[#00f0ff] mr-4 mt-1">▹</span>
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>
@@ -619,11 +699,12 @@ const FeaturedProjects = () => {
   return (
     <section ref={sectionRef} className="h-screen w-full overflow-hidden bg-[#050505] flex items-center z-20 relative">
       <div className="absolute top-12 left-4 md:left-12 text-white z-30 opacity-50">
-        <h2 className="text-2xl md:text-4xl font-medium tracking-tighter leading-[0.9]">Featured Nodes</h2>
+        <h2 className="text-2xl md:text-4xl font-medium tracking-tighter leading-[0.9] mb-2">{PROJECTS.title}</h2>
+        <p className="text-sm md:text-base text-gray-400 max-w-xl">{PROJECTS.subtitle}</p>
       </div>
 
-      <div ref={scrollRef} className="flex h-[70vh] items-center w-[400vw] sm:w-[300vw] lg:w-[200vw] pl-4 md:pl-12 pt-20">
-        {PROJECTS.map((project, index) => (
+      <div ref={scrollRef} className="flex h-[70vh] items-center w-[600vw] sm:w-[500vw] lg:w-[300vw] pl-4 md:pl-12 pt-20">
+        {PROJECTS.items.map((project, index) => (
           <div
             key={index}
             className="project-card w-[90vw] md:w-[60vw] lg:w-[45vw] h-full flex-shrink-0 pr-8 md:pr-12 lg:pr-24 flex flex-col justify-center"
@@ -640,8 +721,11 @@ const FeaturedProjects = () => {
                 <h3 className="text-4xl md:text-6xl font-medium tracking-tighter leading-[0.9] text-white mb-6">
                   {project.title}
                 </h3>
-                <p className="text-lg font-sans leading-relaxed text-gray-400 md:w-3/4">
+                <p className="text-lg font-sans leading-relaxed text-gray-400 md:w-3/4 mb-4">
                   {project.description}
+                </p>
+                <p className="text-md font-sans text-[#00f0ff] font-medium">
+                  {project.highlight}
                 </p>
               </div>
 
@@ -668,7 +752,7 @@ const SkillsMarquee = () => {
 
       {/* Top row flowing left */}
       <div className="flex w-max animate-marquee pb-8">
-        {[...SKILLS, ...SKILLS].map((skill, index) => (
+        {[...SKILLS.flatItems, ...SKILLS.flatItems].map((skill, index) => (
           <div key={index} className="px-8 text-3xl md:text-6xl font-bold tracking-tight text-white/20 whitespace-nowrap hover:text-white transition-colors duration-300">
             <ScrambleText text={`+ ${skill} `} />
           </div>
@@ -677,7 +761,7 @@ const SkillsMarquee = () => {
 
       {/* Bottom row flowing right */}
       <div className="flex w-max animate-marquee-reverse">
-        {[...SKILLS.reverse(), ...SKILLS.reverse()].map((skill, index) => (
+        {[...SKILLS.flatItems].reverse().concat([...SKILLS.flatItems].reverse()).map((skill, index) => (
           <div key={index} className="px-8 text-3xl md:text-6xl font-bold tracking-tight text-white/20 whitespace-nowrap hover:text-white transition-colors duration-300">
             <ScrambleText text={`+ ${skill} `} />
           </div>
@@ -688,30 +772,39 @@ const SkillsMarquee = () => {
 };
 
 const Footer = () => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end end"]
+  });
+  const y = useTransform(scrollYProgress, [0, 1], [-100, 0]);
+
   return (
-    <footer className="relative w-full min-h-screen bg-[#00f0ff] flex flex-col items-center justify-center p-4 md:p-12 z-20 overflow-hidden text-black text-center">
+    <footer id="contact" ref={ref} className="relative w-full min-h-screen bg-[#00f0ff] flex flex-col items-center justify-center p-4 md:p-12 z-20 overflow-hidden text-black text-center">
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
 
-      <Magnetic>
-        <h2 className="text-6xl md:text-[10vw] font-medium tracking-tighter leading-[0.9] mb-12 mix-blend-multiply text-white">
-          Let&apos;s Build<br />The Future
-        </h2>
-      </Magnetic>
+      <motion.div style={{ y }} className="relative z-10 flex flex-col items-center">
+        <Magnetic>
+          <h2 className="text-6xl md:text-[8vw] font-medium tracking-tighter leading-[0.9] mb-12 mix-blend-multiply text-white max-w-[80vw]">
+            <RevealText text={CONTACT.title} delay={0.2} />
+          </h2>
+        </Magnetic>
 
-      <div className="flex gap-8 font-semibold text-sm uppercase z-10 text-white/80">
-        <Magnetic>
-          <a href="mailto:muhammednaseeb02@gmail.com" className="hover:text-white transition-colors">Email</a>
-        </Magnetic>
-        <Magnetic>
-          <a href="https://linkedin.com/in/naseeb-nex" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-        </Magnetic>
-        <Magnetic>
-          <a href="https://github.com/Naseeb-Nex" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
-        </Magnetic>
-      </div>
+        <div className="flex flex-wrap justify-center gap-8 font-semibold text-sm uppercase z-10 text-white/90">
+          <Magnetic>
+            <a href={`mailto:${CONTACT.email}`} className="hover:text-white transition-colors">Email</a>
+          </Magnetic>
+          <Magnetic>
+            <a href={CONTACT.linkedin} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
+          </Magnetic>
+          <Magnetic>
+            <a href={CONTACT.github} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
+          </Magnetic>
+        </div>
+      </motion.div>
 
       <div className="absolute bottom-8 font-medium text-[10px] uppercase tracking-wider col-span-full opacity-60 text-white">
-        © {new Date().getFullYear()} MUHAMMED NASEEB // AWWWARDS GRADE
+        {FOOTER.text}
       </div>
     </footer>
   );
@@ -749,7 +842,7 @@ export default function Portfolio() {
   return (
     <div className="bg-[#030303] min-h-screen text-white overflow-x-hidden selection:bg-[#00f0ff] selection:text-black">
       <AnimatePresence mode="wait">
-        {loading && <Preloader onComplete={() => setLoading(false)} />}
+        {loading && <Preloader key="preloader" onComplete={() => setLoading(false)} />}
       </AnimatePresence>
 
       <CustomCursor />
@@ -769,9 +862,12 @@ export default function Portfolio() {
         transition={{ duration: 1 }}
       >
         <Hero />
+        <About />
+        <Process />
         <Experience />
         <FeaturedProjects />
         <SkillsMarquee />
+        <Recognition />
         <Footer />
       </motion.main>
 
