@@ -13,6 +13,7 @@ import { Points, PointMaterial } from "@react-three/drei";
 import { Component as FlowGradientHero } from "@/components/ui/flow-gradient-hero-section";
 import logoImg from "@/assets/images/logo.png";
 import dynamic from "next/dynamic";
+import LetsConnectButton from "@/components/ui/lets-connect-button";
 
 const RobotModel = dynamic(() => import("@/components/ui/RobotModel"), { ssr: false });
 
@@ -269,7 +270,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed top-4 md:top-6 left-0 w-full z-[100] px-6 lg:px-12 pointer-events-none">
+    <div className="fixed top-6 md:top-10 left-0 w-full z-[100] px-6 lg:px-12 pointer-events-none">
       <div className="flex items-center justify-between w-full max-w-[1600px] mx-auto">
         
         {/* Left: Logo + Name */}
@@ -292,31 +293,14 @@ const Navbar = () => {
 
         {/* Center: Glass Nav Pill */}
         <motion.header
-          className="relative flex-none rounded-[1.2rem] bg-transparent px-6 py-2 flex items-center justify-center pointer-events-auto"
+          className="glass-nav-card flex-none px-6 h-[2.7em] flex items-center justify-center pointer-events-auto"
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
-          <div className="absolute top-0 left-0 z-0 h-full w-full rounded-[1.2rem] shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]" />
-          <div
-            className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-[1.2rem] bg-[#141414]/10"
-            style={{ backdropFilter: 'url("#container-glass") blur(16px)' }}
-          />
-
-          <svg className="hidden">
-            <defs>
-              <filter id="container-glass" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-                <feTurbulence type="fractalNoise" baseFrequency="0.05 0.05" numOctaves="1" seed="1" result="turbulence" />
-                <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
-                <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="70" xChannelSelector="R" yChannelSelector="B" result="displaced" />
-                <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
-                <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-              </filter>
-            </defs>
-          </svg>
 
           {/* Desktop Menu Links */}
-          <nav className="relative z-10 hidden md:flex items-center gap-2 lg:gap-4 font-medium text-xs md:text-[12.5px] uppercase tracking-wider text-gray-300">
+          <nav className="relative z-10 hidden md:flex items-center gap-3 lg:gap-6 font-medium text-xs md:text-sm uppercase tracking-wider text-gray-300">
             {NAV_LINKS.filter(link => link.name !== "Let's Connect").map((item) => (
               <Magnetic key={item.name}>
                 <Link
@@ -343,31 +327,18 @@ const Navbar = () => {
           
           {/* Let's Connect Independent Glass Button - Desktop */}
           <motion.div 
-            className="relative hidden md:flex rounded-[1.2rem] bg-transparent px-6 py-2 items-center justify-center cursor-pointer group"
+            className="hidden md:flex items-center justify-center pointer-events-auto"
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="absolute top-0 left-0 z-0 h-full w-full rounded-[1.2rem] shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)] group-hover:bg-white/5" />
-            <div
-              className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-[1.2rem] bg-[#141414]/10"
-              style={{ backdropFilter: 'url("#container-glass") blur(16px)' }}
-            />
-            <Magnetic>
-              <Link
-                href="#contact"
-                className="relative z-10 flex flex-col items-center justify-center group-hover:text-white transition-colors duration-300"
-              >
-                <span className="text-[10px] leading-[1.2] tracking-wider font-semibold text-gray-300 group-hover:text-white transition-colors uppercase">Let's</span>
-                <span className="text-[10px] leading-[1.2] tracking-wider font-semibold text-gray-300 group-hover:text-white transition-colors uppercase">Connect</span>
-              </Link>
-            </Magnetic>
+            <LetsConnectButton />
           </motion.div>
 
           {/* Mobile Menu Toggle */}
           <Magnetic>
             <button
-              className="relative z-10 md:hidden text-gray-300 hover:text-white p-2 overflow-hidden rounded-[0.8rem] group outline-none transition-colors duration-300 bg-black/20 backdrop-blur-md border border-white/10"
+              className="relative z-10 md:hidden text-gray-300 hover:text-white p-2 overflow-hidden rounded-lg group outline-none transition-colors duration-300 bg-black/20 backdrop-blur-md border border-white/10"
               onClick={() => setIsOpen(!isOpen)}
             >
               <motion.svg
@@ -441,18 +412,20 @@ const Hero = () => {
 
 
           <motion.h1
-            className="text-6xl md:text-7xl lg:text-[7.5vw] font-medium tracking-tighter leading-[1]"
+            className="text-6xl md:text-7xl lg:text-[7.5vw] font-medium tracking-tighter leading-[1] relative inline-block"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
+            {/* Background cyan glow to increase visibility */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[#00f0ff]/20 blur-[80px] rounded-full pointer-events-none -z-10" />
+            
             <div className="text-transparent bg-clip-text bg-gradient-to-br from-white via-white/80 to-white/10 filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] inline-block">
-              {HERO.heading[0]} <br></br> {HERO.heading[1]}
+              {HERO.heading[0]} <br /> {HERO.heading[1]}
             </div>
-            <br></br>
-            <div className="mt-2 text-transparent bg-clip-text bg-gradient-to-br from-[#00f0ff] via-[#00f0ff]/60 to-[#00f0ff]/10 filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] drop-shadow-[0_0_15px_rgba(0,240,255,0.4)] inline-block">
-              <span className="tracking-[4px]">{HERO.heading[2]}</span> & <br></br> 
-              <span className="tracking-[4px]">{HERO.heading[3]}</span>.
+            <br />
+            <div className="mt-2 text-transparent bg-clip-text bg-gradient-to-br from-[#00f0ff] via-[#00f0ff]/80 to-[#00f0ff]/30 filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] drop-shadow-[0_0_25px_rgba(0,240,255,0.6)] inline-block whitespace-nowrap">
+              <span className="tracking-[4px]">{HERO.heading[2]}</span> &amp; <span className="tracking-[4px]">{HERO.heading[3]}</span>
             </div>
           </motion.h1>
 
@@ -464,29 +437,6 @@ const Hero = () => {
           >
             {HERO.subheading}
           </motion.p>
-
-          <motion.div
-            className="mt-10 md:mt-12 z-20 relative"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
-          >
-            <Magnetic>
-              <Link href="#about" className="relative group inline-flex items-center justify-center px-8 py-3.5 rounded-full overflow-hidden text-white font-mono text-sm font-bold tracking-widest transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,240,255,0.4),0_0_20px_rgba(255,0,255,0.2)] bg-[#050505]">
-                {/* Glowing border effect using padding */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#00f0ff] via-[#8a2be2] to-[#ff00ff] opacity-80" />
-                <div className="absolute inset-[2px] bg-[#050505] rounded-full z-0" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#00f0ff]/20 to-[#ff00ff]/20 z-0 blur-md group-hover:blur-lg transition-all" />
-                
-                <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
-                  [INITIALIZE_WORK] <span className="text-lg leading-none transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 text-[#00f0ff]">↗</span>
-                </span>
-              </Link>
-            </Magnetic>
-            
-            {/* Bottom-left Crosshair for the text block */}
-            <div className="absolute -bottom-16 -left-6 text-[#00f0ff]/50 text-xl font-light pointer-events-none">+</div>
-          </motion.div>
         </div>
 
         {/* Spacer for MD flex Layout to maintain structure while model is absolute */}
@@ -499,25 +449,29 @@ const Hero = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-[8vh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-[10px] font-mono text-white/50 uppercase tracking-widest z-20 pointer-events-none"
+      <motion.a
+        href="#about"
+        className="absolute bottom-[6vh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-[10px] font-mono text-white/40 uppercase tracking-widest z-20 cursor-pointer group hover:text-[#00f0ff]/80 transition-colors"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 1 }}
       >
-        <span>SCROLL TRAJECTORY</span>
-        <div className="w-[1px] h-12 md:h-16 bg-gradient-to-b from-white/40 to-transparent" />
-      </motion.div>
+        <span className="tracking-[3px] group-hover:drop-shadow-[0_0_8px_rgba(0,240,255,0.8)] transition-all">SCROLL</span>
+        <motion.svg 
+          width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+          className="group-hover:text-[#00f0ff]"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        >
+          <line x1="12" y1="4" x2="12" y2="20"></line>
+          <polyline points="18 14 12 20 6 14"></polyline>
+        </motion.svg>
+      </motion.a>
       
       {/* Bottom Crosshairs */}
       <div className="absolute bottom-10 left-[45%] text-gray-500/50 text-xl font-light pointer-events-none z-20 hidden md:block">+</div>
       
-      {/* 4-point Star on bottom right */}
-      <div className="absolute bottom-10 right-10 z-20 opacity-50 text-white flex items-center justify-center">
-        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 0C20 11.0457 28.9543 20 40 20C28.9543 20 20 28.9543 20 40C20 28.9543 11.0457 20 0 20C11.0457 20 20 11.0457 20 0Z" fill="currentColor"/>
-        </svg>
-      </div>
+
     </section>
   );
 };

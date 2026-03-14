@@ -1,3 +1,5 @@
+import React from "react";
+
 export const NAV_LINKS = [
   { name: "About", href: "#about" },
   { name: "Process", href: "#process" },
@@ -10,7 +12,11 @@ export const NAV_LINKS = [
 
 export const HERO = {
   heading: ["Building", "minds that", "think", "act"],
-  subheading: "Hi, I'm Muhammed Naseeb — an AI Engineer turning Generative AI into production-grade systems that solve real business problems.",
+  subheading: (
+    <>
+      Hi, I'm <span className="font-semibold text-white/95">Muhammed Naseeb</span> — an AI Engineer turning Generative AI into production-grade systems that solve real business problems.
+    </>
+  ),
   cta: "Scroll to explore",
 };
 
