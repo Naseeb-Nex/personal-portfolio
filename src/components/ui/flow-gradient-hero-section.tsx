@@ -73,15 +73,15 @@ class GradientBackground {
         this.uniforms = {
             uTime: { value: 0 },
             uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-            uColor1: { value: new THREE.Vector3(0.0, 0.94, 1.0) }, // Cyan
-            uColor2: { value: new THREE.Vector3(1.0, 0.0, 0.8) }, // Magenta
-            uColor3: { value: new THREE.Vector3(0.0, 0.5, 1.0) }, // Deep Blue
-            uColor4: { value: new THREE.Vector3(0.5, 0.0, 0.8) }, // Purple
-            uColor5: { value: new THREE.Vector3(0.0, 0.94, 1.0) }, // Cyan
-            uColor6: { value: new THREE.Vector3(1.0, 0.2, 0.6) }, // Pinkish
+            uColor1: { value: new THREE.Vector3(0.5, 0.0, 0.5) }, // Deep Purple
+            uColor2: { value: new THREE.Vector3(0.1, 0.1, 0.6) }, // Deep Blue
+            uColor3: { value: new THREE.Vector3(0.8, 0.0, 0.5) }, // Magenta
+            uColor4: { value: new THREE.Vector3(0.2, 0.0, 0.4) }, // Dark Violet
+            uColor5: { value: new THREE.Vector3(0.6, 0.0, 0.6) }, // Purple
+            uColor6: { value: new THREE.Vector3(0.0, 0.2, 0.7) }, // Strong Blue
             uSpeed: { value: 1.2 }, uIntensity: { value: 1.8 },
             uTouchTexture: { value: null }, uGrainIntensity: { value: 0.08 },
-            uDarkNavy: { value: new THREE.Vector3(0.008, 0.031, 0.075) },
+            uDarkNavy: { value: new THREE.Vector3(0.05, 0.0, 0.1) }, // Very dark purple/blue
             uGradientSize: { value: 0.45 }, uGradientCount: { value: 12.0 },
             uColor1Weight: { value: 0.5 }, uColor2Weight: { value: 1.8 }
         };
@@ -156,14 +156,14 @@ class GradientBackground {
     update(delta: number) { if (!this.isPaused) this.uniforms.uTime.value += delta; }
     setTheme(isDark: boolean) {
         if (isDark) {
-            this.uniforms.uColor1.value.set(0.0, 0.94, 1.0);
-            this.uniforms.uColor2.value.set(1.0, 0.0, 0.8);
-            this.uniforms.uColor3.value.set(0.0, 0.5, 1.0);
-            this.uniforms.uColor4.value.set(0.5, 0.0, 0.8);
-            this.uniforms.uColor5.value.set(0.0, 0.94, 1.0);
-            this.uniforms.uColor6.value.set(1.0, 0.2, 0.6);
-            this.uniforms.uDarkNavy.value.set(0.008, 0.031, 0.075);
-            this.sceneManager.scene.background = new THREE.Color(0x020813);
+            this.uniforms.uColor1.value.set(0.5, 0.0, 0.5); // Deep Purple
+            this.uniforms.uColor2.value.set(0.1, 0.1, 0.6); // Deep Blue
+            this.uniforms.uColor3.value.set(0.8, 0.0, 0.5); // Magenta
+            this.uniforms.uColor4.value.set(0.2, 0.0, 0.4); // Dark Violet
+            this.uniforms.uColor5.value.set(0.6, 0.0, 0.6); // Purple
+            this.uniforms.uColor6.value.set(0.0, 0.2, 0.7); // Strong Blue
+            this.uniforms.uDarkNavy.value.set(0.05, 0.0, 0.1);
+            this.sceneManager.scene.background = new THREE.Color(0x0a001a); // Very dark violet black
         } else {
             this.uniforms.uColor1.value.set(0.2, 0.8, 1.0);
             this.uniforms.uColor2.value.set(1.0, 0.4, 0.8);

@@ -3,19 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Pacifico } from "next/font/google";
-import localFont from "next/font/local";
 import { motion, useSpring, useMotionValue, useScroll, useTransform, AnimatePresence } from "framer-motion";
-
-const pacifico = Pacifico({
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const asgard = localFont({
-  src: "../assets/fonts/AsgardTrial-FitFat.ttf",
-  weight: "900", // Extra black/fat weight
-});
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -281,134 +269,150 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed top-3 md:top-4 left-0 w-full flex justify-center z-[100] px-4 pointer-events-none">
-      <motion.header
-        className="relative w-[100%] max-w-[800px] rounded-full bg-transparent px-4 md:px-6 py-1 flex items-center justify-between pointer-events-auto"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <div className="absolute top-0 left-0 z-0 h-full w-full rounded-full shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]" />
-        <div
-          className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-full bg-[#141414]/10"
-          style={{ backdropFilter: 'url("#container-glass") blur(16px)' }}
-        />
-
-        <svg className="hidden">
-          <defs>
-            <filter
-              id="container-glass"
-              x="0%"
-              y="0%"
-              width="100%"
-              height="100%"
-              colorInterpolationFilters="sRGB"
-            >
-              <feTurbulence
-                type="fractalNoise"
-                baseFrequency="0.05 0.05"
-                numOctaves="1"
-                seed="1"
-                result="turbulence"
-              />
-              <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
-              <feDisplacementMap
-                in="SourceGraphic"
-                in2="blurredNoise"
-                scale="70"
-                xChannelSelector="R"
-                yChannelSelector="B"
-                result="displaced"
-              />
-              <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
-              <feComposite in="finalBlur" in2="finalBlur" operator="over" />
-            </filter>
-          </defs>
-        </svg>
-
-        <Magnetic>
-          <Link href="/" className="relative z-10 flex items-center p-1 group">
-            <motion.div
-              whileHover={{ scale: 1.15, rotate: 5 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <Image src={logoImg} alt="Logo" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" />
-            </motion.div>
-          </Link>
-        </Magnetic>
-
-        {/* Desktop Menu */}
-        <nav className="relative z-10 hidden md:flex items-center gap-2 md:gap-4 font-medium text-xs md:text-sm uppercase tracking-wider text-gray-300">
-          {NAV_LINKS.map((item) => (
-            <Magnetic key={item.name}>
-              <Link
-                href={item.href}
-                className="relative block px-3 py-1 group hover:text-white transition-colors duration-300"
+    <div className="fixed top-4 md:top-6 left-0 w-full z-[100] px-6 lg:px-12 pointer-events-none">
+      <div className="flex items-center justify-between w-full max-w-[1600px] mx-auto">
+        
+        {/* Left: Logo + Name */}
+        <div className="flex flex-1 items-center gap-4 justify-start pointer-events-auto">
+          <Magnetic>
+            <Link href="/" className="relative z-10 flex items-center group">
+              <motion.div
+                whileHover={{ scale: 1.15, rotate: 5 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
-                <span className="relative inline-flex flex-col overflow-hidden">
-                  <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-                    {item.name}
+                <Image src={logoImg} alt="Logo" width={40} height={40} className="w-10 h-10 object-contain drop-shadow-sm group-hover:drop-shadow-md transition-all duration-300" />
+              </motion.div>
+            </Link>
+          </Magnetic>
+          <span className="hidden lg:block text-white/90 font-medium text-sm md:text-base tracking-wide whitespace-nowrap">
+            Muhammed Naseeb
+          </span>
+        </div>
+
+        {/* Center: Glass Nav Pill */}
+        <motion.header
+          className="relative flex-none rounded-[1.2rem] bg-transparent px-6 py-2 flex items-center justify-center pointer-events-auto"
+          initial={{ y: -50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="absolute top-0 left-0 z-0 h-full w-full rounded-[1.2rem] shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)]" />
+          <div
+            className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-[1.2rem] bg-[#141414]/10"
+            style={{ backdropFilter: 'url("#container-glass") blur(16px)' }}
+          />
+
+          <svg className="hidden">
+            <defs>
+              <filter id="container-glass" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+                <feTurbulence type="fractalNoise" baseFrequency="0.05 0.05" numOctaves="1" seed="1" result="turbulence" />
+                <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
+                <feDisplacementMap in="SourceGraphic" in2="blurredNoise" scale="70" xChannelSelector="R" yChannelSelector="B" result="displaced" />
+                <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
+                <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+              </filter>
+            </defs>
+          </svg>
+
+          {/* Desktop Menu Links */}
+          <nav className="relative z-10 hidden md:flex items-center gap-2 lg:gap-4 font-medium text-xs md:text-[12.5px] uppercase tracking-wider text-gray-300">
+            {NAV_LINKS.filter(link => link.name !== "Let's Connect").map((item) => (
+              <Magnetic key={item.name}>
+                <Link
+                  href={item.href}
+                  className="relative block px-3 py-1 group hover:text-white transition-colors duration-300"
+                >
+                  <span className="relative inline-flex flex-col overflow-hidden">
+                    <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
+                      {item.name}
+                    </span>
+                    <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-semibold">
+                      {item.name}
+                    </span>
                   </span>
-                  <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-semibold">
-                    {item.name}
-                  </span>
-                </span>
-                <span className="absolute left-3 right-3 bottom-0.5 h-[2px] rounded-full bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center ease-[cubic-bezier(0.22,1,0.36,1)]" />
+                  <span className="absolute left-3 right-3 bottom-0.5 h-[2px] rounded-full bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center ease-[cubic-bezier(0.22,1,0.36,1)]" />
+                </Link>
+              </Magnetic>
+            ))}
+          </nav>
+        </motion.header>
+
+        {/* Right: Empty space to balance flex or Mobile Toggle */}
+        <div className="flex-1 flex justify-end items-center gap-4 pointer-events-auto">
+          
+          {/* Let's Connect Independent Glass Button - Desktop */}
+          <motion.div 
+            className="relative hidden md:flex rounded-[1.2rem] bg-transparent px-6 py-2 items-center justify-center cursor-pointer group"
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="absolute top-0 left-0 z-0 h-full w-full rounded-[1.2rem] shadow-[0_0_6px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3px_rgba(0,0,0,0.9),inset_-3px_-3px_0.5px_-3px_rgba(0,0,0,0.85),inset_1px_1px_1px_-0.5px_rgba(0,0,0,0.6),inset_-1px_-1px_1px_-0.5px_rgba(0,0,0,0.6),inset_0_0_6px_6px_rgba(0,0,0,0.12),inset_0_0_2px_2px_rgba(0,0,0,0.06),0_0_12px_rgba(255,255,255,0.15)] transition-all dark:shadow-[0_0_8px_rgba(0,0,0,0.03),0_2px_6px_rgba(0,0,0,0.08),inset_3px_3px_0.5px_-3.5px_rgba(255,255,255,0.09),inset_-3px_-3px_0.5px_-3.5px_rgba(255,255,255,0.85),inset_1px_1px_1px_-0.5px_rgba(255,255,255,0.6),inset_-1px_-1px_1px_-0.5px_rgba(255,255,255,0.6),inset_0_0_6px_6px_rgba(255,255,255,0.12),inset_0_0_2px_2px_rgba(255,255,255,0.06),0_0_12px_rgba(0,0,0,0.15)] group-hover:bg-white/5" />
+            <div
+              className="absolute top-0 left-0 isolate -z-10 h-full w-full overflow-hidden rounded-[1.2rem] bg-[#141414]/10"
+              style={{ backdropFilter: 'url("#container-glass") blur(16px)' }}
+            />
+            <Magnetic>
+              <Link
+                href="#contact"
+                className="relative z-10 flex flex-col items-center justify-center group-hover:text-white transition-colors duration-300"
+              >
+                <span className="text-[10px] leading-[1.2] tracking-wider font-semibold text-gray-300 group-hover:text-white transition-colors uppercase">Let's</span>
+                <span className="text-[10px] leading-[1.2] tracking-wider font-semibold text-gray-300 group-hover:text-white transition-colors uppercase">Connect</span>
               </Link>
             </Magnetic>
-          ))}
-        </nav>
+          </motion.div>
 
-        {/* Mobile Menu Toggle */}
-        <Magnetic>
-          <button
-            className="relative z-10 md:hidden text-gray-300 hover:text-white p-1 overflow-hidden rounded-full group outline-none transition-colors duration-300"
-            onClick={() => setIsOpen(!isOpen)}
+          {/* Mobile Menu Toggle */}
+          <Magnetic>
+            <button
+              className="relative z-10 md:hidden text-gray-300 hover:text-white p-2 overflow-hidden rounded-[0.8rem] group outline-none transition-colors duration-300 bg-black/20 backdrop-blur-md border border-white/10"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <motion.svg
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" className="relative z-10 w-5 h-5 transition-transform duration-300"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+              </motion.svg>
+            </button>
+          </Magnetic>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="absolute top-[calc(100%+1rem)] left-0 w-full bg-[#141414]/95 backdrop-blur-lg border border-white/10 p-6 flex flex-col gap-6 md:hidden overflow-hidden origin-top pointer-events-auto shadow-2xl rounded-2xl"
+            initial={{ opacity: 0, scaleY: 0.95, y: -10 }}
+            animate={{ opacity: 1, scaleY: 1, y: 0 }}
+            exit={{ opacity: 0, scaleY: 0.95, y: -10 }}
           >
-            <div className="absolute inset-0 bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] rounded-full" />
-            <motion.svg
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              fill="none" viewBox="0 0 24 24" stroke="currentColor" className="relative z-10 w-5 h-5 transition-transform duration-300"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-            </motion.svg>
-          </button>
-        </Magnetic>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              className="absolute top-[calc(100%+0.5rem)] left-0 w-full bg-[#141414]/95 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex flex-col gap-6 md:hidden overflow-hidden origin-top"
-              initial={{ opacity: 0, scaleY: 0.95, y: -10 }}
-              animate={{ opacity: 1, scaleY: 1, y: 0 }}
-              exit={{ opacity: 0, scaleY: 0.95, y: -10 }}
-            >
-              <nav className="flex flex-col gap-4 font-mono text-sm uppercase text-gray-300 text-center">
-                {NAV_LINKS.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="relative block py-2 group"
-                  >
-                    <span className="relative inline-flex flex-col overflow-hidden">
-                      <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full">
-                        {item.name}
-                      </span>
-                      <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-bold">
-                        {item.name}
-                      </span>
+            <nav className="flex flex-col gap-4 font-mono text-sm uppercase text-gray-300 text-center">
+              {NAV_LINKS.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  className="relative block py-2 group"
+                >
+                  <span className="relative inline-flex flex-col overflow-hidden">
+                    <span className="block transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-full text-[#00f0ff]">
+                      {item.name}
                     </span>
-                  </Link>
-                ))}
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.header>
+                    <span className="block absolute inset-0 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 text-white font-bold">
+                      {item.name}
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
@@ -426,39 +430,29 @@ const Hero = () => {
         />
         {/* Dark overlay for text legibility */}
         <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
+        {/* Geometric Grid Overlay for AI Engineer Vibe */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_50%,transparent_0%,#000_100%)] z-10 pointer-events-none" />
       </div>
 
       <div className="w-full max-w-[1400px] flex flex-col md:flex-row items-center relative z-20 h-full pt-20 md:pt-0">
         {/* Left Section (Text) */}
         <div className="w-full md:w-[60%] lg:w-[50%] flex flex-col items-start justify-center text-left relative z-20 pl-4 md:pl-8">
-          
-          {/* Top Labels with Crosshairs */}
-          <motion.div 
-            className="relative w-full mb-8 font-mono text-[11px] text-gray-400 uppercase tracking-widest"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 1 }}
-          >
-            {/* Crosshairs */}
-            <div className="absolute -top-10 -left-6 text-gray-500/50 text-xl font-light pointer-events-none">+</div>
-            <div className="absolute -top-10 right-20 text-gray-500/50 text-xl font-light pointer-events-none hidden md:block">+</div>
-            
-            <div className="flex items-center gap-8 md:gap-16">
-              <span>// SYS.ONLINE_</span>
-              <span>[AI_ENGINEER_PORTFOLIO]</span>
-            </div>
-          </motion.div>
+
 
           <motion.h1
-            className="text-6xl md:text-7xl lg:text-[7.5vw] font-medium tracking-tighter leading-[1] text-white drop-shadow-xl"
+            className="text-6xl md:text-7xl lg:text-[7.5vw] font-medium tracking-tighter leading-[1]"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
-            {HERO.heading[0]} <br></br> {HERO.heading[1]} <br></br> 
-            <div className="mt-2 text-transparent [-webkit-text-stroke:2px_#00f0ff] drop-shadow-[0_0_15px_rgba(0,240,255,0.3)]">
-              <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[2]}</span> <span className={pacifico.className}>&</span> <br></br> 
-              <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[3]}</span>.
+            <div className="text-transparent bg-clip-text bg-gradient-to-br from-white via-white/80 to-white/10 filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] inline-block">
+              {HERO.heading[0]} <br></br> {HERO.heading[1]}
+            </div>
+            <br></br>
+            <div className="mt-2 text-transparent bg-clip-text bg-gradient-to-br from-[#00f0ff] via-[#00f0ff]/60 to-[#00f0ff]/10 filter drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] drop-shadow-[0_0_15px_rgba(0,240,255,0.4)] inline-block">
+              <span className="tracking-[4px]">{HERO.heading[2]}</span> & <br></br> 
+              <span className="tracking-[4px]">{HERO.heading[3]}</span>.
             </div>
           </motion.h1>
 
@@ -485,13 +479,13 @@ const Hero = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#00f0ff]/20 to-[#ff00ff]/20 z-0 blur-md group-hover:blur-lg transition-all" />
                 
                 <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
-                  [INITIALIZE WORK] <span className="text-lg leading-none transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
+                  [INITIALIZE_WORK] <span className="text-lg leading-none transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 text-[#00f0ff]">↗</span>
                 </span>
               </Link>
             </Magnetic>
             
             {/* Bottom-left Crosshair for the text block */}
-            <div className="absolute -bottom-16 -left-6 text-gray-500/50 text-xl font-light pointer-events-none">+</div>
+            <div className="absolute -bottom-16 -left-6 text-[#00f0ff]/50 text-xl font-light pointer-events-none">+</div>
           </motion.div>
         </div>
 
@@ -500,7 +494,7 @@ const Hero = () => {
       </div>
 
       {/* Right Section / Canvas Container - full bleed to right corner */}
-      <div className="absolute bottom-0 right-0 w-full md:w-[60vw] lg:w-[55vw] h-[50vh] md:h-full z-10 pointer-events-none flex items-center justify-center">
+      <div className="absolute bottom-0 right-[-4vw] w-full md:w-[75vw] lg:w-[65vw] h-[50vh] md:h-full z-[90] pointer-events-none flex items-center justify-center">
         <RobotModel />
       </div>
 

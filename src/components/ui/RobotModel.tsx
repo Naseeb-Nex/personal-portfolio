@@ -35,13 +35,13 @@ function Model() {
   return (
     <group ref={group} dispose={null}>
       {/* Adjust scale and position as needed according to the GLTF model size */}
-      <primitive object={scene} scale={1.2} position={[0, -1.2, 0]} rotation={[0, -0.4, 0]} />
+      <primitive object={scene} scale={1.6} position={[0, -1.5, 0]} rotation={[0, -0.4, 0]} />
       
       {/* Subtle ContactShadows beneath the robot */}
       <ContactShadows 
-        position={[0, -1.2, 0]} 
+        position={[0, -1.5, 0]} 
         opacity={0.5} 
-        scale={10} 
+        scale={12} 
         blur={2.5} 
         far={5} 
       />
