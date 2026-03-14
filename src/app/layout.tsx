@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const inter = Inter({
@@ -10,6 +11,11 @@ const inter = Inter({
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space",
   subsets: ["latin"],
+});
+
+const anthonyGilford = localFont({
+  src: "../assets/fonts/Anthony Gilford.otf",
+  variable: "--font-anthony",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} antialiased selection:bg-[#00f0ff] selection:text-black`}
+        className={`${inter.variable} ${spaceGrotesk.variable} ${anthonyGilford.variable} antialiased selection:bg-[#00f0ff] selection:text-black`}
         suppressHydrationWarning
       >
         {children}

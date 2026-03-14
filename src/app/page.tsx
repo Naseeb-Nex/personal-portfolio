@@ -286,7 +286,7 @@ const Navbar = () => {
               </motion.div>
             </Link>
           </Magnetic>
-          <span className="hidden lg:block text-white/90 font-medium text-sm md:text-base tracking-wide whitespace-nowrap">
+          <span className="hidden lg:block font-anthony text-white/90 font-medium text-2xl md:text-3xl tracking-wide whitespace-nowrap">
             Muhammed Naseeb
           </span>
         </div>

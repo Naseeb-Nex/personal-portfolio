@@ -5,6 +5,7 @@
   --color-foreground: #ffffff;
   --font-inter: var(--font-inter);
   --font-space: var(--font-space);
+  --font-anthony: var(--font-anthony);
 }
 
 body {
