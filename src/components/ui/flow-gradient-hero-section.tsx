@@ -73,15 +73,15 @@ class GradientBackground {
         this.uniforms = {
             uTime: { value: 0 },
             uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-            uColor1: { value: new THREE.Vector3(0.945, 0.353, 0.133) },
-            uColor2: { value: new THREE.Vector3(0.039, 0.055, 0.153) },
-            uColor3: { value: new THREE.Vector3(0.945, 0.353, 0.133) },
-            uColor4: { value: new THREE.Vector3(0.039, 0.055, 0.153) },
-            uColor5: { value: new THREE.Vector3(0.945, 0.353, 0.133) },
-            uColor6: { value: new THREE.Vector3(0.039, 0.055, 0.153) },
+            uColor1: { value: new THREE.Vector3(0.0, 0.94, 1.0) }, // Cyan
+            uColor2: { value: new THREE.Vector3(1.0, 0.0, 0.8) }, // Magenta
+            uColor3: { value: new THREE.Vector3(0.0, 0.5, 1.0) }, // Deep Blue
+            uColor4: { value: new THREE.Vector3(0.5, 0.0, 0.8) }, // Purple
+            uColor5: { value: new THREE.Vector3(0.0, 0.94, 1.0) }, // Cyan
+            uColor6: { value: new THREE.Vector3(1.0, 0.2, 0.6) }, // Pinkish
             uSpeed: { value: 1.2 }, uIntensity: { value: 1.8 },
             uTouchTexture: { value: null }, uGrainIntensity: { value: 0.08 },
-            uDarkNavy: { value: new THREE.Vector3(0.039, 0.055, 0.153) },
+            uDarkNavy: { value: new THREE.Vector3(0.008, 0.031, 0.075) },
             uGradientSize: { value: 0.45 }, uGradientCount: { value: 12.0 },
             uColor1Weight: { value: 0.5 }, uColor2Weight: { value: 1.8 }
         };
@@ -129,7 +129,8 @@ class GradientBackground {
           color = mix(vec3(lum), color, 1.35);
           color = pow(color, vec3(0.92));
           float brightness = length(color);
-          color = mix(uDarkNavy, color, max(brightness * 1.2, 0.15));
+          // Smooth out the edges completely into dark navy
+          color = mix(uDarkNavy, color, smoothstep(0.0, 1.0, brightness * 1.5));
           return color;
         }
         
@@ -155,15 +156,23 @@ class GradientBackground {
     update(delta: number) { if (!this.isPaused) this.uniforms.uTime.value += delta; }
     setTheme(isDark: boolean) {
         if (isDark) {
-            this.uniforms.uColor1.value.set(0.945, 0.353, 0.133);
-            this.uniforms.uColor2.value.set(0.039, 0.055, 0.153);
-            this.uniforms.uDarkNavy.value.set(0.039, 0.055, 0.153);
-            this.sceneManager.scene.background = new THREE.Color(0x0a0e27);
+            this.uniforms.uColor1.value.set(0.0, 0.94, 1.0);
+            this.uniforms.uColor2.value.set(1.0, 0.0, 0.8);
+            this.uniforms.uColor3.value.set(0.0, 0.5, 1.0);
+            this.uniforms.uColor4.value.set(0.5, 0.0, 0.8);
+            this.uniforms.uColor5.value.set(0.0, 0.94, 1.0);
+            this.uniforms.uColor6.value.set(1.0, 0.2, 0.6);
+            this.uniforms.uDarkNavy.value.set(0.008, 0.031, 0.075);
+            this.sceneManager.scene.background = new THREE.Color(0x020813);
         } else {
-            this.uniforms.uColor1.value.set(1.0, 0.5, 0.35);
-            this.uniforms.uColor2.value.set(0.9, 0.95, 1.0);
-            this.uniforms.uDarkNavy.value.set(0.95, 0.97, 1.0);
-            this.sceneManager.scene.background = new THREE.Color(0xf5f7ff);
+            this.uniforms.uColor1.value.set(0.2, 0.8, 1.0);
+            this.uniforms.uColor2.value.set(1.0, 0.4, 0.8);
+            this.uniforms.uColor3.value.set(0.4, 0.6, 1.0);
+            this.uniforms.uColor4.value.set(0.8, 0.4, 1.0);
+            this.uniforms.uColor5.value.set(0.3, 0.9, 1.0);
+            this.uniforms.uColor6.value.set(1.0, 0.5, 0.7);
+            this.uniforms.uDarkNavy.value.set(0.9, 0.93, 0.98);
+            this.sceneManager.scene.background = new THREE.Color(0xf0f3fa);
         }
     }
     onResize(w: number, h: number) {

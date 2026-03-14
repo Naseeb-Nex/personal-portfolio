@@ -24,6 +24,9 @@ import { Points, PointMaterial } from "@react-three/drei";
 
 import { Component as FlowGradientHero } from "@/components/ui/flow-gradient-hero-section";
 import logoImg from "@/assets/images/logo.png";
+import dynamic from "next/dynamic";
+
+const RobotModel = dynamic(() => import("@/components/ui/RobotModel"), { ssr: false });
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -425,20 +428,42 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/60 z-10 pointer-events-none" />
       </div>
 
-      <div className="w-full max-w-[1400px] flex flex-col md:flex-row items-center relative z-20 h-full pt-24 md:pt-0">
-        {/* Left Section */}
-        <div className="flex-1 flex flex-col items-start justify-center pr-0 md:pr-12 text-left">
+      <div className="w-full max-w-[1400px] flex flex-col md:flex-row items-center relative z-20 h-full pt-20 md:pt-0">
+        {/* Left Section (Text) */}
+        <div className="w-full md:w-[60%] lg:w-[50%] flex flex-col items-start justify-center text-left relative z-20 pl-4 md:pl-8">
+          
+          {/* Top Labels with Crosshairs */}
+          <motion.div 
+            className="relative w-full mb-8 font-mono text-[11px] text-gray-400 uppercase tracking-widest"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 1 }}
+          >
+            {/* Crosshairs */}
+            <div className="absolute -top-10 -left-6 text-gray-500/50 text-xl font-light pointer-events-none">+</div>
+            <div className="absolute -top-10 right-20 text-gray-500/50 text-xl font-light pointer-events-none hidden md:block">+</div>
+            
+            <div className="flex items-center gap-8 md:gap-16">
+              <span>// SYS.ONLINE_</span>
+              <span>[AI_ENGINEER_PORTFOLIO]</span>
+            </div>
+          </motion.div>
+
           <motion.h1
-            className="text-5xl md:text-7xl lg:text-[6vw] font-medium tracking-tighter leading-[0.9] text-white drop-shadow-xl"
+            className="text-6xl md:text-7xl lg:text-[7.5vw] font-medium tracking-tighter leading-[1] text-white drop-shadow-xl"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 1 }}
           >
-            {HERO.heading[0]} <br></br> {HERO.heading[1]} <br></br> <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[2]}</span> <span className={pacifico.className}>&</span> <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[3]}</span>.
+            {HERO.heading[0]} <br></br> {HERO.heading[1]} <br></br> 
+            <div className="mt-2 text-transparent [-webkit-text-stroke:2px_#00f0ff] drop-shadow-[0_0_15px_rgba(0,240,255,0.3)]">
+              <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[2]}</span> <span className={pacifico.className}>&</span> <br></br> 
+              <span className={`${asgard.className} tracking-[4px]`}>{HERO.heading[3]}</span>.
+            </div>
           </motion.h1>
 
           <motion.p
-            className="mt-6 md:mt-8 max-w-[650px] text-lg text-white/70 font-sans leading-relaxed z-20"
+            className="mt-6 md:mt-8 max-w-[550px] text-base md:text-lg text-white/70 font-sans leading-relaxed z-20"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1, duration: 1 }}
@@ -447,35 +472,58 @@ const Hero = () => {
           </motion.p>
 
           <motion.div
-            className="mt-10 md:mt-12 z-20 flex gap-4"
+            className="mt-10 md:mt-12 z-20 relative"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
           >
             <Magnetic>
-              <Link href="#about" className="inline-block px-8 py-4 rounded-full border border-white/30 hover:border-white hover:bg-white/10 text-white font-semibold text-sm transition-colors backdrop-blur-md shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                {HERO.cta}
+              <Link href="#about" className="relative group inline-flex items-center justify-center px-8 py-3.5 rounded-full overflow-hidden text-white font-mono text-sm font-bold tracking-widest transition-all hover:scale-105 shadow-[0_0_20px_rgba(0,240,255,0.4),0_0_20px_rgba(255,0,255,0.2)] bg-[#050505]">
+                {/* Glowing border effect using padding */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#00f0ff] via-[#8a2be2] to-[#ff00ff] opacity-80" />
+                <div className="absolute inset-[2px] bg-[#050505] rounded-full z-0" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#00f0ff]/20 to-[#ff00ff]/20 z-0 blur-md group-hover:blur-lg transition-all" />
+                
+                <span className="relative z-10 flex items-center gap-2 drop-shadow-md">
+                  [INITIALIZE WORK] <span className="text-lg leading-none transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
+                </span>
               </Link>
             </Magnetic>
+            
+            {/* Bottom-left Crosshair for the text block */}
+            <div className="absolute -bottom-16 -left-6 text-gray-500/50 text-xl font-light pointer-events-none">+</div>
           </motion.div>
         </div>
 
-        {/* Right Section (MD Placeholder) */}
-        <div className="flex-1 flex items-center justify-center w-full h-full min-h-[40vh] md:min-h-full">
-          {/* Add Image Here */}
-        </div>
+        {/* Spacer for MD flex Layout to maintain structure while model is absolute */}
+        <div className="hidden md:block w-full md:w-[40%] lg:w-[50%] h-full pointer-events-none" />
+      </div>
+
+      {/* Right Section / Canvas Container - full bleed to right corner */}
+      <div className="absolute bottom-0 right-0 w-full md:w-[60vw] lg:w-[55vw] h-[50vh] md:h-full z-10 pointer-events-none flex items-center justify-center">
+        <RobotModel />
       </div>
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-[8vh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-[10px] font-medium text-white/60 uppercase tracking-wider z-20 pointer-events-none"
+        className="absolute bottom-[8vh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-[10px] font-mono text-white/50 uppercase tracking-widest z-20 pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 1 }}
       >
-        <span>Scroll Trajectory</span>
-        <div className="w-[1px] h-12 md:h-16 bg-gradient-to-b from-white/60 to-transparent" />
+        <span>SCROLL TRAJECTORY</span>
+        <div className="w-[1px] h-12 md:h-16 bg-gradient-to-b from-white/40 to-transparent" />
       </motion.div>
+      
+      {/* Bottom Crosshairs */}
+      <div className="absolute bottom-10 left-[45%] text-gray-500/50 text-xl font-light pointer-events-none z-20 hidden md:block">+</div>
+      
+      {/* 4-point Star on bottom right */}
+      <div className="absolute bottom-10 right-10 z-20 opacity-50 text-white flex items-center justify-center">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 0C20 11.0457 28.9543 20 40 20C28.9543 20 20 28.9543 20 40C20 28.9543 11.0457 20 0 20C11.0457 20 20 11.0457 20 0Z" fill="currentColor"/>
+        </svg>
+      </div>
     </section>
   );
 };
