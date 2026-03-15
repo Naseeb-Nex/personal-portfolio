@@ -73,15 +73,15 @@ class GradientBackground {
         this.uniforms = {
             uTime: { value: 0 },
             uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-            uColor1: { value: new THREE.Vector3(0.5, 0.0, 0.5) }, // Deep Purple
-            uColor2: { value: new THREE.Vector3(0.1, 0.1, 0.6) }, // Deep Blue
-            uColor3: { value: new THREE.Vector3(0.8, 0.0, 0.5) }, // Magenta
-            uColor4: { value: new THREE.Vector3(0.2, 0.0, 0.4) }, // Dark Violet
-            uColor5: { value: new THREE.Vector3(0.6, 0.0, 0.6) }, // Purple
-            uColor6: { value: new THREE.Vector3(0.0, 0.2, 0.7) }, // Strong Blue
+            uColor1: { value: new THREE.Vector3(0.027, 0.745, 0.722) }, // #07beb8 — Deep Teal
+            uColor2: { value: new THREE.Vector3(0.239, 0.800, 0.780) }, // #3dccc7 — Teal
+            uColor3: { value: new THREE.Vector3(0.408, 0.847, 0.839) }, // #68d8d6 — Medium Teal
+            uColor4: { value: new THREE.Vector3(0.027, 0.745, 0.722) }, // #07beb8 — Deep Teal (repeat for depth)
+            uColor5: { value: new THREE.Vector3(0.612, 0.918, 0.937) }, // #9ceaef — Pale Cyan
+            uColor6: { value: new THREE.Vector3(0.769, 1.000, 0.976) }, // #c4fff9 — Near-white Mint
             uSpeed: { value: 1.2 }, uIntensity: { value: 1.8 },
             uTouchTexture: { value: null }, uGrainIntensity: { value: 0.08 },
-            uDarkNavy: { value: new THREE.Vector3(0.05, 0.0, 0.1) }, // Very dark purple/blue
+            uDarkNavy: { value: new THREE.Vector3(0.01, 0.08, 0.08) }, // Very dark teal base
             uGradientSize: { value: 0.45 }, uGradientCount: { value: 12.0 },
             uColor1Weight: { value: 0.5 }, uColor2Weight: { value: 1.8 }
         };
@@ -156,23 +156,25 @@ class GradientBackground {
     update(delta: number) { if (!this.isPaused) this.uniforms.uTime.value += delta; }
     setTheme(isDark: boolean) {
         if (isDark) {
-            this.uniforms.uColor1.value.set(0.5, 0.0, 0.5); // Deep Purple
-            this.uniforms.uColor2.value.set(0.1, 0.1, 0.6); // Deep Blue
-            this.uniforms.uColor3.value.set(0.8, 0.0, 0.5); // Magenta
-            this.uniforms.uColor4.value.set(0.2, 0.0, 0.4); // Dark Violet
-            this.uniforms.uColor5.value.set(0.6, 0.0, 0.6); // Purple
-            this.uniforms.uColor6.value.set(0.0, 0.2, 0.7); // Strong Blue
-            this.uniforms.uDarkNavy.value.set(0.05, 0.0, 0.1);
-            this.sceneManager.scene.background = new THREE.Color(0x0a001a); // Very dark violet black
+            // Dark mode: anchor on deep teal #07beb8 → #3dccc7 → #68d8d6
+            this.uniforms.uColor1.value.set(0.027, 0.745, 0.722); // #07beb8 — Deep Teal
+            this.uniforms.uColor2.value.set(0.239, 0.800, 0.780); // #3dccc7 — Teal
+            this.uniforms.uColor3.value.set(0.027, 0.745, 0.722); // #07beb8 — Deep Teal again for contrast
+            this.uniforms.uColor4.value.set(0.408, 0.847, 0.839); // #68d8d6 — Medium Teal
+            this.uniforms.uColor5.value.set(0.239, 0.800, 0.780); // #3dccc7 — Teal
+            this.uniforms.uColor6.value.set(0.612, 0.918, 0.937); // #9ceaef — Pale Cyan
+            this.uniforms.uDarkNavy.value.set(0.01, 0.08, 0.08);  // Very dark teal void
+            this.sceneManager.scene.background = new THREE.Color(0x011a1a); // Near-black deep teal
         } else {
-            this.uniforms.uColor1.value.set(0.2, 0.8, 1.0);
-            this.uniforms.uColor2.value.set(1.0, 0.4, 0.8);
-            this.uniforms.uColor3.value.set(0.4, 0.6, 1.0);
-            this.uniforms.uColor4.value.set(0.8, 0.4, 1.0);
-            this.uniforms.uColor5.value.set(0.3, 0.9, 1.0);
-            this.uniforms.uColor6.value.set(1.0, 0.5, 0.7);
-            this.uniforms.uDarkNavy.value.set(0.9, 0.93, 0.98);
-            this.sceneManager.scene.background = new THREE.Color(0xf0f3fa);
+            // Light mode: anchor on pale cyan #9ceaef → #c4fff9
+            this.uniforms.uColor1.value.set(0.408, 0.847, 0.839); // #68d8d6 — Medium Teal
+            this.uniforms.uColor2.value.set(0.612, 0.918, 0.937); // #9ceaef — Pale Cyan
+            this.uniforms.uColor3.value.set(0.769, 1.000, 0.976); // #c4fff9 — Near-white Mint
+            this.uniforms.uColor4.value.set(0.239, 0.800, 0.780); // #3dccc7 — Teal
+            this.uniforms.uColor5.value.set(0.612, 0.918, 0.937); // #9ceaef — Pale Cyan
+            this.uniforms.uColor6.value.set(0.769, 1.000, 0.976); // #c4fff9 — Near-white Mint
+            this.uniforms.uDarkNavy.value.set(0.85, 0.97, 0.97);  // Very light teal-white base
+            this.sceneManager.scene.background = new THREE.Color(0xe0fafa); // Pale mint-white
         }
     }
     onResize(w: number, h: number) {
@@ -199,7 +201,7 @@ class App {
         this.camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 10000);
         this.camera.position.z = 50;
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x0a0e27);
+        this.scene.background = new THREE.Color(0x011a1a); // Default: near-black deep teal
         this.clock = new THREE.Clock();
         this.touchTexture = new TouchTexture();
         this.gradientBackground = new GradientBackground(this);
