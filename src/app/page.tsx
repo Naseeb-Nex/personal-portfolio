@@ -268,9 +268,35 @@ const Preloader = ({ onComplete }: { onComplete: () => void }) => {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // Track scroll progress from start of page
+  const { scrollY } = useScroll();
+  
+  // Transform scroll position to navbar Y position
+  // Starts hiding after scrolling 100px, fully hidden by 400px
+  const navY = useTransform(
+    scrollY,
+    [0, 100, 400],
+    [0, -50, -200]
+  );
+
+  // Optional: fade out as well for smoother effect
+  const navOpacity = useTransform(
+    scrollY,
+    [0, 100, 400],
+    [1, 0.7, 0]
+  );
 
   return (
-    <div className="fixed top-6 md:top-10 left-0 w-full z-[100] px-6 lg:px-12 pointer-events-none">
+    <motion.div 
+      ref={navRef}
+      className="fixed top-6 md:top-10 left-0 w-full z-[100] px-6 lg:px-12 pointer-events-none"
+      style={{ 
+        y: navY,
+        opacity: navOpacity
+      }}
+    >
       <div className="flex items-center justify-between w-full max-w-[1600px] mx-auto">
         
         {/* Left: Logo + Name */}
@@ -384,7 +410,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 
