@@ -9,11 +9,13 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
+import { Network, Brain, Zap, Cloud, Shield } from "lucide-react";
 
 import { Component as FlowGradientHero } from "@/components/ui/flow-gradient-hero-section";
 import logoImg from "@/assets/images/logo.png";
 import dynamic from "next/dynamic";
 import LetsConnectButton from "@/components/ui/lets-connect-button";
+import DisplayCards from "@/components/ui/display-cards";
 
 const RobotModel = dynamic(() => import("@/components/ui/RobotModel"), { ssr: false });
 
@@ -504,50 +506,162 @@ const Hero = () => {
 
 const About = () => {
   const targetRef = useRef<HTMLDivElement>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  
   const { scrollYProgress } = useScroll({
     target: targetRef,
-    offset: ["start end", "end start"],
+    offset: ["start end", "start start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const bgY = useTransform(scrollYProgress, [0, 1], [-50, 200]);
-  const opacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0.5, 0]);
+
+  // Transform heading from center to top, then stop
+  const headingY = useTransform(scrollYProgress, [0, 0.5], ["45vh", "0vh"]);
+  const headingScale = useTransform(scrollYProgress, [0, 0.5], [1.2, 0.8]);
+  const headingOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+  
+  // Content appears after heading settles
+  const contentOpacity = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+  const contentY = useTransform(scrollYProgress, [0.4, 0.6], [100, 0]);
+
+  // Icons for each expertise area
+  const expertiseIcons = [
+    <Network className="size-4 text-[#00f0ff]" key="network" />,
+    <Brain className="size-4 text-[#00f0ff]" key="brain" />,
+    <Zap className="size-4 text-[#00f0ff]" key="zap" />,
+    <Cloud className="size-4 text-[#00f0ff]" key="cloud" />,
+    <Shield className="size-4 text-[#00f0ff]" key="shield" />
+  ];
+
+  // Generate all 5 cards with proper stacking and 3D lift animation
+  const allCards = ABOUT.expertise.map((item, i) => {
+    const isHovered = hoveredIndex === i;
+    
+    // Base positioning for each card in the stack
+    const baseTranslateX = i * 12; // 3rem spacing
+    const baseTranslateY = i * 10; // 2.5rem spacing
+    
+    // Build className with proper stacking
+    let className = "[grid-area:stack] transition-all duration-500 ease-out ";
+    
+    // Add grayscale and overlay effects
+    className += "before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 before:left-0 before:top-0 before:transition-opacity before:duration-500 ";
+    
+    if (isHovered) {
+      // When hovered: lift up from current position with 3D effect
+      className += `grayscale-0 before:opacity-0 -translate-y-16 scale-105 shadow-2xl shadow-[#00f0ff]/20 z-[${50 + i}] `;
+    } else {
+      // Default position in stack
+      className += `grayscale-[100%] before:opacity-100 translate-x-[${baseTranslateX * 4}px] translate-y-[${baseTranslateY * 4}px] z-[${i}] `;
+    }
+
+    return {
+      icon: expertiseIcons[i],
+      title: item.shortTitle,
+      description: item.cardDescription,
+      date: `0${i + 1}`,
+      iconClassName: "text-[#00f0ff]",
+      titleClassName: "text-[#00f0ff]",
+      className: className,
+      style: {
+        transform: isHovered 
+          ? `translate(${baseTranslateX * 4}px, ${baseTranslateY * 4 - 64}px) scale(1.05) skewY(-8deg) rotateX(5deg)` 
+          : `translate(${baseTranslateX * 4}px, ${baseTranslateY * 4}px) skewY(-8deg)`,
+        zIndex: isHovered ? 50 + i : i,
+        transformStyle: 'preserve-3d',
+        transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      }
+    };
+  });
 
   return (
-    <section id="about" ref={targetRef} className="relative w-full py-32 px-4 md:px-12 z-20 bg-[#030303] overflow-hidden">
-      <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row gap-16 md:gap-24 relative z-10">
-        <div className="flex-1">
-          <ScrollReveal>
-            <h2 className="text-4xl md:text-6xl font-medium tracking-tighter leading-[0.9] text-white mb-12">
-              <RevealText text={ABOUT.title} />
-            </h2>
-          </ScrollReveal>
-          <div className="space-y-6 text-lg text-gray-400 font-sans leading-relaxed">
-            {ABOUT.paragraphs.map((p, i) => (
-              <ScrollReveal key={i} delay={i * 0.1}>
-                <p>{p}</p>
-              </ScrollReveal>
-            ))}
+    <section id="about" ref={targetRef} className="relative w-full min-h-screen py-20 md:py-32 px-4 md:px-12 lg:px-16 z-20 bg-[#030303] overflow-hidden">
+      
+      {/* Sticky Container for Heading and Content */}
+      <div className="sticky top-0 left-0 w-full h-screen flex flex-col justify-center pointer-events-none z-30 py-8 md:py-12">
+        
+        {/* Large Heading - Animates from center to top, then stays */}
+        <motion.div 
+          className="w-full flex items-center justify-center mb-8 md:mb-12"
+          style={{ y: headingY }}
+        >
+          <motion.h2 
+            className="text-[15vw] sm:text-[12vw] md:text-[10vw] lg:text-[8vw] font-bold tracking-tighter leading-[0.9] text-white text-center px-4"
+            style={{ scale: headingScale, opacity: headingOpacity }}
+          >
+            What I Do
+          </motion.h2>
+        </motion.div>
+
+        {/* Content Container - Appears after heading settles */}
+        <motion.div 
+          className="flex-1 max-w-[1600px] w-full mx-auto px-4 flex items-center"
+          style={{ opacity: contentOpacity, y: contentY }}
+        >
+          <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-12 w-full items-center">
+            
+            {/* Left Side - DisplayCards with all items centered */}
+            <div className="w-full md:w-1/2 flex items-center justify-center pointer-events-auto min-h-[400px]" style={{ perspective: '1000px' }}>
+              <div className="w-full max-w-3xl">
+                <DisplayCards cards={allCards} />
+              </div>
+            </div>
+
+            {/* Right Side - Service Blocks */}
+            <div className="w-full md:w-1/2 flex flex-col gap-3 md:gap-4 pointer-events-auto overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent max-h-[60vh]">
+              {ABOUT.expertise.map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="relative p-5 md:p-6 lg:p-8 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-sm cursor-pointer transition-all duration-500 group flex-shrink-0"
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  whileHover={{ 
+                    scale: 1.02,
+                    borderColor: "rgba(0, 240, 255, 0.5)",
+                    backgroundColor: "rgba(0, 240, 255, 0.05)"
+                  }}
+                >
+                  {/* Number Badge - Left Aligned */}
+                  <div className="absolute top-4 md:top-6 left-4 md:left-6 text-white/10 font-bold text-3xl md:text-4xl lg:text-5xl group-hover:text-[#00f0ff]/20 transition-colors">
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white group-hover:text-[#00f0ff] transition-colors pl-12 md:pl-16 pr-12 md:pr-16 leading-tight">
+                    {item.title}
+                  </h3>
+
+                  {/* Plus Icon */}
+                  <motion.div 
+                    className="absolute bottom-4 md:bottom-6 right-4 md:right-6 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center"
+                    animate={{ rotate: hoveredIndex === i ? 45 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <svg 
+                      width="20" 
+                      height="20" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="2" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round"
+                      className="text-[#00f0ff] w-full h-full"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="flex-1 flex flex-col justify-center">
-          <motion.div style={{ y }} className="p-8 md:p-12 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-sm relative overflow-hidden group">
-            <ScrollReveal delay={0.2}>
-              <h3 className="text-2xl font-bold text-white mb-4">
-                {ABOUT.sublineTitle}
-              </h3>
-            </ScrollReveal>
-            <ScrollReveal delay={0.4}>
-              <p className="text-[#00f0ff] font-medium leading-relaxed">
-                {ABOUT.sublineDescription}
-              </p>
-            </ScrollReveal>
-          </motion.div>
-        </div>
+        </motion.div>
       </div>
-      <motion.div 
-        style={{ y: bgY, opacity: opacity }}
-        className="absolute top-0 right-0 w-[80vw] h-[80vw] bg-[#00f0ff]/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"
-      />
+
+      {/* Spacer to allow scroll and prevent overlap with next section */}
+      <div className="h-[60vh] md:h-[50vh]" />
     </section>
   );
 };

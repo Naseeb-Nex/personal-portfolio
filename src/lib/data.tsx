@@ -21,15 +21,39 @@ export const HERO = {
 };
 
 export const ABOUT = {
-  title: "The Mindset.",
-  paragraphs: [
-    "I build AI systems that don't just work in demos — they hold up in production.",
-    "My work spans multi-agent orchestration, RAG pipelines, LLM fine-tuning, and end-to-end enterprise automation across AWS, Azure, and GCP. I approach every problem with a systems-thinking mindset — designing for reliability, scalability, and real business impact from day one.",
-    "I'm deeply hands-on across the full AI engineering stack — from prompt engineering and agent architecture to MLOps, cloud deployment, and Responsible AI practices. I don't hand off at the prototype stage; I own the solution end to end.",
-    "\"What drives me is the gap between what AI can do and what most teams actually ship — and closing it.\""
-  ],
-  sublineTitle: "AI isn't magic — it's engineering.",
-  sublineDescription: "I take complex Generative AI concepts, strip them down to what matters, and build reliable systems that solve actual business problems at scale."
+  title: "What I Do",
+  expertise: [
+    {
+      title: "Multi-Agent Orchestration",
+      shortTitle: "Agent Systems",
+      description: "I design and deploy multi-agent systems that coordinate complex workflows autonomously — built for reliability, not just proof-of-concept.",
+      cardDescription: "Autonomous workflow coordination"
+    },
+    {
+      title: "RAG Pipelines & LLM Engineering",
+      shortTitle: "LLM Engineering",
+      description: "From retrieval-augmented generation to fine-tuning, I work across the full LLM stack — prompt engineering, model optimization, and grounding responses in real data.",
+      cardDescription: "Full-stack LLM development"
+    },
+    {
+      title: "Enterprise AI Automation",
+      shortTitle: "AI Automation",
+      description: "I translate business problems into end-to-end automated solutions — owning the process from architecture to deployment, not just the prototype stage.",
+      cardDescription: "End-to-end AI solutions"
+    },
+    {
+      title: "Cloud Infrastructure & MLOps",
+      shortTitle: "MLOps",
+      description: "Hands-on across AWS, Azure, and GCP — I handle deployment, monitoring, and scaling so AI systems stay performant in the real world.",
+      cardDescription: "Production-grade deployment"
+    },
+    {
+      title: "Responsible AI & Systems Thinking",
+      shortTitle: "Responsible AI",
+      description: "Every solution I build is designed with reliability, scalability, and ethical guardrails from day one — not bolted on later.",
+      cardDescription: "Ethical & scalable design"
+    }
+  ]
 };
 
 export const PROCESS = {
