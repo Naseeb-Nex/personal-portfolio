@@ -561,6 +561,7 @@ const About = () => {
       iconClassName: "text-[#00f0ff]",
       titleClassName: "text-[#00f0ff]",
       className: className,
+      isHovered: isHovered,
       style: {
         transform: isHovered 
           ? `translate(${baseTranslateX * 4}px, ${baseTranslateY * 4 - 64}px) scale(1.05) skewY(-8deg) rotateX(5deg)` 
@@ -598,14 +599,14 @@ const About = () => {
         >
           <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-12 w-full items-center">
             
-            {/* Left Side - DisplayCards with all items centered */}
-            <div className="w-full md:w-1/2 flex items-center justify-center pointer-events-auto min-h-[400px]" style={{ perspective: '1000px' }}>
-              <div className="w-full max-w-3xl">
+            {/* Left Side - DisplayCards with 3D perspective */}
+            <div className="w-full md:w-1/2 flex items-center justify-center pointer-events-auto min-h-[400px] relative" style={{ perspective: '1000px' }}>
+              <div className="relative w-full max-w-3xl">
                 <DisplayCards cards={allCards} />
               </div>
             </div>
 
-            {/* Right Side - Service Blocks */}
+            {/* Right Side - Service Blocks with Expandable Descriptions */}
             <div className="w-full md:w-1/2 flex flex-col gap-3 md:gap-4 pointer-events-auto overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent max-h-[60vh]">
               {ABOUT.expertise.map((item, i) => (
                 <motion.div
@@ -614,45 +615,79 @@ const About = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative p-5 md:p-6 lg:p-8 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-sm cursor-pointer transition-all duration-500 group flex-shrink-0"
+                  className="relative rounded-2xl cursor-pointer transition-all duration-500 group flex-shrink-0 overflow-hidden"
                   onMouseEnter={() => setHoveredIndex(i)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  whileHover={{ 
-                    scale: 1.02,
-                    borderColor: "rgba(0, 240, 255, 0.5)",
-                    backgroundColor: "rgba(0, 240, 255, 0.05)"
-                  }}
                 >
-                  {/* Number Badge - Left Aligned */}
-                  <div className="absolute top-4 md:top-6 left-4 md:left-6 text-white/10 font-bold text-3xl md:text-4xl lg:text-5xl group-hover:text-[#00f0ff]/20 transition-colors">
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
+                  {/* Glass Background with Glow */}
+                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br from-white/5 to-white/0 backdrop-blur-md border transition-all duration-500 ${
+                    hoveredIndex === i 
+                      ? 'border-[#00f0ff]/50 shadow-lg shadow-[#00f0ff]/20' 
+                      : 'border-white/10'
+                  }`} />
+                  
+                  {/* Animated Glow on Hover */}
+                  {hoveredIndex === i && (
+                    <motion.div
+                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#00f0ff]/0 via-[#00f0ff]/10 to-[#00f0ff]/0"
+                      initial={{ x: '-100%' }}
+                      animate={{ x: '100%' }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                    />
+                  )}
+                  
+                  {/* Content */}
+                  <div className="relative z-10 p-5 md:p-6 lg:p-8">
+                    {/* Number Badge - Left Aligned */}
+                    <div className={`absolute top-4 md:top-6 left-4 md:left-6 font-bold text-3xl md:text-4xl lg:text-5xl transition-colors duration-500 ${
+                      hoveredIndex === i ? 'text-[#00f0ff]/30' : 'text-white/10'
+                    }`}>
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
 
-                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white group-hover:text-[#00f0ff] transition-colors pl-12 md:pl-16 pr-12 md:pr-16 leading-tight">
-                    {item.title}
-                  </h3>
+                    <h3 className={`text-lg sm:text-xl md:text-2xl font-bold transition-colors pl-12 md:pl-16 pr-12 md:pr-16 leading-tight ${
+                      hoveredIndex === i ? 'text-[#00f0ff]' : 'text-white'
+                    }`}>
+                      {item.title}
+                    </h3>
 
-                  {/* Plus Icon */}
-                  <motion.div 
-                    className="absolute bottom-4 md:bottom-6 right-4 md:right-6 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center"
-                    animate={{ rotate: hoveredIndex === i ? 45 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <svg 
-                      width="20" 
-                      height="20" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="2" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round"
-                      className="text-[#00f0ff] w-full h-full"
+                    {/* Expandable Description */}
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ 
+                        height: hoveredIndex === i ? 'auto' : 0,
+                        opacity: hoveredIndex === i ? 1 : 0
+                      }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="overflow-hidden"
                     >
-                      <line x1="12" y1="5" x2="12" y2="19"></line>
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                  </motion.div>
+                      <p className="text-sm md:text-base text-gray-400 mt-4 pl-12 md:pl-16 pr-12 md:pr-16 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </motion.div>
+
+                    {/* Plus Icon */}
+                    <motion.div 
+                      className="absolute bottom-4 md:bottom-6 right-4 md:right-6 w-6 h-6 md:w-8 md:h-8 flex items-center justify-center"
+                      animate={{ rotate: hoveredIndex === i ? 45 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <svg 
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                        className="text-[#00f0ff] w-full h-full"
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                      </svg>
+                    </motion.div>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -1021,11 +1056,53 @@ export default function Portfolio() {
           0% { transform: translateX(-50%); }
           100% { transform: translateX(0%); }
         }
+        @keyframes glow-pulse {
+          0%, 100% { opacity: 0.3; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        @keyframes glow-pulse-delayed {
+          0%, 100% { opacity: 0.4; transform: scale(1.05); }
+          50% { opacity: 0.7; transform: scale(1.15); }
+        }
+        @keyframes glow-pulse-delayed-2 {
+          0%, 100% { opacity: 0.35; transform: scale(1.02); }
+          50% { opacity: 0.65; transform: scale(1.12); }
+        }
+        @keyframes border-glow {
+          0% { transform: translateX(-100%) rotate(0deg); }
+          100% { transform: translateX(100%) rotate(360deg); }
+        }
+        @keyframes glare-fade-in {
+          0% { opacity: 0; transform: scale(1.1) translateY(-10px); }
+          100% { opacity: 1; transform: scale(1.3) translateY(-20px); }
+        }
+        @keyframes border-pulse {
+          0%, 100% { opacity: 0.3; }
+          50% { opacity: 0.6; }
+        }
         .animate-marquee {
           animation: marquee 30s linear infinite;
         }
         .animate-marquee-reverse {
           animation: marquee-reverse 30s linear infinite;
+        }
+        .animate-glow-pulse {
+          animation: glow-pulse 4s ease-in-out infinite;
+        }
+        .animate-glow-pulse-delayed {
+          animation: glow-pulse-delayed 5s ease-in-out infinite;
+        }
+        .animate-glow-pulse-delayed-2 {
+          animation: glow-pulse-delayed-2 6s ease-in-out infinite;
+        }
+        .animate-border-glow {
+          animation: border-glow 3s linear infinite;
+        }
+        .animate-glare-fade-in {
+          animation: glare-fade-in 0.3s ease-out forwards;
+        }
+        .animate-border-pulse {
+          animation: border-pulse 2s ease-in-out infinite;
         }
       `}} />
     </div>
