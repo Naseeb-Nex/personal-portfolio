@@ -15,43 +15,40 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Data Analyst – AI Engineer</h4>
+                <h5>FIA Global Technology, Gurugram</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2024</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Built RAG-based financial AI tools, document classifiers on Vertex
+              AI, and Power BI analytics serving 500+ users.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>AI Engineer</h4>
+                <h5>Smart Analytica, Pune</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2025</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Shipped clinical AI on AWS Bedrock, talent acquisition on Azure,
+              and a multimodal GCP document parser—all production-grade.
             </p>
           </div>
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Senior AI Engineer</h4>
+                <h5>Smart Analytica, Pune</h5>
               </div>
               <h3>NOW</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Leading a team of 8 engineers on enterprise GenAI platforms
+              spanning clinical research, autonomous BI, and recruitment.
             </p>
           </div>
         </div>

@@ -53,23 +53,90 @@ const Work = () => {
           My <span>Work</span>
         </h2>
         <div className="work-flex">
-          {[...Array(6)].map((_value, index) => (
-            <div className="work-box" key={index}>
-              <div className="work-info">
-                <div className="work-title">
-                  <h3>0{index + 1}</h3>
-
-                  <div>
-                    <h4>Project Name</h4>
-                    <p>Category</p>
-                  </div>
+          <div className="work-box">
+            <div className="work-info">
+              <div className="work-title">
+                <h3>01</h3>
+                <div>
+                  <h4>GenBI Platform</h4>
+                  <p>Generative BI</p>
                 </div>
-                <h4>Tools and features</h4>
-                <p>Javascript, TypeScript, React, Threejs</p>
               </div>
-              <WorkImage image="/images/placeholder.webp" alt="" />
+              <h4>Tools and features</h4>
+              <p>Microsoft Agent Framework, Azure AI Foundry, FastAPI, PostgreSQL</p>
             </div>
-          ))}
+            <WorkImage image="/images/placeholder.webp" alt="" />
+          </div>
+          <div className="work-box">
+            <div className="work-info">
+              <div className="work-title">
+                <h3>02</h3>
+                <div>
+                  <h4>AI Clinical Screening Agent</h4>
+                  <p>Clinical Automation</p>
+                </div>
+              </div>
+              <h4>Tools and features</h4>
+              <p>AWS Bedrock, Amazon Lex, Lambda, QuickSight, Calendly API</p>
+            </div>
+            <WorkImage image="/images/placeholder.webp" alt="" />
+          </div>
+          <div className="work-box">
+            <div className="work-info">
+              <div className="work-title">
+                <h3>03</h3>
+                <div>
+                  <h4>Gen AI Talent Acquisition</h4>
+                  <p>HR Automation</p>
+                </div>
+              </div>
+              <h4>Tools and features</h4>
+              <p>Semantic Kernel, Azure Container Apps, Azure Speech, FastAPI</p>
+            </div>
+            <WorkImage image="/images/placeholder.webp" alt="" />
+          </div>
+          <div className="work-box">
+            <div className="work-info">
+              <div className="work-title">
+                <h3>04</h3>
+                <div>
+                  <h4>AgenticDoc Parser</h4>
+                  <p>Document Intelligence</p>
+                </div>
+              </div>
+              <h4>Tools and features</h4>
+              <p>GCP, Llama Vision, Google ADK, Cloud Run</p>
+            </div>
+            <WorkImage image="/images/placeholder.webp" alt="" />
+          </div>
+          <div className="work-box">
+            <div className="work-info">
+              <div className="work-title">
+                <h3>05</h3>
+                <div>
+                  <h4>Financial Wellbeing AI Tool</h4>
+                  <p>FinTech AI</p>
+                </div>
+              </div>
+              <h4>Tools and features</h4>
+              <p>GPT-4, LangChain, Pinecone, Vertex AI, RAG</p>
+            </div>
+            <WorkImage image="/images/placeholder.webp" alt="" />
+          </div>
+          <div className="work-box">
+            <div className="work-info">
+              <div className="work-title">
+                <h3>06</h3>
+                <div>
+                  <h4>Beach Sand Mineral Classifier</h4>
+                  <p>Computer Vision</p>
+                </div>
+              </div>
+              <h4>Tools and features</h4>
+              <p>Deep Learning, OpenCV, Data Augmentation, Python</p>
+            </div>
+            <WorkImage image="/images/placeholder.webp" alt="" />
+          </div>
         </div>
       </div>
     </div>

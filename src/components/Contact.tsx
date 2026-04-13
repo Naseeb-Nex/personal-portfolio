@@ -10,21 +10,21 @@ const Contact = () => {
           <div className="contact-box">
             <h4>Email</h4>
             <p>
-              <a href="mailto:connect@muhammed.dev" data-cursor="disable">
-                connect@muhammed.dev
+              <a href="mailto:muhammednaseeb02@gmail.com" data-cursor="disable">
+                muhammednaseeb02@gmail.com
               </a>
             </p>
             <h4>Phone</h4>
             <p>
-              <a href="tel:+9199999999" data-cursor="disable">
-                +91 99999 99999
+              <a href="tel:+918137948323" data-cursor="disable">
+                +91 81379 48323
               </a>
             </p>
           </div>
           <div className="contact-box">
             <h4>Social</h4>
             <a
-              href="https://github.com"
+              href="https://github.com/Naseeb-Nex"
               target="_blank"
               data-cursor="disable"
               className="contact-social"
@@ -32,7 +32,7 @@ const Contact = () => {
               Github <MdArrowOutward />
             </a>
             <a
-              href="https://www.linkedin.com"
+              href="https://linkedin.com/in/naseeb-nex"
               target="_blank"
               data-cursor="disable"
               className="contact-social"
@@ -61,7 +61,7 @@ const Contact = () => {
               Designed and Developed <br /> by <span>Muhammed Naseeb</span>
             </h2>
             <h5>
-              <MdCopyright /> 2024
+              <MdCopyright /> 2025
             </h5>
           </div>
         </div>
