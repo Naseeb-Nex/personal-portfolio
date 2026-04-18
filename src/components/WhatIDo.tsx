@@ -91,8 +91,8 @@ const WhatIDo = () => {
               <h4>Description</h4>
               <p>
                 I engineer end-to-end AI systems—from multi-agent orchestration
-                and RAG pipelines to cloud deployments—turning complex LLM
-                architectures into reliable, production-ready products.
+                and RAG to cloud deployments—building reliable, production-ready
+                products.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
@@ -133,8 +133,8 @@ const WhatIDo = () => {
               <h4>Description</h4>
               <p>
                 I design scalable AI architectures across multi-cloud
-                environments—defining agent coordination patterns, RAG system
-                design, MLOps pipelines, and responsible AI guardrails.
+                environments—defining agent patterns, RAG systems, MLOps, and
+                responsible AI guardrails.
               </p>
               <h5>Skillset & tools</h5>
               <div className="what-content-flex">
