@@ -41,14 +41,15 @@ const Career = () => {
           <div className="career-info-box">
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Senior AI Engineer</h4>
+                <h4>AI Engineer</h4>
                 <h5>Smart Analytica, Pune</h5>
               </div>
               <h3>NOW</h3>
             </div>
             <p>
-              Leading a team of 8 engineers on enterprise GenAI platforms
-              spanning clinical research, autonomous BI, and recruitment.
+              Leading a team on enterprise GenAI platforms—architecting system
+              flows, driving implementation, and guiding the team to build a
+              production-grade Gen BI Platform.
             </p>
           </div>
         </div>
