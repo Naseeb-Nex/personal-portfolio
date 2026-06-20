@@ -19,8 +19,48 @@
 }
 
 .hero-heading-accent {
-  color: #FF5A00;
+  background: linear-gradient(
+    100deg,
+    #AA2C00 0%,
+    #E03D00 18%,
+    #FF5500 38%,
+    #FF6E22 55%,
+    #FF8840 72%,
+    #FFA060 88%,
+    #FFB878 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   display: inline-block;
+  text-shadow: none;
+  padding: 4px 0 8px 0;
+  margin-bottom: -8px;
+  position: relative;
+}
+
+.hero-heading-accent::after {
+  content: 'Intelligent';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  background: linear-gradient(
+    100deg,
+    #AA2C00 0%,
+    #E03D00 18%,
+    #FF5500 38%,
+    #FF6E22 55%,
+    #FF8840 72%,
+    #FFA060 88%,
+    #FFB878 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: blur(12px) brightness(1.8);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .hero-heading-nowrap {
