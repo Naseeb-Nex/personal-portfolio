@@ -1,0 +1,23 @@
+{
+  "name": "personal-portfolio",
+  "version": "1.0.0",
+  "description": "Welcome to the repository for my personal portfolio. This project is a minimal, single-page portfolio website designed to showcase my experience, projects, and skills as an AI Engineer.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Naseeb-Nex/personal-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Naseeb-Nex/personal-portfolio/issues"
+  },
+  "homepage": "https://github.com/Naseeb-Nex/personal-portfolio#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.9.1"
+  }
+}
