@@ -1,6 +1,7 @@
 import './index.css';
 import heroImg from './assets/images/hero.png';
 import HeroContent from './components/HeroContent';
+import OrbitalRing from './components/OrbitalRing';
 
 function App() {
   return (
@@ -35,10 +36,11 @@ function App() {
         <div className="line"></div>
       </div>
 
-
-      
       {/* HERO IMAGE */}
       <img src={heroImg} alt="Muhammed Naseeb" className="hero-image" />
+
+      {/* ORBITAL RING */}
+      <OrbitalRing />
 
       {/* FOREGROUND CONTENT LAYER */}
       <div className="fg-layer">
