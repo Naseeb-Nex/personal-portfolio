@@ -2,15 +2,15 @@ import { useEffect, useState, useRef } from 'react';
 import './OrbitalRing.css';
 
 import pythonIcon from '../assets/icons/python.svg';
-import claudeIcon from '../assets/icons/claude.svg';
+import claudeIcon from '../assets/icons/claude-ai-icon.svg';
 import dockerIcon from '../assets/icons/docker.svg';
-import langchainIcon from '../assets/icons/langchain.svg';
+import langchainIcon from '../assets/icons/langchain-logo.svg';
 import fastapiIcon from '../assets/icons/fastapi.svg';
-import githubIcon from '../assets/icons/github.svg';
-import geminiIcon from '../assets/icons/googlegemini.svg';
-import huggingfaceIcon from '../assets/icons/huggingface.svg';
+import githubIcon from '../assets/icons/github_dark.svg';
+import geminiIcon from '../assets/icons/gemini.svg';
+import huggingfaceIcon from '../assets/icons/hugging_face.svg';
 import langgraphIcon from '../assets/icons/langgraph.svg';
-import claudecodeIcon from '../assets/icons/claudecode.svg';
+import claudecodeIcon from '../assets/icons/claude-code-color.svg';
 
 const technologies = [
   { name: 'Python', icon: pythonIcon },
