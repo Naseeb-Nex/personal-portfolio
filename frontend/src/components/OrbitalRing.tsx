@@ -76,7 +76,6 @@ export default function OrbitalRing() {
   // rotateX(55°) + rotateZ(-28°) → ellipse Ry = R * cos(tiltX), then
   // the whole ellipse is rotated by tiltZ in screen space
   const tiltXRad = TILT_X_DEG * (Math.PI / 180);
-  const tiltZRad = TILT_Z_DEG * (Math.PI / 180);
   const ellipseRx = R;
   const ellipseRy = R * Math.cos(tiltXRad); // compressed vertical axis from rotateX
 

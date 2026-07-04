@@ -2,6 +2,7 @@ import './index.css';
 import heroImg from './assets/images/hero.png';
 import HeroContent from './components/HeroContent';
 import OrbitalRing from './components/OrbitalRing';
+import LiquidEther from './components/LiquidEther';
 
 function App() {
   return (
@@ -34,6 +35,27 @@ function App() {
         <div className="line"></div>
         <div className="line"></div>
         <div className="line"></div>
+      </div>
+
+      {/* LIQUID ETHER BACKGROUND */}
+      <div className="liquid-ether-bg">
+        <LiquidEther
+          colors={['#FF5A00', '#E65100', '#5A1A00']}
+          mouseForce={20}
+          cursorSize={100}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={3000}
+          autoRampDuration={0.6}
+        />
       </div>
 
       {/* HERO IMAGE */}
