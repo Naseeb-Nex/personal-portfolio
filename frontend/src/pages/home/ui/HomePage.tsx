@@ -13,11 +13,31 @@ export const HomePage = () => {
       <Navbar />
 
       <div className="grid-lines">
+        <div className="line">
+          <div className="column-phase">
+            <span className="phase-num">01</span>
+            <span className="phase-name">Discover</span>
+          </div>
+        </div>
+        <div className="line">
+          <div className="column-phase">
+            <span className="phase-num">02</span>
+            <span className="phase-name">Prototype</span>
+          </div>
+        </div>
         <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
-        <div className="line"></div>
+        <div className="line">
+          <div className="column-phase">
+            <span className="phase-num">03</span>
+            <span className="phase-name">Launch</span>
+          </div>
+        </div>
+        <div className="line">
+          <div className="column-phase">
+            <span className="phase-num">04</span>
+            <span className="phase-name">Improve</span>
+          </div>
+        </div>
       </div>
 
       <div className="liquid-ether-bg">

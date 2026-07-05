@@ -1,5 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&display=swap');
 
+@font-face {
+  font-family: 'Stack Sans Notch';
+  src: url('../../assets/fonts/StackSansNotch-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Stack Sans Notch';
+  src: url('../../assets/fonts/StackSansNotch-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Stack Sans Notch';
+  src: url('../../assets/fonts/StackSansNotch-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Stack Sans Notch';
+  src: url('../../assets/fonts/StackSansNotch-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Stack Sans Notch';
+  src: url('../../assets/fonts/StackSansNotch-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Stack Sans Notch';
+  src: url('../../assets/fonts/StackSansNotch-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 :root {
   --primary-orange: #FF5A00;
   --bg-dark: #0a0200;
@@ -108,14 +145,44 @@ body {
   justify-content: space-between;
   padding: 0 15%;
   pointer-events: none;
-  z-index: 1;
-  opacity: 0.15;
+  z-index: 6;
 }
 
 .line {
   width: 1px;
   height: 100%;
-  background: linear-gradient(to bottom, transparent, #fff, transparent);
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.15), transparent);
+  position: relative;
+}
+
+.column-phase {
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.45;
+}
+
+.phase-num {
+  font-family: 'Stack Sans Notch', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--primary-orange);
+  letter-spacing: 0.1em;
+  margin-bottom: 2px;
+}
+
+.phase-name {
+  font-family: 'Stack Sans Notch', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: #FFFFFF;
 }
 
 /* Background Text Layer */
