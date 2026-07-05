@@ -22,7 +22,7 @@ export const HomePage = () => {
 
       <div className="liquid-ether-bg">
         <LiquidEther
-          colors={[config.accentColor, '#E65100', '#5A1A00']}
+          colors={['#FFFFFF', '#FFD700', config.accentColor, '#5A1A00']}
           mouseForce={20}
           cursorSize={100}
           isViscous={false}

@@ -8,11 +8,11 @@
 }
 
 .hero-heading {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Stack Sans Notch', sans-serif;
   font-size: clamp(64px, 8vw, 100px);
   font-weight: 900;
-  line-height: 1.0;
-  letter-spacing: -3px;
+  line-height: 0.85;
+  letter-spacing: -6px;
   color: #ffffff;
   margin: 0;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
@@ -21,13 +21,11 @@
 .hero-heading-accent {
   background: linear-gradient(
     100deg,
-    #AA2C00 0%,
-    #E03D00 18%,
-    #FF5500 38%,
-    #FF6E22 55%,
-    #FF8840 72%,
-    #FFA060 88%,
-    #FFB878 100%
+    #FFFFFF 0%,
+    #FFD700 25%,
+    #FF8800 50%,
+    #FF5A00 75%,
+    #CC2200 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -46,13 +44,11 @@
   top: 4px;
   background: linear-gradient(
     100deg,
-    #AA2C00 0%,
-    #E03D00 18%,
-    #FF5500 38%,
-    #FF6E22 55%,
-    #FF8840 72%,
-    #FFA060 88%,
-    #FFB878 100%
+    #FFFFFF 0%,
+    #FFD700 25%,
+    #FF8800 50%,
+    #FF5A00 75%,
+    #CC2200 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
