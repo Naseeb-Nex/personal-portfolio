@@ -1,3 +1,4 @@
+import { ChatWidget } from '../../chat/ui';
 import './HeroContent.css';
 
 const HeroContent = () => {
@@ -9,6 +10,7 @@ const HeroContent = () => {
         Future.
       </h1>
 
+      <ChatWidget />
     </div>
   );
 };

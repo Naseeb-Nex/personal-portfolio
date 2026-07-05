@@ -159,6 +159,12 @@ body {
   align-self: center;
 }
 
+@property --active {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
 .sparkle-button {
   --active: 0;
   --transition: 0.35s;
@@ -185,7 +191,7 @@ body {
   font-weight: 600;
   text-transform: lowercase;
   letter-spacing: 0.5px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
   padding: 10px 22px;
   display: inline-flex;
@@ -195,27 +201,27 @@ body {
   white-space: nowrap;
   border-radius: 6px;
   position: relative;
-  transition: box-shadow var(--transition), scale var(--transition), background var(--transition), border-color var(--transition);
+  transition: --active var(--transition), box-shadow var(--transition), scale var(--transition), background var(--transition), border-color var(--transition);
   scale: calc(1 + (var(--active) * 0.05));
   animation: ambientGlow 4s ease-in-out infinite;
-  box-shadow: 0 0 calc(var(--active) * 20px) calc(var(--active) * 5px) rgba(255, 90, 0, 0.3),
-              0 -1px 0 0 rgba(255, 255, 255, 0.1) inset;
+  box-shadow: 0 0 calc((var(--active) * 15px) + 8px) calc((var(--active) * 2px) + 1px) rgba(255, 90, 0, 0.35),
+              0 -1px 0 0 rgba(255, 255, 255, 0.15) inset;
 }
 
 @keyframes ambientGlow {
   0%, 100% {
-    box-shadow: 0 0 12px rgba(255, 90, 0, 0.08),
-                0 0 1px rgba(255, 255, 255, 0.05) inset;
+    box-shadow: 0 0 calc((var(--active) * 15px) + 8px) calc((var(--active) * 2px) + 1px) rgba(255, 90, 0, 0.35),
+                0 -1px 0 0 rgba(255, 255, 255, 0.15) inset;
   }
   50% {
-    box-shadow: 0 0 20px rgba(255, 90, 0, 0.2),
-                0 0 2px rgba(255, 255, 255, 0.15) inset;
+    box-shadow: 0 0 calc((var(--active) * 15px) + 16px) calc((var(--active) * 2px) + 2px) rgba(255, 90, 0, 0.5),
+                0 -1px 0 0 rgba(255, 255, 255, 0.2) inset;
   }
 }
 
 .sparkle-button:is(:hover, :focus-visible) {
   --active: 1;
-  border-color: rgba(255, 90, 0, 0.4);
+  border-color: rgba(255, 90, 0, 0.7);
 }
 
 .sparkle-button:active {
@@ -224,6 +230,8 @@ body {
 }
 
 .sparkle {
+  position: relative;
+  z-index: 2;
   width: 14px;
   height: 14px;
   color: hsl(var(--hue) 100% calc((var(--active, 0) * 40%) + 60%));
@@ -253,14 +261,6 @@ body {
   border-radius: 6px;
   rotate: 0deg;
   overflow: hidden;
-  mask: linear-gradient(white, transparent 50%);
-  animation: flip calc(var(--spark) * 2) infinite steps(2, end);
-}
-
-@keyframes flip {
-  to {
-    rotate: 360deg;
-  }
 }
 
 .spark:before {
@@ -273,11 +273,14 @@ body {
   z-index: -1;
   translate: -50% -15%;
   rotate: 0;
-  opacity: calc((var(--active) * 0.6) + 0.25);
+  opacity: calc((var(--active) * 0.4) + 0.6);
   background: conic-gradient(
     from 0deg,
-    transparent 0 320deg,
-    var(--accent-color, #FF5A00) 360deg
+    transparent 0deg,
+    transparent 180deg,
+    #FF3B00 240deg,
+    #FF5A00 300deg,
+    #FFC107 360deg
   );
   transition: opacity var(--transition);
   animation: rotate var(--spark) linear infinite both;
@@ -303,7 +306,7 @@ body {
 
 @keyframes rotate {
   to {
-    transform: rotate(90deg);
+    transform: rotate(360deg);
   }
 }
 
@@ -354,6 +357,8 @@ body {
 }
 
 .text {
+  position: relative;
+  z-index: 2;
   background: linear-gradient(
     90deg, 
     #ffffff, 
