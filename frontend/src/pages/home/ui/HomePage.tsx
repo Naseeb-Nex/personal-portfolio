@@ -1,0 +1,64 @@
+import { Navbar } from '../../../widgets/navbar';
+import { HeroContent } from '../../../widgets/hero';
+import { OrbitalRing } from '../../../shared/ui/OrbitalRing';
+import { LiquidEther } from '../../../shared/ui/LiquidEther';
+import heroImg from '../../../assets/images/hero.png';
+import { useTheme } from '../../../shared/config/theme';
+
+export const HomePage = () => {
+  const { config } = useTheme();
+
+  return (
+    <div className="app-container">
+      <Navbar />
+
+      <div className="grid-lines">
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+        <div className="line"></div>
+      </div>
+
+      <div className="liquid-ether-bg">
+        <LiquidEther
+          colors={[config.accentColor, '#E65100', '#5A1A00']}
+          mouseForce={20}
+          cursorSize={100}
+          isViscous={false}
+          viscous={30}
+          iterationsViscous={32}
+          iterationsPoisson={32}
+          resolution={0.5}
+          isBounce={false}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.2}
+          takeoverDuration={0.25}
+          autoResumeDelay={3000}
+          autoRampDuration={0.6}
+        />
+      </div>
+
+      <div className="hero-image-container">
+        <img src={heroImg} alt="Muhammed Naseeb" className="hero-image" />
+        <div 
+          className="hero-image-overlay"
+          style={{ 
+            WebkitMaskImage: `url(${heroImg})`, 
+            maskImage: `url(${heroImg})` 
+          }}
+        />
+      </div>
+
+      <OrbitalRing />
+
+      <div className="fg-layer">
+        <div className="fg-left">
+          <HeroContent />
+        </div>
+        <div className="fg-right"></div>
+      </div>
+    </div>
+  );
+};
