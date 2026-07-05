@@ -4,6 +4,7 @@ import { OrbitalRing } from '../../../shared/ui/OrbitalRing';
 import { LiquidEther } from '../../../shared/ui/LiquidEther';
 import heroImg from '../../../assets/images/hero.png';
 import { useTheme } from '../../../shared/config/theme';
+import { RoleScroller } from '../../../shared/ui/RoleScroller/RoleScroller';
 
 export const HomePage = () => {
   const { config } = useTheme();
@@ -69,6 +70,7 @@ export const HomePage = () => {
             maskImage: `url(${heroImg})` 
           }}
         />
+        <RoleScroller />
       </div>
 
       <OrbitalRing />
