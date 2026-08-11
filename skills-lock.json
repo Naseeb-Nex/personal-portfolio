@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "fastapi-clean-architecture": {
+      "source": "smithery.ai",
+      "sourceType": "well-known",
+      "computedHash": "7254d8ffb12e7fac2a082039dd80816d4921989cbc7ccb939b749f6134584fe2"
+    }
+  }
+}
