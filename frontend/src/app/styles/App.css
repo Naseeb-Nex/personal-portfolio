@@ -1,0 +1,29 @@
+/* Base Setup */
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  perspective: 1000px;
+}
+
+
+
+/* Image Wrapper and Reticles */
+
+
+
+
+/* Main Content area for HUD */
+.hero-content {
+  flex: 1;
+  display: flex;
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  height: 100%;
+}
