@@ -13,5 +13,7 @@ langchain>=0.1.10
 langchain-google-genai>=0.0.10
 chromadb>=0.4.24
 langchain-chroma>=0.1.0
+langgraph-checkpoint-postgres
+psycopg[binary]
 
 

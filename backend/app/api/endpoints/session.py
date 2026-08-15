@@ -20,7 +20,8 @@ class SessionResponse(BaseModel):
 async def init_session(request: Request, db: Annotated[asyncpg.Pool, Depends(get_db)]):
     repo = SessionRepository(db)
     session_id = str(uuid.uuid4())
-    now = datetime.now(timezone.utc)
+    now_utc = datetime.now(timezone.utc)
+    now_naive = now_utc.replace(tzinfo=None)
     
     ip_address = request.client.host if request.client else "unknown"
     user_agent = request.headers.get("user-agent", "unknown")
@@ -29,15 +30,15 @@ async def init_session(request: Request, db: Annotated[asyncpg.Pool, Depends(get
         id=session_id,
         ip_address=ip_address,
         user_agent=user_agent,
-        created_at=now,
-        last_active_at=now,
+        created_at=now_naive,
+        last_active_at=now_naive,
         is_active=True
     )
     
     await repo.create(new_session)
     
     token = jwt.encode(
-        {"sub": session_id, "exp": int(now.timestamp()) + 3600},
+        {"sub": session_id, "exp": int(now_utc.timestamp()) + 3600},
         settings.SECRET_KEY,
         algorithm="HS256"
     )

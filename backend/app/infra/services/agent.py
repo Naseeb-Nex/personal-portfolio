@@ -27,11 +27,20 @@ class PortfolioAgent:
         workflow.set_entry_point("agent")
         workflow.add_edge("agent", END)
         
-        return workflow.compile()
+        return workflow
         
-    async def run(self, message: str):
-        inputs = {"messages": [HumanMessage(content=message)]}
-        async for output in self.graph.astream(inputs):
-            pass
-        # Return final messages
-        return output["agent"]["messages"]
+    async def run(self, message: str, session_id: str, db_url: str):
+        from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+        workflow = self._build_graph()
+        
+        async with AsyncPostgresSaver.from_conn_string(db_url) as checkpointer:
+            # Note: assuming schema already exists via checkpoint_migrations table
+            graph = workflow.compile(checkpointer=checkpointer)
+            
+            inputs = {"messages": [HumanMessage(content=message)]}
+            config = {"configurable": {"thread_id": session_id}}
+            async for output in graph.astream(inputs, config=config):
+                pass
+            
+            # Return final messages
+            return output["agent"]["messages"]
