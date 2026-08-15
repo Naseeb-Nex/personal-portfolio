@@ -1,1 +1,3 @@
 .agents/
+.env
+__pycache__
