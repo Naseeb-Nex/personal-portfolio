@@ -1,5 +1,5 @@
-import { ThemeProvider } from './providers';
-import { HomePage } from '../pages/home';
+import { ThemeProvider } from './shared/infrastructure/theme';
+import { HomePage } from './pages/home';
 import './styles/global.css';
 import './styles/App.css';
 

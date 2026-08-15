@@ -1,7 +1,7 @@
-import { ChatWidget } from '../../chat/ui';
+import { ChatWidget } from '../../../../chat/infrastructure/components/ChatWidget';
 import './HeroContent.css';
 
-const HeroContent = () => {
+export const HeroContent = () => {
   return (
     <div className="hero-content">
       <h1 className="hero-heading">
@@ -14,5 +14,3 @@ const HeroContent = () => {
     </div>
   );
 };
-
-export default HeroContent;

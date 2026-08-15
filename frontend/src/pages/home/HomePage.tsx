@@ -1,10 +1,10 @@
-import { Navbar } from '../../../widgets/navbar';
-import { HeroContent } from '../../../widgets/hero';
-import { OrbitalRing } from '../../../shared/ui/OrbitalRing';
-import { LiquidEther } from '../../../shared/ui/LiquidEther';
-import heroImg from '../../../assets/images/hero.png';
-import { useTheme } from '../../../shared/config/theme';
-import { RoleScroller } from '../../../shared/ui/RoleScroller/RoleScroller';
+import { Navbar } from '../../features/navbar/infrastructure/components/Navbar';
+import { HeroContent } from '../../features/hero/infrastructure/components/HeroContent';
+import { OrbitalRing } from '../../shared/infrastructure/components/OrbitalRing';
+import { LiquidEther } from '../../shared/infrastructure/components/LiquidEther';
+import heroImg from '../../assets/images/hero.png';
+import { useTheme } from '../../shared/infrastructure/theme';
+import { RoleScroller } from '../../shared/infrastructure/components/RoleScroller/RoleScroller';
 
 export const HomePage = () => {
   const { config } = useTheme();
