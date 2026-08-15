@@ -1,0 +1,150 @@
+{
+  "checkpoint_migrations": [
+    {
+      "column_name": "v",
+      "data_type": "integer"
+    }
+  ],
+  "abuse_events": [
+    {
+      "column_name": "id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "details",
+      "data_type": "jsonb"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp without time zone"
+    },
+    {
+      "column_name": "ip_address",
+      "data_type": "character varying"
+    },
+    {
+      "column_name": "event_type",
+      "data_type": "character varying"
+    }
+  ],
+  "sessions": [
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp without time zone"
+    },
+    {
+      "column_name": "last_active_at",
+      "data_type": "timestamp without time zone"
+    },
+    {
+      "column_name": "is_active",
+      "data_type": "boolean"
+    },
+    {
+      "column_name": "id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "ip_address",
+      "data_type": "character varying"
+    },
+    {
+      "column_name": "user_agent",
+      "data_type": "text"
+    }
+  ],
+  "checkpoints": [
+    {
+      "column_name": "checkpoint",
+      "data_type": "jsonb"
+    },
+    {
+      "column_name": "metadata",
+      "data_type": "jsonb"
+    },
+    {
+      "column_name": "checkpoint_id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "thread_id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "type",
+      "data_type": "text"
+    },
+    {
+      "column_name": "parent_checkpoint_id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "checkpoint_ns",
+      "data_type": "text"
+    }
+  ],
+  "checkpoint_writes": [
+    {
+      "column_name": "blob",
+      "data_type": "bytea"
+    },
+    {
+      "column_name": "idx",
+      "data_type": "integer"
+    },
+    {
+      "column_name": "checkpoint_id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "task_id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "channel",
+      "data_type": "text"
+    },
+    {
+      "column_name": "type",
+      "data_type": "text"
+    },
+    {
+      "column_name": "thread_id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "task_path",
+      "data_type": "text"
+    },
+    {
+      "column_name": "checkpoint_ns",
+      "data_type": "text"
+    }
+  ],
+  "checkpoint_blobs": [
+    {
+      "column_name": "blob",
+      "data_type": "bytea"
+    },
+    {
+      "column_name": "thread_id",
+      "data_type": "text"
+    },
+    {
+      "column_name": "checkpoint_ns",
+      "data_type": "text"
+    },
+    {
+      "column_name": "channel",
+      "data_type": "text"
+    },
+    {
+      "column_name": "version",
+      "data_type": "text"
+    },
+    {
+      "column_name": "type",
+      "data_type": "text"
+    }
+  ]
+}

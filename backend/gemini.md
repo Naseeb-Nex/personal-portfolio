@@ -149,3 +149,9 @@ Implement three levels of testing:
 1. **Domain Unit Tests**: Test entity rules and pure business methods without mocking databases.
 2. **Service / Repository Tests**: Test database integrations with mocked databases or in-memory sqlite engine.
 3. **API Integration Tests**: Use `httpx.AsyncClient` to perform test requests and assert HTTP statuses and responses.
+
+---
+
+## 6. Database Schema
+
+Information about the database schema from the MCP server is stored locally in `app/infra/database/schema.json`.
