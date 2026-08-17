@@ -69,11 +69,11 @@ export const Contact = () => {
             &copy; {new Date().getFullYear()} Muhammed Naseeb. All rights reserved.
           </div>
           <div className="contact-socials">
-            <a href="https://instagram.com" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="https://x.com" target="_blank" rel="noreferrer">X</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="https://leetcode.com" target="_blank" rel="noreferrer">LeetCode</a>
+            <a href="https://www.instagram.com/aiwithnex/" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://www.linkedin.com/in/naseeb-nex/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://x.com/Naz__eeb" target="_blank" rel="noreferrer">X</a>
+            <a href="https://github.com/Naseeb-Nex" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://leetcode.com/u/NaseebNex/" target="_blank" rel="noreferrer">LeetCode</a>
           </div>
         </div>
       </div>
