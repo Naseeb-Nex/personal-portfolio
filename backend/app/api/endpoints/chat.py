@@ -17,25 +17,20 @@ class ChatRequest(BaseModel):
     message: str
 
 async def generate_chat_events(message: str, agent: PortfolioAgent, session_id: str, db_url: str):
-    # This is a mock streaming generator for SSE
-    # In a real app we would stream directly from the LangGraph astream_events
+    # Run LangGraph Agent
     result = await agent.run(message, session_id, db_url)
-    # Simulate processing delay
-    await asyncio.sleep(0.1)
     
     # We yield a thinking state
     yield f"data: {json.dumps({'type': 'thinking', 'content': '...'})}\n\n"
     
-    # Simulate UI Component generation
-    ui_component = {
-        "type": "ui",
-        "component": "ProjectCard",
-        "data": {"title": "Portfolio Backend", "tech": "FastAPI"}
-    }
-    yield f"data: {json.dumps(ui_component)}\n\n"
+    # Stream UI Component if present
+    ui_component = result.get("ui_component")
+    if ui_component:
+        yield f"data: {json.dumps(ui_component)}\n\n"
     
     # Yield final text answer
-    final_text = result[-1].content if result else "No answer"
+    messages = result.get("messages", [])
+    final_text = messages[-1].content if messages else "No answer"
     yield f"data: {json.dumps({'type': 'text', 'content': final_text})}\n\n"
     yield "data: [DONE]\n\n"
 
@@ -45,7 +40,6 @@ async def chat_stream(
     session_id: Annotated[str, Depends(get_current_session_id)],
     db: Annotated[asyncpg.Pool, Depends(get_db)]
 ):
-    # Dependencies usually injected better, this is simplified
     llm = GeminiLLMProvider()
     repo = ChromaDBAdapter()
     agent = PortfolioAgent(llm, repo)

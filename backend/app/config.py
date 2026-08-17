@@ -10,6 +10,12 @@ class Settings(BaseSettings):
     
     # External APIs
     GEMINI_API_KEY: str | None = None
+    GEMINI_MODELS: list[str] = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]
+    
+    # Store API keys in .env as a JSON list or comma separated. 
+    # For simplicity, we can accept a string and split it, or use pydantic's list parsing.
+    GEMINI_FALLBACK_API_KEYS: list[str] = []
+    
     DATABASE_URL: str | None = None
     REDIS_URL: str | None = None
     
