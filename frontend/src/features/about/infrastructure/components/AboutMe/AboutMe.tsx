@@ -7,8 +7,8 @@ export const AboutMe = () => {
         
         <div className="about-me-grid">
           
-          {/* LEFT SIDE */}
-          <div className="about-left">
+          {/* HEADER (Top Left on Desktop) */}
+          <div className="about-header">
             <div className="about-tag">
               <span className="dot"></span>
               ABOUT ME
@@ -18,7 +18,10 @@ export const AboutMe = () => {
               ORCHESTRATING<br />
               REAL <span className="gradient-text">INTELLIGENCE.</span>
             </h2>
-            
+          </div>
+
+          {/* LEFT SIDE */}
+          <div className="about-left">
             <div className="photo-wrapper">
               {/* Placeholder for the photo */}
               <div className="photo-placeholder"></div>
