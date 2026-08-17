@@ -120,7 +120,12 @@
   right: -40px;
   width: 160px;
   height: 160px;
-  background-color: #F4F4F5;
+  background: linear-gradient(
+    100deg,
+    #FF8800 0%,
+    #FF5A00 50%,
+    #CC2200 100%
+  );
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -147,7 +152,7 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background-color: #040100;
+  background-color: #FFFFFF;
   border-radius: 50%;
   top: 50%;
   left: 50%;
