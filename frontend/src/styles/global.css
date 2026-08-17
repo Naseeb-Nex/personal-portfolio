@@ -464,20 +464,8 @@ body {
 .hero-image {
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 30px var(--accent-color));
-}
-
-.hero-image-overlay {
-  position: absolute;
-  inset: 0;
-  background-color: var(--accent-color);
-  mix-blend-mode: color; /* colors the image while preserving luminosity */
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: bottom center;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: bottom center;
+  position: relative;
+  z-index: 10;
 }
 
 /* Foreground Layer */
@@ -732,10 +720,6 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 40px;
-  }
-
-  .hero-image {
-    opacity: 0.6;
   }
 }
 

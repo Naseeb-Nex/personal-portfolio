@@ -63,17 +63,9 @@ export const HomePage = () => {
 
       <div className="hero-image-container">
         <img src={heroImg} alt="Muhammed Naseeb" className="hero-image" />
-        <div 
-          className="hero-image-overlay"
-          style={{ 
-            WebkitMaskImage: `url(${heroImg})`, 
-            maskImage: `url(${heroImg})` 
-          }}
-        />
+        <OrbitalRing />
         <RoleScroller />
       </div>
-
-      <OrbitalRing />
 
       <div className="fg-layer">
         <div className="fg-left">
