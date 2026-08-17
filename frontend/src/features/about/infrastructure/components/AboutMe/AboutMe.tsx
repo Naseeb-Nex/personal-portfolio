@@ -1,8 +1,26 @@
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import aboutImage from '../../../../../assets/images/about.png';
 import './AboutMe.css';
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 export const AboutMe = () => {
+  const containerRef = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    ScrollTrigger.create({
+      trigger: containerRef.current,
+      start: "bottom bottom",
+      pin: true,
+      pinSpacing: false,
+    });
+  }, { scope: containerRef });
+
   return (
-    <section className="about-me-section">
+    <section className="about-me-section" ref={containerRef}>
       <div className="about-me-container">
         
         <div className="about-me-grid">
@@ -23,18 +41,25 @@ export const AboutMe = () => {
           {/* LEFT SIDE */}
           <div className="about-left">
             <div className="photo-wrapper">
-              {/* Placeholder for the photo */}
-              <div className="photo-placeholder"></div>
+              {/* Photo */}
+              <img src={aboutImage} alt="About Me" className="photo-image" />
               
               {/* Circular Badge Sticker */}
               <div className="circular-badge">
                 <svg viewBox="0 0 100 100" width="100%" height="100%" className="spinning-text">
+                  <defs>
+                    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#FF8800" />
+                      <stop offset="50%" stopColor="#FF5A00" />
+                      <stop offset="100%" stopColor="#CC2200" />
+                    </linearGradient>
+                  </defs>
                   <path 
                     id="circlePath" 
                     d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" 
                     fill="transparent" 
                   />
-                  <text fontSize="9.5" fontWeight="700" letterSpacing="0.1em" fill="#FFFFFF">
+                  <text fontSize="9.5" fontWeight="700" letterSpacing="0.1em" fill="url(#textGradient)">
                     <textPath href="#circlePath" startOffset="0%">
                       CURRENTLY RESEARCHING • DEEP IN LATENT SPACE •&nbsp;
                     </textPath>

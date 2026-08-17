@@ -8,6 +8,7 @@ import { RoleScroller } from '../../shared/infrastructure/components/RoleScrolle
 import { Manifesto } from '../../features/manifesto/infrastructure/components/Manifesto';
 import { PixelTransition } from '../../shared/infrastructure/components/PixelTransition/PixelTransition';
 import { AboutMe } from '../../features/about/infrastructure/components/AboutMe/AboutMe';
+import { Career } from '../../features/career/infrastructure/components/Career';
 export const HomePage = () => {
   const { config } = useTheme();
 
@@ -81,6 +82,7 @@ export const HomePage = () => {
       <PixelTransition>
         <AboutMe />
       </PixelTransition>
+      <Career />
     </div>
   );
 };

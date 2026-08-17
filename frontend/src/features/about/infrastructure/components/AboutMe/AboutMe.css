@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  z-index: 10;
+  z-index: 5;
 }
 
 .about-me-section::before {
@@ -38,9 +38,9 @@
 @media (min-width: 992px) {
   .about-me-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 0.8fr 1.2fr;
     grid-template-rows: auto 1fr;
-    column-gap: 120px;
+    column-gap: 60px;
     align-items: center;
   }
   
@@ -52,6 +52,7 @@
   .about-left {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
+    align-items: flex-end; /* Move image closer to center */
   }
   
   .about-right {
@@ -121,26 +122,21 @@
   aspect-ratio: 3/4;
 }
 
-.photo-placeholder {
+.photo-image {
   width: 100%;
   height: 100%;
-  background-color: #e4e4e7;
+  object-fit: cover;
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .circular-badge {
   position: absolute;
-  bottom: -40px;
-  right: -40px;
-  width: 160px;
-  height: 160px;
-  background: linear-gradient(
-    100deg,
-    #FF8800 0%,
-    #FF5A00 50%,
-    #CC2200 100%
-  );
+  bottom: -30px;
+  right: -30px;
+  width: 130px;
+  height: 130px;
+  background: #FFFFFF;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -167,7 +163,12 @@
   position: absolute;
   width: 8px;
   height: 8px;
-  background-color: #FFFFFF;
+  background: linear-gradient(
+    100deg,
+    #FF8800 0%,
+    #FF5A00 50%,
+    #CC2200 100%
+  );
   border-radius: 50%;
   top: 50%;
   left: 50%;
