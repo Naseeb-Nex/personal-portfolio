@@ -6,7 +6,8 @@ import heroImg from '../../assets/images/hero.png';
 import { useTheme } from '../../shared/infrastructure/theme';
 import { RoleScroller } from '../../shared/infrastructure/components/RoleScroller/RoleScroller';
 import { Manifesto } from '../../features/manifesto/infrastructure/components/Manifesto';
-
+import { PixelTransition } from '../../shared/infrastructure/components/PixelTransition/PixelTransition';
+import { AboutMe } from '../../features/about/infrastructure/components/AboutMe/AboutMe';
 export const HomePage = () => {
   const { config } = useTheme();
 
@@ -77,6 +78,9 @@ export const HomePage = () => {
       </div>
       </div>
       <Manifesto />
+      <PixelTransition>
+        <AboutMe />
+      </PixelTransition>
     </div>
   );
 };

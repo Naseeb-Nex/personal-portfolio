@@ -1,0 +1,127 @@
+.about-me-section {
+  min-height: 100vh;
+  padding: 40px 20px 120px 20px;
+  background-color: #F4F4F5;
+  color: #0d0d0d;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+.about-me-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.about-me-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  margin-bottom: 60px;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #0d0d0d;
+}
+
+.about-me-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 60px;
+}
+
+@media (min-width: 992px) {
+  .about-me-grid {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 80px;
+  }
+}
+
+.about-me-text p {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.5;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+.about-me-text .secondary-text {
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  color: #52525b;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.skills-tags span {
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 100px;
+  font-size: 0.875rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #18181b;
+  transition: all 0.3s ease;
+}
+
+.skills-tags span:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+
+.about-me-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visual-card {
+  width: 100%;
+  aspect-ratio: 4/5;
+  background-color: #f4f4f5;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.noise-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.glow-orb {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(40px);
+}
+
+.visual-card h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.3);
+  text-align: center;
+  letter-spacing: 0.2em;
+  line-height: 1.2;
+  position: relative;
+  z-index: 2;
+}
