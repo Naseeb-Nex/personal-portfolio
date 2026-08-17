@@ -491,7 +491,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 80px 60px 40px;
-  z-index: 15;
+  z-index: 30;
   pointer-events: none;
 }
 

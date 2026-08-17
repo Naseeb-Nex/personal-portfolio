@@ -22,13 +22,30 @@ export const useChat = () => {
           content: 'Hello! I am your AI assistant. How can I help you build the intelligent future today?'
         }]);
       })
-      .catch(console.error);
+      .catch(error => {
+        console.error('Session init failed:', error);
+        setMessages([{
+          id: 'init',
+          role: 'agent',
+          type: 'text',
+          content: 'Hello! I am your AI assistant. How can I help you build the intelligent future today?'
+        }]);
+      });
   }, []);
 
   const sendMessage = useCallback(async (content: string) => {
-    if (!session) return;
-    
     const userMsg: ChatMessage = { id: Date.now().toString(), role: 'user', type: 'text', content };
+    
+    if (!session) {
+      setMessages(prev => [...prev, userMsg, {
+        id: (Date.now() + 1).toString(),
+        role: 'agent',
+        type: 'text',
+        content: 'There is some issue I am facing to figure out my brain...'
+      }]);
+      return;
+    }
+
     setMessages(prev => [...prev, userMsg]);
     setIsTyping(true);
     setCurrentThinking(null);
@@ -43,19 +60,28 @@ export const useChat = () => {
         if (chunk.type === 'thinking') {
           setCurrentThinking(chunk.content);
         } else if (chunk.type === 'text') {
+          let textContent = '';
+          if (typeof chunk.content === 'string') {
+            textContent = chunk.content;
+          } else if (Array.isArray(chunk.content)) {
+            textContent = chunk.content.map((c: any) => c.text || '').join('');
+          }
+          
           setMessages(prev => prev.map(m => {
             if (m.id === currentBotMsgId) {
-              return { ...m, content: (m.content || '') + chunk.content, type: 'text' };
+              return { ...m, content: (m.content || '') + textContent, type: m.type === 'ui' ? 'ui' : 'text' };
             }
             return m;
           }));
-        } else if (chunk.type === 'ui') {
-          setMessages(prev => prev.map(m => {
-            if (m.id === currentBotMsgId) {
-              return { ...m, type: 'ui', componentData: chunk };
-            }
-            return m;
-          }));
+        } else if (chunk.type) {
+          setMessages(prev => {
+            return prev.map(m => {
+              if (m.id === currentBotMsgId) {
+                return { ...m, type: 'ui', componentData: chunk };
+              }
+              return m;
+            });
+          });
         }
       },
       () => {
@@ -70,7 +96,7 @@ export const useChat = () => {
           const newArr = [...prev];
           const last = newArr[newArr.length - 1];
           if (last && last.id === currentBotMsgId && !last.content) {
-            last.content = 'Sorry, an error occurred.';
+            last.content = 'There is some issue I am facing to figure out my brain...';
           }
           return newArr;
         });

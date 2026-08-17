@@ -7,9 +7,7 @@ export const chatApiRepository: ChatRepository = {
   async initSession(): Promise<ChatSession> {
     const res = await fetch(`${API_BASE_URL}/session/init`, { method: 'POST' });
     if (!res.ok) {
-      // For development/mock fallback if API not ready
-      console.warn('API /session/init failed, using mock');
-      return { token: 'mock-token', sessionId: 'mock-session-id' };
+      throw new Error(`API /session/init failed with status ${res.status}`);
     }
     const data = await res.json();
     return { token: data.token, sessionId: data.session_id };
@@ -17,6 +15,7 @@ export const chatApiRepository: ChatRepository = {
 
   async streamChat(token: string, message: string, onChunk: (event: any) => void, onDone: () => void, onError: (error: Error) => void): Promise<void> {
     try {
+      // Real Backend Integration
       const res = await fetch(`${API_BASE_URL}/chat/stream`, {
         method: 'POST',
         headers: {

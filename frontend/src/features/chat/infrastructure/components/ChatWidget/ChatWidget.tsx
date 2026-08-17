@@ -2,6 +2,7 @@ import { MessageCircle, X, Send, Sparkles } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import './ChatWidget.css';
 import { useChat } from '../../hooks/useChat';
+import { ComponentMap } from '../Cards/Cards';
 
 export const ChatWidget = () => {
   const { isOpen, toggleChat, messages, sendMessage, isTyping, currentThinking } = useChat();
@@ -21,6 +22,25 @@ export const ChatWidget = () => {
       sendMessage(input.trim());
       setInput('');
     }
+  };
+
+  const renderMessageContent = (msg: any) => {
+    if (msg.type === 'ui' && msg.componentData) {
+      const DynamicComponent = ComponentMap[msg.componentData.type];
+      return (
+        <div className="ui-component">
+          {DynamicComponent ? (
+            <DynamicComponent data={msg.componentData.data} />
+          ) : (
+            <div className="placeholder-card">
+              Unknown Component: {msg.componentData.type}
+            </div>
+          )}
+          {msg.content && <div className="chat-bubble-text" style={{marginTop: '12px'}}>{msg.content}</div>}
+        </div>
+      );
+    }
+    return msg.content;
   };
 
   return (
@@ -47,16 +67,7 @@ export const ChatWidget = () => {
           {messages.map(msg => (
             <div key={msg.id} className={`chat-bubble-container ${msg.role}`}>
               <div className="chat-bubble">
-                {msg.type === 'ui' ? (
-                  <div className="ui-component">
-                    {/* Add switch case for different components here later */}
-                    <div className="placeholder-card">
-                      Component: {msg.componentData?.component || 'Unknown'}
-                    </div>
-                  </div>
-                ) : (
-                  msg.content
-                )}
+                {renderMessageContent(msg)}
               </div>
             </div>
           ))}
