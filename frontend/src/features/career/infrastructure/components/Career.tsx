@@ -72,7 +72,7 @@ export const Career = () => {
           <div className="career-info-box" ref={addToRefs}>
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Data Analyst – AI Engineer</h4>
+                <h4>AI Engineer</h4>
                 <h5>FIA Global Technology, Gurugram</h5>
               </div>
               <h3>2024</h3>
@@ -86,29 +86,26 @@ export const Career = () => {
           <div className="career-info-box" ref={addToRefs}>
             <div className="career-info-in">
               <div className="career-role">
-                <h4>AI Engineer</h4>
+                <h4>AI Engineer I</h4>
                 <h5>Smart Analytica, Pune</h5>
               </div>
               <h3>2025</h3>
             </div>
             <p>
-              Shipped clinical AI on AWS Bedrock, talent acquisition on Azure,
-              and a multimodal GCP document parser—all production-grade.
+              Architected and deployed scalable AI solutions, leveraging cloud platforms to deliver production-grade pipelines for clinical and enterprise workloads.
             </p>
           </div>
           
           <div className="career-info-box" ref={addToRefs}>
             <div className="career-info-in">
               <div className="career-role">
-                <h4>AI Engineer</h4>
+                <h4>AI Engineer II</h4>
                 <h5>Smart Analytica, Pune</h5>
               </div>
               <h3>NOW</h3>
             </div>
             <p>
-              Leading a team on enterprise GenAI platforms—architecting system
-              flows, driving implementation, and guiding the team to build a
-              production-grade Gen BI Platform.
+              Architecting enterprise GenAI platforms—designing complex system flows and driving the implementation of a production-ready Gen BI Platform.
             </p>
           </div>
         </div>

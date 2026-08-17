@@ -19,6 +19,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 0 40px;
+  box-sizing: border-box;
 }
 
 .career-title {
@@ -108,6 +110,8 @@
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .career-info-in {
@@ -138,7 +142,7 @@
   font-weight: 400;
   font-size: 18px;
   margin: 8px 0 0 0;
-  color: var(--accent-color, #FF5A00);
+  color: #FFC107; /* Yellow theme color */
 }
 
 @media only screen and (max-width: 1024px) {
@@ -162,6 +166,9 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .career-container {
+    padding: 0 20px;
+  }
   .career-info-box {
     flex-direction: column;
     margin-bottom: 50px;

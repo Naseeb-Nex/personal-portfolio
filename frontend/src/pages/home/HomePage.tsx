@@ -9,6 +9,8 @@ import { Manifesto } from '../../features/manifesto/infrastructure/components/Ma
 import { PixelTransition } from '../../shared/infrastructure/components/PixelTransition/PixelTransition';
 import { AboutMe } from '../../features/about/infrastructure/components/AboutMe/AboutMe';
 import { Career } from '../../features/career/infrastructure/components/Career';
+import { Contact } from '../../features/contact/infrastructure/components/Contact';
+
 export const HomePage = () => {
   const { config } = useTheme();
 
@@ -83,6 +85,7 @@ export const HomePage = () => {
         <AboutMe />
       </PixelTransition>
       <Career />
+      <Contact />
     </div>
   );
 };
