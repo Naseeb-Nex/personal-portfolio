@@ -180,6 +180,14 @@
   flex-direction: column;
   justify-content: center;
   margin-top: 80px;
+  position: relative;
+}
+
+.about-decorative {
+  position: absolute;
+  top: -100px;
+  right: -20px;
+  pointer-events: none;
 }
 
 .about-right p {
@@ -234,5 +242,17 @@
     max-width: 600px; /* Constrain width on tablets */
     margin-left: auto;
     margin-right: auto;
+  }
+  
+  .about-decorative {
+    top: -50px;
+    right: 0;
+    width: 80px;
+    height: 80px;
+  }
+  
+  .about-decorative svg {
+    width: 100%;
+    height: 100%;
   }
 }

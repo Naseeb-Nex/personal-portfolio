@@ -1,8 +1,33 @@
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import './AboutMe.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const AboutMe = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const decorativeRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!decorativeRef.current || !sectionRef.current) return;
+
+    gsap.to(decorativeRef.current, {
+      y: 120,
+      rotation: 90,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1,
+      }
+    });
+  }, { scope: sectionRef });
+
   return (
-    <section className="about-me-section">
+    <section className="about-me-section" ref={sectionRef}>
       <div className="about-me-container">
         
         <div className="about-me-grid">
@@ -48,6 +73,17 @@ export const AboutMe = () => {
           
           {/* RIGHT SIDE */}
           <div className="about-right">
+            
+            {/* GSAP Decorative Element */}
+            <div className="about-decorative" ref={decorativeRef}>
+              <svg width="120" height="120" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 0V100M0 50H100" stroke="#040100" strokeOpacity="0.12" strokeWidth="1"/>
+                <path d="M15 15L85 85M15 85L85 15" stroke="#040100" strokeOpacity="0.12" strokeWidth="1"/>
+                <circle cx="50" cy="50" r="30" stroke="#040100" strokeOpacity="0.12" strokeWidth="1"/>
+                <circle cx="50" cy="50" r="10" stroke="#040100" strokeOpacity="0.12" strokeWidth="1"/>
+              </svg>
+            </div>
+
             <p>
               I'm <strong>Muhammed Naseeb</strong>, an <strong>AI Engineer</strong> based in Pune. A couple of years deep into <strong>production GenAI</strong>, and I still get a little too obsessed every time a <strong>multi-agent system</strong> successfully reasons its way through a complex handoff.
             </p>
