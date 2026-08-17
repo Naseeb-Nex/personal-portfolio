@@ -5,13 +5,15 @@ import { LiquidEther } from '../../shared/infrastructure/components/LiquidEther'
 import heroImg from '../../assets/images/hero.png';
 import { useTheme } from '../../shared/infrastructure/theme';
 import { RoleScroller } from '../../shared/infrastructure/components/RoleScroller/RoleScroller';
+import { Manifesto } from '../../features/manifesto/infrastructure/components/Manifesto';
 
 export const HomePage = () => {
   const { config } = useTheme();
 
   return (
-    <div className="app-container">
-      <Navbar />
+    <div className="page-wrapper" style={{ backgroundColor: '#040100', minHeight: '100vh' }}>
+      <div className="app-container" style={{ borderRadius: '0 0 40px 40px', overflow: 'hidden', position: 'relative', zIndex: 2 }}>
+        <Navbar />
 
       <div className="grid-lines">
         <div className="line">
@@ -73,6 +75,8 @@ export const HomePage = () => {
         </div>
         <div className="fg-right"></div>
       </div>
+      </div>
+      <Manifesto />
     </div>
   );
 };

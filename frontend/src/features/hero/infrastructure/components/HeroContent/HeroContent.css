@@ -21,10 +21,9 @@
 .hero-heading-accent {
   background: linear-gradient(
     100deg,
-    #FFFFFF 0%,
-    #FFD700 25%,
-    #FF8800 50%,
-    #FF5A00 75%,
+    #FFD700 0%,
+    #FF8800 33%,
+    #FF5A00 66%,
     #CC2200 100%
   );
   -webkit-background-clip: text;
@@ -44,10 +43,9 @@
   top: 4px;
   background: linear-gradient(
     100deg,
-    #FFFFFF 0%,
-    #FFD700 25%,
-    #FF8800 50%,
-    #FF5A00 75%,
+    #FFD700 0%,
+    #FF8800 33%,
+    #FF5A00 66%,
     #CC2200 100%
   );
   -webkit-background-clip: text;
