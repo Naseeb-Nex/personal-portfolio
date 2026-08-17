@@ -465,6 +465,8 @@ body {
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 0 30px var(--accent-color));
+  position: relative;
+  z-index: 10;
 }
 
 
@@ -759,12 +761,12 @@ body {
     padding: 80px 32px 32px;
   }
 
-  .hero-image-container {
-    height: 75vh;
+  .fg-left {
+    align-self: flex-start;
   }
 
-  .hero-image {
-    opacity: 0.6;
+  .hero-image-container {
+    height: 75vh;
   }
 
   .grid-lines {
@@ -870,10 +872,6 @@ body {
   .hero-image-container {
     height: 55vh;
     left: 55%; /* slight right shift so face doesn't overlap text */
-  }
-
-  .hero-image {
-    opacity: 0.45;
   }
 
   /* Hide grid lines entirely on mobile — too much visual noise */
