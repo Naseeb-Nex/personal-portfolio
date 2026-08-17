@@ -467,18 +467,6 @@ body {
   filter: drop-shadow(0 0 30px var(--accent-color));
 }
 
-.hero-image-overlay {
-  position: absolute;
-  inset: 0;
-  background-color: var(--accent-color);
-  mix-blend-mode: color; /* colors the image while preserving luminosity */
-  -webkit-mask-size: contain;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: bottom center;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  mask-position: bottom center;
-}
 
 /* Foreground Layer */
 .fg-layer {
@@ -723,22 +711,6 @@ body {
   color: #fff;
 }
 
-@media (max-width: 1024px) {
-  .bg-title {
-    font-size: 80px;
-  }
-
-  .fg-layer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 40px;
-  }
-
-  .hero-image {
-    opacity: 0.6;
-  }
-}
-
 /* Liquid Ether Background */
 .liquid-ether-bg {
   position: absolute;
@@ -753,11 +725,205 @@ body {
   opacity: 0.8;
 }
 
+/* ===================================================================
+   RESPONSIVE BREAKPOINTS
+   Mobile-first overrides for the hero section layout.
+
+   Breakpoint ladder (Chrome DevTools standard presets):
+     ≤ 480px  — Mobile S/M/L  (iPhone SE 375, Pixel 393, Galaxy 360)
+     ≤ 768px  — Tablet portrait (iPad Mini)
+     ≤ 1024px — Tablet landscape / small laptop (iPad Pro 11", Surface)
+     ≤ 1440px — Laptop / small desktop
+     ≥ 1920px — Large desktop / 4K
+   =================================================================== */
+
+/* ---------- ≤ 1024px — Tablet landscape / small laptop ---------- */
 @media (max-width: 1024px) {
+  .navbar {
+    padding: 20px 32px;
+  }
+
+  .bg-text-layer {
+    left: 32px;
+    top: 14%;
+  }
+
+  .bg-title {
+    font-size: 80px;
+  }
+
+  .fg-layer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 80px 32px 32px;
+  }
+
+  .hero-image-container {
+    height: 75vh;
+  }
+
+  .hero-image {
+    opacity: 0.6;
+  }
+
+  .grid-lines {
+    padding: 0 8%;
+  }
+
+  /* Hide phase labels on tablets — decorative clutter */
+  .column-phase {
+    display: none;
+  }
+
   .liquid-ether-bg {
-    width: 100%;
     opacity: 0.5;
     mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0));
     -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1) 40%, rgba(0, 0, 0, 0));
+  }
+}
+
+/* ---------- ≤ 768px — Tablet portrait ---------- */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 16px 20px;
+  }
+
+  .logo-text {
+    font-size: 22px !important;
+  }
+
+  .sparkle-button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .bg-text-layer {
+    left: 20px;
+    top: 12%;
+  }
+
+  .bg-title {
+    font-size: 56px;
+    letter-spacing: -2px;
+  }
+
+  .fg-layer {
+    padding: 90px 20px 24px;
+    justify-content: flex-start;
+  }
+
+  .fg-right {
+    display: none;
+  }
+
+  .hero-image-container {
+    height: 65vh;
+  }
+
+  /* Reduce grid lines — keep only 3 on tablets */
+  .grid-lines .line:nth-child(2),
+  .grid-lines .line:nth-child(4) {
+    display: none;
+  }
+}
+
+/* ---------- ≤ 480px — Mobile ---------- */
+@media (max-width: 480px) {
+  .app-container {
+    min-height: 100svh; /* safe viewport height for mobile browsers */
+  }
+
+  .navbar {
+    padding: 14px 16px;
+  }
+
+  .logo-text {
+    font-size: 20px !important;
+  }
+
+  .sparkle-button {
+    padding: 7px 14px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .sparkle {
+    width: 12px;
+    height: 12px;
+  }
+
+  .bg-text-layer {
+    left: 16px;
+    top: 10%;
+  }
+
+  .bg-title {
+    font-size: 38px;
+    letter-spacing: -1px;
+  }
+
+  .fg-layer {
+    padding: 80px 16px 20px;
+  }
+
+  .hero-image-container {
+    height: 55vh;
+    left: 55%; /* slight right shift so face doesn't overlap text */
+  }
+
+  .hero-image {
+    opacity: 0.45;
+  }
+
+  /* Hide grid lines entirely on mobile — too much visual noise */
+  .grid-lines {
+    display: none;
+  }
+}
+
+/* ---------- ≤ 360px — Small mobile (Galaxy S8, foldables) ---------- */
+@media (max-width: 360px) {
+  .navbar {
+    padding: 12px 12px;
+  }
+
+  .logo-text {
+    font-size: 18px !important;
+  }
+
+  .bg-title {
+    font-size: 30px;
+  }
+
+  .fg-layer {
+    padding: 70px 12px 16px;
+  }
+
+  .hero-image-container {
+    height: 50vh;
+  }
+}
+
+/* ---------- ≥ 1920px — Large desktop / 4K ---------- */
+@media (min-width: 1920px) {
+  .navbar {
+    padding: 28px 80px;
+  }
+
+  .bg-text-layer {
+    left: 80px;
+  }
+
+  .bg-title {
+    font-size: 140px;
+  }
+
+  .fg-layer {
+    padding: 100px 80px 60px;
+  }
+
+  .hero-image-container {
+    height: 88vh;
   }
 }

@@ -147,3 +147,17 @@
     letter-spacing: -2px;
   }
 }
+
+@media (max-width: 480px) {
+  .cinematic-container {
+    font-size: 42px;
+    letter-spacing: -1.5px;
+  }
+}
+
+@media (max-width: 360px) {
+  .cinematic-container {
+    font-size: 34px;
+    letter-spacing: -1px;
+  }
+}

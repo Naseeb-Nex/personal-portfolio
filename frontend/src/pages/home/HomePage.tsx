@@ -1,7 +1,7 @@
 import { Navbar } from '../../features/navbar/infrastructure/components/Navbar';
 import { HeroContent } from '../../features/hero/infrastructure/components/HeroContent';
 import { OrbitalRing } from '../../shared/infrastructure/components/OrbitalRing';
-import { LiquidEther } from '../../shared/infrastructure/components/LiquidEther';
+
 import heroImg from '../../assets/images/hero.png';
 import { useTheme } from '../../shared/infrastructure/theme';
 import { RoleScroller } from '../../shared/infrastructure/components/RoleScroller/RoleScroller';
@@ -41,39 +41,12 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="liquid-ether-bg">
-        <LiquidEther
-          colors={['#FFFFFF', '#FFD700', config.accentColor, '#5A1A00']}
-          mouseForce={20}
-          cursorSize={100}
-          isViscous={false}
-          viscous={30}
-          iterationsViscous={32}
-          iterationsPoisson={32}
-          resolution={0.5}
-          isBounce={false}
-          autoDemo={true}
-          autoSpeed={0.5}
-          autoIntensity={2.2}
-          takeoverDuration={0.25}
-          autoResumeDelay={3000}
-          autoRampDuration={0.6}
-        />
-      </div>
-
       <div className="hero-image-container">
+        <OrbitalRing />
         <img src={heroImg} alt="Muhammed Naseeb" className="hero-image" />
-        <div 
-          className="hero-image-overlay"
-          style={{ 
-            WebkitMaskImage: `url(${heroImg})`, 
-            maskImage: `url(${heroImg})` 
-          }}
-        />
         <RoleScroller />
       </div>
 
-      <OrbitalRing />
 
       <div className="fg-layer">
         <div className="fg-left">
