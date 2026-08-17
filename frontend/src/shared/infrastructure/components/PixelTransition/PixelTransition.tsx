@@ -25,64 +25,36 @@ export const PixelTransition: React.FC<PixelTransitionProps> = ({ children }) =>
       canvas.width = window.innerWidth;
       canvas.height = 300; // 300px gives enough room for vertical growth
       
-      const baseSize = Math.max(canvas.width / 40, 20); // Base pixel size
+      // Fix block size to exactly 80x40 on all screens
+      const blockWidth = 80;
+      const blockHeight = 40;
       
-      const cols = Math.ceil(canvas.width / baseSize);
-      const rows = Math.ceil(canvas.height / baseSize);
-      const used = Array.from({ length: rows }, () => new Array(cols).fill(false));
+      const cols = Math.ceil(canvas.width / blockWidth);
+      const rows = Math.ceil(canvas.height / blockHeight);
       
       blocks = [];
       
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          if (used[y][x]) continue;
-
-          // Random block sizes: 1x1, 2x2, 3x3, 2x1, 1x2
-          let maxW = 1;
-          let maxH = 1;
-          const r = Math.random();
-          if (r > 0.95 && x + 2 < cols && y + 2 < rows) {
-            maxW = 3; maxH = 3;
-          } else if (r > 0.8 && x + 1 < cols && y + 1 < rows) {
-            maxW = 2; maxH = 2;
-          } else if (r > 0.7 && x + 1 < cols) {
-            maxW = 2; maxH = 1;
-          } else if (r > 0.6 && y + 1 < rows) {
-            maxW = 1; maxH = 2;
-          }
-
-          // Check if chosen area is free
-          let canFit = true;
-          for (let dy = 0; dy < maxH; dy++) {
-            for (let dx = 0; dx < maxW; dx++) {
-              if (used[y + dy][x + dx]) {
-                canFit = false;
-                break;
-              }
-            }
-          }
-
-          if (!canFit) {
-            maxW = 1; maxH = 1;
-          }
-
-          // Mark used
-          for (let dy = 0; dy < maxH; dy++) {
-            for (let dx = 0; dx < maxW; dx++) {
-              used[y + dy][x + dx] = true;
-            }
-          }
-
-          const bottomY = (y + maxH) * baseSize;
+          
+          const bottomY = (y + 1) * blockHeight;
+          
+          // "Advance pixels": some blocks get a lower sortKey so they turn white early
+          let key = -bottomY;
+          
+          // Randomly push some blocks to appear "levels ahead" (disconnected islands)
+          const advance = Math.random() > 0.6 
+            ? (Math.random() * blockHeight * 4) 
+            : (Math.random() * blockHeight);
+          
+          key -= advance;
           
           blocks.push({
-            x: x * baseSize,
-            y: y * baseSize,
-            w: maxW * baseSize,
-            h: maxH * baseSize,
-            // Sort by bottom-most Y first (so largest Y is lowest sortKey)
-            // Add some noise (0 to baseSize*1.5) for random jaggedness within a layer
-            sortKey: -bottomY + (Math.random() * baseSize * 1.5)
+            x: x * blockWidth,
+            y: y * blockHeight,
+            w: blockWidth,
+            h: blockHeight,
+            sortKey: key
           });
         }
       }
