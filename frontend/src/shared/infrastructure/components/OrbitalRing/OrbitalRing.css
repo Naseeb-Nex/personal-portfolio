@@ -1,7 +1,7 @@
 .orbital-ring-container {
   position: absolute;
-  bottom: 84%;       
-  left: 54%;         
+  bottom: 74%;       /* Sit at hair line of hero portrait */
+  left: 52%;         /* Slight right offset to match head center */
   width: 0;
   height: 0;
   pointer-events: none;
@@ -101,47 +101,4 @@
   opacity: 1;
   visibility: visible;
   transform: translateX(-50%) translateY(0);
-}
-
-/* ===================================================================
-   OrbitalRing Responsive
-   =================================================================== */
-
-@media (max-width: 1024px) {
-  .orbital-ring-container {
-    transform: scale(0.8);
-  }
-}
-
-@media (max-width: 768px) {
-  .orbital-ring-container {
-    transform: scale(0.65);
-  }
-
-  .orbital-icon-wrapper {
-    width: 34px;
-    height: 34px;
-  }
-}
-
-@media (max-width: 480px) {
-  .orbital-ring-container {
-    transform: scale(0.5);
-  }
-
-  .orbital-icon-wrapper {
-    width: 30px;
-    height: 30px;
-  }
-
-  /* Disable tooltips on mobile — no hover */
-  .orbital-tooltip {
-    display: none;
-  }
-}
-
-@media (max-width: 360px) {
-  .orbital-ring-container {
-    transform: scale(0.4);
-  }
 }

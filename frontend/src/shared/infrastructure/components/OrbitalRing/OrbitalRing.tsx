@@ -27,10 +27,10 @@ const technologies = [
 
 // Orbit plane aligned with hero head's upper-left gaze direction.
 // Head faces upper-left (~45° yaw, ~30° pitch up).
-// TILT_X_DEG: pitch tilt (105 = front edge goes up, looking from below)
-// TILT_Z_DEG: yaw skew (18 = leans leftward to match head)
-const TILT_X_DEG = 105;   
-const TILT_Z_DEG = 18;  
+// TILT_X_DEG: rotateX tilt — less = more upright ring (55° = moderately tilted halo)
+// TILT_Z_DEG: rotateZ skew — negative = ring leans counter-clockwise / leftward
+const TILT_X_DEG = 100;   // pitch tilt toward viewer
+const TILT_Z_DEG = 18;  // yaw skew matching upper-left head direction
 const R = 160;            // orbit radius in px
 
 function project3D(angle: number, tiltXDeg: number, tiltZDeg: number) {
@@ -73,6 +73,8 @@ export default function OrbitalRing() {
   }, []);
 
   // Compute ellipse semi-axes from the combined tilt for SVG ring
+  // rotateX(55°) + rotateZ(-28°) → ellipse Ry = R * cos(tiltX), then
+  // the whole ellipse is rotated by tiltZ in screen space
   const tiltXRad = TILT_X_DEG * (Math.PI / 180);
   const ellipseRx = R;
   const ellipseRy = R * Math.cos(tiltXRad); // compressed vertical axis from rotateX
@@ -100,6 +102,10 @@ export default function OrbitalRing() {
         }}
       >
         <defs>
+          {/* With TILT_X_DEG=100°, cos(100°) is negative → front arc (z>0) projects
+              to the TOP half of the SVG ellipse (y < cy). Clip to top half only.
+              Gradient: transparent at the very top-tip (arc "emerges" from behind),
+              fades to fully opaque at the equator (cy) — the widest/closest point. */}
           <linearGradient id="frontDepthGrad" x1="0" y1="1" x2="0" y2="0">
             <stop offset="0%"   stopColor="white" stopOpacity="0" />
             <stop offset="20%"  stopColor="white" stopOpacity="0.45" />
