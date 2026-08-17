@@ -231,5 +231,8 @@
     align-items: center;
     text-align: center;
     margin-top: 60px;
+    max-width: 600px; /* Constrain width on tablets */
+    margin-left: auto;
+    margin-right: auto;
   }
 }
