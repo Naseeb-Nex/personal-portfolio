@@ -172,10 +172,53 @@
 }
 
 .about-right p strong {
-  font-weight: 600;
-  color: #040100;
+  font-weight: 700;
+  background: linear-gradient(
+    100deg,
+    #FFD700 0%,
+    #FF8800 33%,
+    #FF5A00 66%,
+    #CC2200 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
 }
 
 .about-right p:last-child {
   margin-bottom: 0;
+}
+
+/* Mobile Centering & Viewport Fit */
+@media (max-width: 991px) {
+  .about-me-section {
+    padding: 60px 20px;
+  }
+  
+  .about-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-heading {
+    text-align: center;
+  }
+  
+  .about-left {
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .photo-wrapper {
+    max-width: 280px; /* Reduced to fit viewport better */
+  }
+  
+  .about-right {
+    align-items: center;
+    text-align: center;
+    margin-top: 60px;
+  }
 }
