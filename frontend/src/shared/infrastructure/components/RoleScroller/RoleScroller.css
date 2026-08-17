@@ -240,12 +240,8 @@
 }
 
 /* Media Queries for Responsive Hero Container placement */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .scroller-message-box {
-    left: 50%;
-    transform: translateX(-50%);
-    top: auto;
-    bottom: -100px;
-    width: 300px;
+    display: none;
   }
 }
