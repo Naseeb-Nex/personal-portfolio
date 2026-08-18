@@ -1,0 +1,239 @@
+.about-me-section {
+  min-height: 100vh;
+  padding: 40px 20px 120px 20px;
+  background-color: #F4F4F5;
+  color: #040100;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+.about-me-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  z-index: 0;
+}
+
+.about-me-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.about-me-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .about-me-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 60px;
+    align-items: center;
+  }
+  
+  .about-header {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  
+  .about-left {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    align-items: flex-end; /* Move image closer to center */
+  }
+  
+  .about-right {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    margin-top: 0 !important;
+  }
+}
+
+/* LEFT SIDE */
+.about-left {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.about-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  color: #52525b;
+}
+
+.about-tag .dot {
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(
+    100deg,
+    #FFD700 0%,
+    #FF8800 33%,
+    #FF5A00 66%,
+    #CC2200 100%
+  );
+  border-radius: 50%;
+}
+
+.about-heading {
+  font-size: clamp(2rem, 3.5vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0;
+  color: #040100;
+}
+
+.gradient-text {
+  background: linear-gradient(
+    100deg,
+    #FF8800 0%,
+    #FF5A00 50%,
+    #CC2200 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.photo-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 3/4;
+}
+
+.photo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.circular-badge {
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  width: 130px;
+  height: 130px;
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.spinning-text {
+  animation: spin 15s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.badge-center {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(
+    100deg,
+    #FF8800 0%,
+    #FF5A00 50%,
+    #CC2200 100%
+  );
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* RIGHT SIDE */
+.about-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.about-right p {
+  font-family: "Switzer", "Aeonik", "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(1.125rem, 1.5vw, 1.35rem);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  font-weight: 400;
+  color: #27272a;
+}
+
+.about-right p strong {
+  font-weight: 700;
+  font-family: 'Stack Sans Notch', sans-serif;
+  color: #040100;
+}
+
+.about-right p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile Centering & Viewport Fit */
+@media (max-width: 991px) {
+  .about-me-section {
+    padding: 60px 20px;
+  }
+  
+  .about-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-heading {
+    text-align: center;
+  }
+  
+  .about-left {
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .photo-wrapper {
+    max-width: 280px; /* Reduced to fit viewport better */
+  }
+  
+  .about-right {
+    align-items: center;
+    text-align: center;
+    margin-top: 60px;
+    max-width: 600px; /* Constrain width on tablets */
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
