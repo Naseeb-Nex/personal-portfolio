@@ -1,0 +1,82 @@
+.manifesto-section {
+  background-color: #040100;
+  padding: 120px 80px 80px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.manifesto-tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+}
+
+.manifesto-tag .dot {
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(
+    100deg,
+    #FFD700 0%,
+    #FF8800 33%,
+    #FF5A00 66%,
+    #CC2200 100%
+  );
+  border-radius: 50%;
+}
+
+.manifesto-text {
+  font-size: clamp(32px, 4.5vw, 64px);
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  max-width: 1400px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+.manifesto-text .word {
+  opacity: 0.2;
+  display: inline-block;
+  margin-right: 0.2em;
+  will-change: opacity;
+}
+
+.gradient-group {
+  position: relative;
+  display: inline-block;
+  color: #FFFFFF; /* Ensure words inside can be colored white */
+}
+
+.gradient-group::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -5%;
+  right: -5%;
+  bottom: 0;
+  background: linear-gradient(
+    100deg,
+    #FFD700 0%,
+    #FF8800 33%,
+    #FF5A00 66%,
+    #CC2200 100%
+  );
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .manifesto-section {
+    padding: 80px 24px 40px 24px;
+  }
+}

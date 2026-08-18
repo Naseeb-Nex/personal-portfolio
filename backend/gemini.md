@@ -1,4 +1,4 @@
-# FastAPI Backend Rules & Guidelines
+# FastAPI Backend Rules &amp; Guidelines
 
 This document defines the rules and protocols for building the FastAPI backend using **Clean Architecture** and **SOLID** principles.
 
@@ -7,6 +7,7 @@ This document defines the rules and protocols for building the FastAPI backend u
 ## 1. Core Architecture Principles
 
 ### Three-Layer Architecture
+
 The project is structured into three distinct layers to ensure separation of concerns:
 
 ```
@@ -17,52 +18,39 @@ backend/app/
 ```
 
 ### Dependency Flow Rule
+
 ```
 API Layer ──> Domain Layer <── Infrastructure Layer
 ```
-* **Domain Layer** is the core. It must be completely framework-agnostic and database-agnostic. It must **NEVER** import anything from the `api` or `infra` layers.
-* **API Layer** depends on the `domain` layer (interfaces, exceptions, entities).
-* **Infrastructure Layer** implements the interfaces defined in the `domain` layer and imports domain models.
-* Use dependency injection (e.g., `dependency_injector` or FastAPI dependency system) to wire components together.
+
+- **Domain Layer** is the core. It must be completely framework-agnostic and database-agnostic. It must **NEVER** import anything from the `api` or `infra` layers.
+- **API Layer** depends on the `domain` layer (interfaces, exceptions, entities).
+- **Infrastructure Layer** implements the interfaces defined in the `domain` layer and imports domain models.
+- Use dependency injection (e.g., `dependency_injector` or FastAPI dependency system) to wire components together.
 
 ---
 
-## 2. Directory Layout & Layer Responsibilities
+## 2. Directory Layout &amp; Layer Responsibilities
 
 ```
 backend/app/
-├── main.py              # Application entry point & lifespan
-├── config.py            # App settings (Pydantic settings)
-├── dependencies.py      # DI Container setup & global dependency providers
-├── api/                 # API Layer
-│   ├── v1/
-│   │   ├── endpoints/   # Route handlers (Controllers)
-│   │   └── router.py    # Router aggregation
-│   ├── schemas/         # Request/Response Pydantic models (DTOs)
-│   └── middlewares/     # HTTP Middlewares (Auth, Error handling)
-├── domain/              # Domain Layer
-│   ├── modules/         # Domain business domains
-│   │   ├── user/
-│   │   │   ├── entity.py       # Domain entities (Dataclasses)
-│   │   │   ├── repository.py   # Abstract IUserRepository
-│   │   │   ├── service.py      # Abstract IUserService
-│   │   │   └── exceptions.py   # Domain exceptions
-│   └── shared/          # Shared domain entities / values
-└── infra/               # Infrastructure Layer
-    ├── database/        # DB Session, SQLAlchemy config, Migrations
-    ├── repositories/    # Concrete DB Repositories (implementing domain contracts)
-    ├── adapters/        # External service integration (SSO, Gateways, Email)
-    └── services/        # Concrete Service implementations (business flow orchestrators)
+├── api/             # API layer (v1/, schemas/, middlewares/)
+├── domain/          # Core entities, interfaces, exceptions
+└── infra/           # Native DB access, repos, adapters, services
+├── main.py          # Entry point
+├── config.py        # App settings
+└── dependencies.py  # DI Container setup
 ```
 
 ---
 
-## 3. Protocol & Implementation Patterns
+## 3. Protocol &amp; Implementation Patterns
 
 ### 1. Domain Entities (`domain/modules/*/entity.py`)
-* Use standard Python `@dataclass`.
-* Must contain pure business attributes and rules.
-* Framework-free (no SQLAlchemy, no Pydantic, no FastAPI imports).
+
+- Use standard Python `@dataclass`.
+- Must contain pure business attributes and rules.
+- Framework-free (no SQLAlchemy, no Pydantic, no FastAPI imports).
 
 ```python
 from dataclasses import dataclass
@@ -80,8 +68,9 @@ class User:
 ```
 
 ### 2. Repository Interface (`domain/modules/*/repository.py`)
-* Use Python `abc.ABC` to declare contract.
-* Methods represent business data access needs, returning domain entities.
+
+- Use Python `abc.ABC` to declare contract.
+- Methods represent business data access needs, returning domain entities.
 
 ```python
 from abc import ABC, abstractmethod
@@ -98,54 +87,51 @@ class IUserRepository(ABC):
 ```
 
 ### 3. Concrete Repository (`infra/repositories/*.py`)
-* Implements the domain contract interface.
-* Uses SQLAlchemy ORM and translates ORM models to/from Domain Entities.
+
+- Implements the domain contract interface.
+- Uses asynchronous PostgreSQL native packages (e.g. `asyncpg`), **NOT** an ORM.
+- Maps native DB records directly to Domain Entities.
 
 ```python
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+import asyncpg
 from app.domain.modules.user.entity import User
 from app.domain.modules.user.repository import IUserRepository
-from app.infra.database.models import UserModel # ORM Model
 
 class UserRepository(IUserRepository):
-    def __init__(self, session: AsyncSession):
-        self._session = session
+    def __init__(self, pool: asyncpg.Pool):
+        self._pool = pool
 
     async def get_by_id(self, user_id: int) -> User | None:
-        result = await self._session.execute(select(UserModel).where(UserModel.id == user_id))
-        model = result.scalar_one_or_none()
-        return self._to_entity(model) if model else None
+        async with self._pool.acquire() as conn:
+            record = await conn.fetchrow('SELECT id, email, is_active, created_at FROM users WHERE id = $1', user_id)
+            return self._to_entity(record) if record else None
 
-    def _to_entity(self, model: UserModel) -> User:
-        return User(id=model.id, email=model.email, is_active=model.is_active, created_at=model.created_at)
+    def _to_entity(self, record: asyncpg.Record) -> User:
+        return User(id=record['id'], email=record['email'], is_active=record['is_active'], created_at=record['created_at'])
 ```
 
 ### 4. Dependency Injection (`dependencies.py` / `config.py`)
-* Wires up database session, repository factory, and service factory.
-* Provides these dependencies to FastAPI endpoints via standard `Depends`.
+
+- Wires native DB pool, repository, and service factories. Provides dependencies to endpoints via standard `Depends`.
 
 ---
 
-## 4. Endpoints & Exception Flow
+## 4. Endpoints &amp; Exception Flow
 
-### Endpoint Rules
-* **No business logic** in endpoints. Endpoints only handle parsing requests, executing the service, and returning response models.
-* Annotate dependencies cleanly:
-```python
-DbSession = Annotated[AsyncSession, Depends(get_db)]
-```
-
-### Exception Flow Rule
-* Services raise domain-specific exceptions (e.g. `UserNotFoundError`).
-* Custom middleware or exception handlers catch domain exceptions and convert them to proper HTTP status code responses (e.g. `404 Not Found`).
-* Endpoints do not require `try/except` blocks for standard domain exceptions.
+- **Endpoint Rules:** No business logic in endpoints. They handle parsing, executing service, and returning response models. Annotate dependencies cleanly (e.g. `DbPool = Annotated[asyncpg.Pool, Depends(get_db)]`).
+- **Exception Flow:** Services raise domain-specific exceptions. Middlewares convert domain exceptions to proper HTTP status codes. Endpoints do not require `try/except` blocks for these standard domain exceptions.
 
 ---
 
 ## 5. Testing Protocols
 
-Implement three levels of testing:
-1. **Domain Unit Tests**: Test entity rules and pure business methods without mocking databases.
-2. **Service / Repository Tests**: Test database integrations with mocked databases or in-memory sqlite engine.
-3. **API Integration Tests**: Use `httpx.AsyncClient` to perform test requests and assert HTTP statuses and responses.
+- **Real-World E2E Testing:** Testing must happen with the backend server running properly in a terminal.
+- **HTTP Requests:** Tests must use HTTP methods to hit the endpoint directly, simulating a real-world frontend scenario.
+- **No Mock APIs:** Do not test APIs without real HTTP requests to the running server.
+- **Completion Condition:** Only after this real-world endpoint testing is successful can a task be considered "completed". Never state a task is completed without this explicit testing protocol.
+
+---
+
+## 6. Database Schema
+
+Information about the database schema from the MCP server is stored locally in `app/infra/database/schema.json`.
