@@ -61,8 +61,10 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         <div className="box3"></div>
       </div>
       <div className="preloader-bottom-container">
-        <div className="preloader-percentage">{percentage}%</div>
         <div className="loading-bar-container">
+          <div className="preloader-percentage">
+            {percentage}%
+          </div>
           <div className="loading-bar" style={{ width: `${percentage}%` }}></div>
         </div>
       </div>

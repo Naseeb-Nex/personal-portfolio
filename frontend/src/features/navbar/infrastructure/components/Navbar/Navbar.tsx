@@ -15,6 +15,10 @@ export const Navbar = () => {
     }));
   }, []);
 
+  const handleConnectClick = () => {
+    document.querySelector('.contact-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <nav className="navbar">
       <div className="logo-area">
@@ -26,7 +30,7 @@ export const Navbar = () => {
       </div>
 
       <div className="sp">
-        <button className="sparkle-button">
+        <button className="sparkle-button" onClick={handleConnectClick}>
           <span className="spark"></span>
           <span className="backdrop"></span>
           

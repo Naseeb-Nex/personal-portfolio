@@ -4,7 +4,6 @@ import { OrbitalRing } from '../../shared/infrastructure/components/OrbitalRing'
 import { LiquidEther } from '../../shared/infrastructure/components/LiquidEther';
 import heroImg from '../../assets/images/hero.png';
 import { useTheme } from '../../shared/infrastructure/theme';
-import { RoleScroller } from '../../shared/infrastructure/components/RoleScroller/RoleScroller';
 import { Manifesto } from '../../features/manifesto/infrastructure/components/Manifesto';
 import { PixelTransition } from '../../shared/infrastructure/components/PixelTransition/PixelTransition';
 import { AboutMe } from '../../features/about/infrastructure/components/AboutMe/AboutMe';
@@ -70,7 +69,6 @@ export const HomePage = () => {
       <div className="hero-image-container">
         <img src={heroImg} alt="Muhammed Naseeb" className="hero-image" />
         <OrbitalRing />
-        <RoleScroller />
       </div>
 
       <div className="fg-layer">
