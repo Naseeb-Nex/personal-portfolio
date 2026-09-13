@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict, Any
-from app.domain.modules.agent.entity import ChatMessage
+from app.domain.modules.agent_entity import ChatMessage
 
 class IKnowledgeRepository(ABC):
     @abstractmethod

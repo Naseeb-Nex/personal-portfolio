@@ -1,56 +1,10 @@
 import { useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import { CreativeButton } from '../../../../shared/infrastructure/components/CreativeButton/CreativeButton';
 import './Contact.css';
-
-gsap.registerPlugin(useGSAP);
 
 export const Contact = () => {
   const container = useRef<HTMLElement>(null);
   const title = useRef<HTMLHeadingElement>(null);
-
-  useGSAP(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!title.current || !container.current) return;
-      
-      const { clientX, clientY } = e;
-      const { left, top, width, height } = container.current.getBoundingClientRect();
-      
-      const x = (clientX - left - width / 2) * 0.05;
-      const y = (clientY - top - height / 2) * 0.05;
-
-      gsap.to(title.current, {
-        x,
-        y,
-        duration: 1,
-        ease: 'power3.out',
-      });
-    };
-
-    const handleMouseLeave = () => {
-      if (!title.current) return;
-      gsap.to(title.current, {
-        x: 0,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-      });
-    };
-
-    const section = container.current;
-    if (section) {
-      section.addEventListener('mousemove', handleMouseMove);
-      section.addEventListener('mouseleave', handleMouseLeave);
-    }
-
-    return () => {
-      if (section) {
-        section.removeEventListener('mousemove', handleMouseMove);
-        section.removeEventListener('mouseleave', handleMouseLeave);
-      }
-    };
-  }, { scope: container });
 
   return (
     <footer className="contact-section" ref={container}>

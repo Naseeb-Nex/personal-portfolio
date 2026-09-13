@@ -1,7 +1,7 @@
 import asyncpg
 from typing import Optional
-from app.domain.modules.session.entity import Session
-from app.domain.modules.session.repository import ISessionRepository
+from app.domain.modules.session_entity import Session
+from app.domain.modules.session_repository import ISessionRepository
 
 class SessionRepository(ISessionRepository):
     def __init__(self, pool: asyncpg.Pool):
