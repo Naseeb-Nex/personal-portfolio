@@ -83,7 +83,7 @@ export const HomePage = () => {
       </div>
 
       <div className="hero-image-container">
-        <img src={heroImg} alt="Muhammed Naseeb" className="hero-image" loading="lazy" />
+        <img src={heroImg} alt="Muhammed Naseeb" className="hero-image" />
         <OrbitalRing />
       </div>
 
@@ -100,6 +100,6 @@ export const HomePage = () => {
       </PixelTransition>
       <Career />
       <Contact />
-    </main>
+    </div>
   );
 };

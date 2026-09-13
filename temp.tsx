@@ -95,11 +95,9 @@ export const HomePage = () => {
       </div>
       </div>
       <Manifesto />
-      <PixelTransition>
-        <AboutMe />
+        <Career />
+        <Contact />
       </PixelTransition>
-      <Career />
-      <Contact />
     </main>
   );
 };
