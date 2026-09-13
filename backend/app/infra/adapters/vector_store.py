@@ -1,5 +1,5 @@
 from typing import List, Dict, Any
-from app.domain.modules.agent.repository import IKnowledgeRepository
+from app.domain.modules.agent_repository import IKnowledgeRepository
 
 class ChromaDBAdapter(IKnowledgeRepository):
     def __init__(self):

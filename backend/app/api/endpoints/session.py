@@ -7,7 +7,7 @@ import uuid
 import jwt
 from app.infra.database.database import get_db
 from app.infra.repositories.session import SessionRepository
-from app.domain.modules.session.entity import Session
+from app.domain.modules.session_entity import Session
 from app.config import settings
 
 router = APIRouter()

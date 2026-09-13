@@ -1,8 +1,8 @@
 import logging
 from typing import List, Any
 from langchain_google_genai import ChatGoogleGenerativeAI
-from app.domain.modules.agent.repository import ILLMProvider
-from app.domain.modules.agent.entity import ChatMessage
+from app.domain.modules.agent_repository import ILLMProvider
+from app.domain.modules.agent_entity import ChatMessage
 from app.config import settings
 
 try:
