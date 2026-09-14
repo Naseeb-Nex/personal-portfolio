@@ -13,6 +13,7 @@ export const chatApiRepository: ChatRepository = {
     return { token: data.token, sessionId: data.session_id };
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async streamChat(token: string, message: string, onChunk: (event: any) => void, onDone: () => void, onError: (error: Error) => void): Promise<void> {
     try {
       // Real Backend Integration

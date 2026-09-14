@@ -1,19 +1,19 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
+
+// Generates randomized coordinates and animation offsets for particles once per mount or globally
+const generateParticles = () => Array.from({ length: 15 }).map((_, i) => ({
+  id: i,
+  x: Math.floor(Math.random() * 80) + 10,
+  y: Math.floor(Math.random() * 80) + 10,
+  size: (Math.random() * 0.2 + 0.15).toFixed(2),
+  delay: (Math.random() * 2).toFixed(2),
+  duration: (Math.random() * 1.5 + 1).toFixed(2),
+  originX: Math.floor(Math.random() * 600) + 200,
+  originY: Math.floor(Math.random() * 600) + 200,
+}));
 
 export const Navbar = () => {
-  // Generate randomized coordinates and animation offsets for particles
-  const particles = useMemo(() => {
-    return Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      x: Math.floor(Math.random() * 80) + 10,
-      y: Math.floor(Math.random() * 80) + 10,
-      size: (Math.random() * 0.2 + 0.15).toFixed(2),
-      delay: (Math.random() * 2).toFixed(2),
-      duration: (Math.random() * 1.5 + 1).toFixed(2),
-      originX: Math.floor(Math.random() * 600) + 200,
-      originY: Math.floor(Math.random() * 600) + 200,
-    }));
-  }, []);
+  const [particles] = useState(generateParticles);
 
   const handleConnectClick = () => {
     document.querySelector('.contact-section')?.scrollIntoView({ behavior: 'smooth' });

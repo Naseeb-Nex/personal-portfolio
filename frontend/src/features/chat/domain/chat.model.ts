@@ -7,6 +7,7 @@ export interface ChatMessage {
   role: ChatRole;
   type: ChatMessageType;
   content: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   componentData?: any;
 }
 

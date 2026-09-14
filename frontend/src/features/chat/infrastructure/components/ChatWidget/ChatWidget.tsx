@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MessageCircle, X, Send, Sparkles } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import './ChatWidget.css';

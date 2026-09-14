@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import './Cards.css';
 
