@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import './ChatWidget.css';
 import { useChat } from '../../hooks/useChat';
 import { ComponentMap } from '../Cards/Cards';
+import type { ChatMessage } from '../../../domain/chat.model';
 
 export const ChatWidget = () => {
   const { isOpen, toggleChat, messages, sendMessage, isTyping, currentThinking } = useChat();
@@ -24,16 +25,17 @@ export const ChatWidget = () => {
     }
   };
 
-  const renderMessageContent = (msg: any) => {
+  const renderMessageContent = (msg: ChatMessage) => {
     if (msg.type === 'ui' && msg.componentData) {
-      const DynamicComponent = ComponentMap[msg.componentData.type];
+      const componentType = typeof msg.componentData.type === 'string' ? msg.componentData.type : '';
+      const DynamicComponent = ComponentMap[componentType];
       return (
         <div className="ui-component">
           {DynamicComponent ? (
             <DynamicComponent data={msg.componentData.data} />
           ) : (
             <div className="placeholder-card">
-              Unknown Component: {msg.componentData.type}
+              Unknown Component: {componentType}
             </div>
           )}
           {msg.content && <div className="chat-bubble-text" style={{marginTop: '12px'}}>{msg.content}</div>}

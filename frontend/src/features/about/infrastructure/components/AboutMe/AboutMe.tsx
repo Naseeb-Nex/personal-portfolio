@@ -42,7 +42,7 @@ export const AboutMe = () => {
           <div className="about-left">
             <div className="photo-wrapper">
               {/* Photo */}
-              <img src={aboutImage} alt="About Me" className="photo-image" />
+              <img src={aboutImage} alt="Muhammed Naseeb — Naseeb Nex AI Engineer" className="photo-image" />
               
               {/* Circular Badge Sticker */}
               <div className="circular-badge">

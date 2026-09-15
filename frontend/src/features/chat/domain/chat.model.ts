@@ -7,7 +7,7 @@ export interface ChatMessage {
   role: ChatRole;
   type: ChatMessageType;
   content: string;
-  componentData?: any;
+  componentData?: Record<string, unknown>;
 }
 
 export interface ChatSession {

@@ -1,15 +1,28 @@
+/* eslint-disable react-refresh/only-export-components */
 import React from 'react';
 import './Cards.css';
 
-export const SummaryCard = ({ data }: { data: any }) => (
+export interface SummaryData {
+  name?: string;
+  role?: string;
+  bio?: string;
+}
+
+export const SummaryCard = ({ data }: { data?: SummaryData }) => (
   <div className="chat-card">
-    <h3>{data.name}</h3>
-    <div className="chat-card-subtitle">{data.role}</div>
-    <div className="chat-card-desc">{data.bio}</div>
+    <h3>{data?.name}</h3>
+    <div className="chat-card-subtitle">{data?.role}</div>
+    <div className="chat-card-desc">{data?.bio}</div>
   </div>
 );
 
-export const EducationCard = ({ data }: { data: any[] }) => (
+export interface EducationItem {
+  degree?: string;
+  school?: string;
+  period?: string;
+}
+
+export const EducationCard = ({ data }: { data?: EducationItem[] }) => (
   <div className="chat-card">
     <h3>Education</h3>
     {data?.map((edu, i) => (
@@ -21,7 +34,7 @@ export const EducationCard = ({ data }: { data: any[] }) => (
   </div>
 );
 
-export const SkillsCard = ({ data }: { data: Record<string, string[]> }) => (
+export const SkillsCard = ({ data }: { data?: Record<string, string[]> }) => (
   <div className="chat-card">
     <h3>Technical Skills</h3>
     {Object.entries(data || {}).map(([category, skills]) => (
@@ -39,7 +52,14 @@ export const SkillsCard = ({ data }: { data: Record<string, string[]> }) => (
   </div>
 );
 
-export const ExperienceCard = ({ data }: { data: any[] }) => (
+export interface ExperienceItem {
+  role?: string;
+  company?: string;
+  duration?: string;
+  bullets?: string[];
+}
+
+export const ExperienceCard = ({ data }: { data?: ExperienceItem[] }) => (
   <div className="chat-card">
     <h3>Experience</h3>
     {data?.map((exp, i) => (
@@ -56,40 +76,29 @@ export const ExperienceCard = ({ data }: { data: any[] }) => (
   </div>
 );
 
-export const CertificationsCard = ({ data }: { data: any[] }) => (
+export interface CertificationItem {
+  name?: string;
+  issuer?: string;
+  year?: string;
+}
+
+export const CertificationsCard = ({ data }: { data?: CertificationItem[] }) => (
   <div className="chat-card">
     <h3>Certifications</h3>
     {data?.map((cert, i) => (
       <div key={i} className="chat-card-item">
         <div className="chat-card-title">{cert.name}</div>
-        <div className="chat-card-subtitle">{cert.year}</div>
+        <div className="chat-card-subtitle">{cert.issuer} • {cert.year}</div>
       </div>
     ))}
   </div>
 );
 
-export const ProjectsCard = ({ data }: { data: any[] }) => (
-  <div className="chat-card">
-    <h3>Key Projects</h3>
-    {data?.map((proj, i) => (
-      <div key={i} className="chat-card-item">
-        <div className="chat-card-title">{proj.name}</div>
-        <div className="chat-card-desc" style={{ marginBottom: '8px' }}>{proj.description}</div>
-        <div className="chat-badge-container">
-          {proj.tech?.map((t: string) => (
-            <span key={t} className="chat-badge">{t}</span>
-          ))}
-        </div>
-      </div>
-    ))}
-  </div>
-);
-
-export const ComponentMap: Record<string, React.FC<any>> = {
-  SummaryCard,
-  EducationCard,
-  SkillsCard,
-  ExperienceCard,
-  CertificationsCard,
-  ProjectsCard,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const ComponentMap: Record<string, React.ComponentType<{ data: any }>> = {
+  summary: SummaryCard,
+  education: EducationCard,
+  skills: SkillsCard,
+  experience: ExperienceCard,
+  certifications: CertificationsCard,
 };

@@ -7,7 +7,7 @@ import "./Career.css";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export const Career = () => {
-  const container = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLElement>(null);
   const title = useRef<HTMLHeadingElement>(null);
   const infoBoxes = useRef<HTMLDivElement[]>([]);
   const timelineDot = useRef<HTMLDivElement>(null);
@@ -56,7 +56,7 @@ export const Career = () => {
   };
 
   return (
-    <div className="career-section" ref={container}>
+    <section className="career-section" aria-label="Career & Experience" ref={container}>
       <div className="career-container">
         <h2 ref={title} className="career-title">
           <span className="title-white">My career <span className="ampersand">&amp;</span></span>
@@ -110,6 +110,6 @@ export const Career = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
