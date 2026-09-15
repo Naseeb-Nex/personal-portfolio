@@ -13,7 +13,7 @@ export const chatApiRepository: ChatRepository = {
     return { token: data.token, sessionId: data.session_id };
   },
 
-  async streamChat(token: string, message: string, onChunk: (event: any) => void, onDone: () => void, onError: (error: Error) => void): Promise<void> {
+  async streamChat(token: string, message: string, onChunk: (event: Record<string, unknown>) => void, onDone: () => void, onError: (error: Error) => void): Promise<void> {
     try {
       // Real Backend Integration
       const res = await fetch(`${API_BASE_URL}/chat/stream`, {

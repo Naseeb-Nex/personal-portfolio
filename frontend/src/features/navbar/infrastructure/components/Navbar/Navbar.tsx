@@ -1,26 +1,28 @@
-import { useMemo } from 'react';
+const STATIC_PARTICLES = [
+  { id: 0, x: 25, y: 15, size: '0.24', delay: '0.30', duration: '1.80', originX: 320, originY: 450 },
+  { id: 1, x: 75, y: 40, size: '0.18', delay: '1.10', duration: '2.10', originX: 510, originY: 280 },
+  { id: 2, x: 45, y: 80, size: '0.30', delay: '0.75', duration: '1.60', originX: 230, originY: 600 },
+  { id: 3, x: 60, y: 20, size: '0.22', delay: '1.50', duration: '2.40', originX: 420, originY: 350 },
+  { id: 4, x: 15, y: 65, size: '0.27', delay: '0.20', duration: '1.90', originX: 380, originY: 520 },
+  { id: 5, x: 80, y: 85, size: '0.19', delay: '1.80', duration: '2.20', originX: 610, originY: 240 },
+  { id: 6, x: 35, y: 35, size: '0.25', delay: '0.90', duration: '1.70', originX: 290, originY: 410 },
+  { id: 7, x: 70, y: 60, size: '0.32', delay: '1.30', duration: '2.50', originX: 550, originY: 380 },
+  { id: 8, x: 20, y: 90, size: '0.20', delay: '0.40', duration: '1.65', originX: 340, originY: 670 },
+  { id: 9, x: 50, y: 10, size: '0.28', delay: '1.60', duration: '2.05', originX: 480, originY: 290 },
+  { id: 10, x: 85, y: 30, size: '0.21', delay: '0.80', duration: '1.95', originX: 640, originY: 510 },
+  { id: 11, x: 30, y: 70, size: '0.26', delay: '1.20', duration: '2.30', originX: 260, originY: 440 },
+  { id: 12, x: 65, y: 75, size: '0.23', delay: '0.50', duration: '1.75', originX: 580, originY: 360 },
+  { id: 13, x: 10, y: 45, size: '0.29', delay: '1.70', duration: '2.15', originX: 310, originY: 590 },
+  { id: 14, x: 55, y: 50, size: '0.17', delay: '0.60', duration: '1.85', originX: 470, originY: 480 },
+];
 
 export const Navbar = () => {
-  // Generate randomized coordinates and animation offsets for particles
-  const particles = useMemo(() => {
-    return Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      x: Math.floor(Math.random() * 80) + 10,
-      y: Math.floor(Math.random() * 80) + 10,
-      size: (Math.random() * 0.2 + 0.15).toFixed(2),
-      delay: (Math.random() * 2).toFixed(2),
-      duration: (Math.random() * 1.5 + 1).toFixed(2),
-      originX: Math.floor(Math.random() * 600) + 200,
-      originY: Math.floor(Math.random() * 600) + 200,
-    }));
-  }, []);
-
   const handleConnectClick = () => {
     document.querySelector('.contact-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <nav className="navbar">
+    <nav className="navbar" aria-label="Main Navigation">
       <div className="logo-area">
         <span className="logo-text" style={{ fontFamily: "'Stack Sans Notch', sans-serif", letterSpacing: '-0.5px', fontSize: '28px', userSelect: 'none', fontWeight: 700, color: '#ffffff' }}>
           Naseeb{' '}
@@ -30,47 +32,35 @@ export const Navbar = () => {
       </div>
 
       <div className="sp">
-        <button className="sparkle-button" onClick={handleConnectClick}>
+        <button className="sparkle-button" onClick={handleConnectClick} aria-label="Let's connect">
           <span className="spark"></span>
           <span className="backdrop"></span>
-          
-          <svg className="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z" fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
-            <path d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z" fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
-            <path d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z" fill="currentColor" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"></path>
+
+          <svg className="sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z" fill="black" />
           </svg>
-          
-          <span className="text">connect</span>
+
+          <span className="text">Let&apos;s talk</span>
+
+          <div className="particle-wrapper" aria-hidden="true">
+            {STATIC_PARTICLES.map((p) => (
+              <div
+                key={p.id}
+                className="particle"
+                style={{
+                  '--x': `${p.x}%`,
+                  '--y': `${p.y}%`,
+                  '--scale': p.size,
+                  '--delay': `${p.delay}s`,
+                  '--duration': `${p.duration}s`,
+                  '--origin-x': `${p.originX}%`,
+                  '--origin-y': `${p.originY}%`,
+                } as React.CSSProperties}
+              />
+            ))}
+          </div>
         </button>
-        
-        <div className="bodydrop"></div>
-        
-        <span aria-hidden="true" className="particle-pen">
-          {particles.map((p) => (
-            <svg
-              key={p.id}
-              className="particle"
-              viewBox="0 0 15 15"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{
-                '--x': p.x,
-                '--y': p.y,
-                '--size': p.size,
-                '--delay': p.delay,
-                '--duration': p.duration,
-                '--origin-x': `${p.originX}%`,
-                '--origin-y': `${p.originY}%`,
-              } as React.CSSProperties}
-            >
-              <path d="M6.937 3.846L7.75 1L8.563 3.846C8.77313 4.58114 9.1671 5.25062 9.70774 5.79126C10.2484 6.3319 10.9179 6.72587 11.653 6.936L14.5 7.75L11.654 8.563C10.9189 8.77313 10.2494 9.1671 9.70874 9.70774C9.1681 10.2484 8.77413 10.9179 8.564 11.653L7.75 14.5L6.937 11.654C6.72687 10.9189 6.3329 10.2494 5.79226 9.70874C5.25162 9.1681 4.58214 8.77413 3.847 8.564L1 7.75L3.846 6.937C4.58114 6.72687 5.25062 6.3329 5.79126 5.79226C6.3319 5.25162 6.72587 4.58214 6.936 3.847L6.937 3.846Z" fill="currentColor" stroke="none" strokeLinecap="round" strokeLinejoin="round"></path>
-            </svg>
-          ))}
-        </span>
       </div>
     </nav>
   );
 };
-
-
-

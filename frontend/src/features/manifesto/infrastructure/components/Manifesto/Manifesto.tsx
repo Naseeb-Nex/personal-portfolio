@@ -7,7 +7,7 @@ import './Manifesto.css';
 gsap.registerPlugin(ScrollTrigger);
 
 export const Manifesto = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
 
   useGSAP(() => {
@@ -35,7 +35,7 @@ export const Manifesto = () => {
   }, { scope: containerRef });
 
   return (
-    <div className="manifesto-section" ref={containerRef}>
+    <section className="manifesto-section" aria-label="Manifesto" ref={containerRef}>
       <div className="manifesto-tag">
         <span className="dot"></span>
         MANIFESTO
@@ -50,6 +50,6 @@ export const Manifesto = () => {
         <span className="word">SEAMLESS</span> <span className="word">ON</span> <span className="word">THE</span> <span className="word">SURFACE,</span><br />
         <span className="word">RELENTLESSLY</span> <span className="word">ORCHESTRATED</span> <span className="word">UNDERNEATH.</span>
       </div>
-    </div>
+    </section>
   );
 };

@@ -5,7 +5,7 @@ export interface ChatRepository {
   streamChat(
     token: string,
     message: string,
-    onChunk: (event: any) => void,
+    onChunk: (event: Record<string, unknown>) => void,
     onDone: () => void,
     onError: (error: Error) => void
   ): Promise<void>;

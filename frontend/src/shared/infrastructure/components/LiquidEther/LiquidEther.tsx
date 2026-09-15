@@ -46,6 +46,7 @@ export default function LiquidEther({
   autoRampDuration = 0.6
 }: LiquidEtherProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const webglRef = useRef<any>(null);
   const resizeObserverRef = useRef<ResizeObserver | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -541,7 +542,7 @@ export default function LiquidEther({
       output?: THREE.WebGLRenderTarget | null;
       output0?: THREE.WebGLRenderTarget;
       output1?: THREE.WebGLRenderTarget;
-      [key: string]: any;
+      [key: string]: unknown;
     }
 
     class ShaderPass {
@@ -881,7 +882,7 @@ export default function LiquidEther({
       poisson!: Poisson;
       pressurePass!: Pressure;
 
-      constructor(options: any) {
+      constructor(options: Record<string, unknown>) {
         this.options = {
           iterations_poisson: 32,
           iterations_viscous: 32,
@@ -1152,7 +1153,7 @@ export default function LiquidEther({
             Common.renderer.dispose();
             Common.renderer.forceContextLoss();
           }
-        } catch (e) {
+        } catch {
           // ignore
         }
       }
@@ -1231,14 +1232,14 @@ export default function LiquidEther({
       if (resizeObserverRef.current) {
         try {
           resizeObserverRef.current.disconnect();
-        } catch (e) {
+        } catch {
           // ignore
         }
       }
       if (intersectionObserverRef.current) {
         try {
           intersectionObserverRef.current.disconnect();
-        } catch (e) {
+        } catch {
           // ignore
         }
       }

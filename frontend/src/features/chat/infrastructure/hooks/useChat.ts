@@ -58,15 +58,17 @@ export const useChat = () => {
       content,
       (chunk) => {
         if (chunk.type === 'thinking') {
-          setCurrentThinking(chunk.content);
+          setCurrentThinking(typeof chunk.content === 'string' ? chunk.content : null);
         } else if (chunk.type === 'text') {
           let textContent = '';
           if (typeof chunk.content === 'string') {
             textContent = chunk.content;
           } else if (Array.isArray(chunk.content)) {
-            textContent = chunk.content.map((c: any) => c.text || '').join('');
+            textContent = chunk.content
+              .map((c: unknown) => (typeof c === 'object' && c !== null && 'text' in c ? String((c as { text?: unknown }).text || '') : ''))
+              .join('');
           }
-          
+
           setMessages(prev => prev.map(m => {
             if (m.id === currentBotMsgId) {
               return { ...m, content: (m.content || '') + textContent, type: m.type === 'ui' ? 'ui' : 'text' };
