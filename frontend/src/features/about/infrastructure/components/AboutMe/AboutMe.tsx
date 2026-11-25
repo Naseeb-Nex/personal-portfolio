@@ -26,20 +26,20 @@ export const AboutMe = () => {
         <div className="about-me-grid">
           
           {/* HEADER (Top Left on Desktop) */}
-          <div className="about-header">
+          <div className="about-header" data-pixel="perch">
             <div className="about-tag">
               <span className="dot"></span>
               ABOUT ME
             </div>
-            
-            <h2 className="about-heading">
+
+            <h2 className="about-heading" data-pixel="point">
               ORCHESTRATING<br />
               REAL <span className="gradient-text">INTELLIGENCE.</span>
             </h2>
           </div>
 
           {/* LEFT SIDE */}
-          <div className="about-left">
+          <div className="about-left" data-pixel="avoid">
             <div className="photo-wrapper">
               {/* Photo */}
               <img src={aboutImage} alt="Muhammed Naseeb — Naseeb Nex AI Engineer" className="photo-image" />

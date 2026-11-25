@@ -53,13 +53,13 @@ export const Contact = () => {
   }, { scope: container });
 
   return (
-    <footer className="contact-section" ref={container}>
+    <footer className="contact-section" ref={container} data-pixel="perch">
       <div className="contact-divider"></div>
       <div className="contact-container">
         <div className="contact-header">
-          <h2 className="contact-title" ref={title}>Let's <span className="contact-gradient">Connect</span></h2>
-          <p className="contact-subtitle">Always open to discuss projects, ideas, or opportunities to collaborate.</p>
-          <div style={{ marginTop: '32px' }}>
+          <h2 className="contact-title" ref={title} data-pixel="point">Let's <span className="contact-gradient">Connect</span></h2>
+          <p className="contact-subtitle" data-pixel="avoid">Always open to discuss projects, ideas, or opportunities to collaborate.</p>
+          <div style={{ marginTop: '32px' }} data-pixel="avoid">
             <CreativeButton href="mailto:muhammednaseeb02@gmail.com">Say Hello</CreativeButton>
           </div>
         </div>

@@ -31,7 +31,7 @@ export const Navbar = () => {
         </span>
       </div>
 
-      <div className="sp">
+      <div className="sp" data-pixel="avoid">
         <button className="sparkle-button" onClick={handleConnectClick} aria-label="Let's connect">
           <span className="spark"></span>
           <span className="backdrop"></span>

@@ -56,9 +56,9 @@ export const Career = () => {
   };
 
   return (
-    <section className="career-section" aria-label="Career & Experience" ref={container}>
+    <section className="career-section" aria-label="Career & Experience" ref={container} data-pixel="perch">
       <div className="career-container">
-        <h2 ref={title} className="career-title">
+        <h2 ref={title} className="career-title" data-pixel="point">
           <span className="title-white">My career <span className="ampersand">&amp;</span></span>
           <br />
           <span className="title-gradient">experience</span>
