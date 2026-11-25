@@ -16,8 +16,9 @@ interface Pixel3DBotProps {
 }
 
 const MAX_PIXELS = 96;
-const PIXEL_SIZE = 0.82;
-const EYES_X = [-2.5, 2.5];
+const PIXEL_SIZE = 0.58;
+const PIXEL_STEP = 0.84;
+const EYES_X = [-2.6, 2.6];
 const EYES_Y = -0.6;
 const FRONT_Z = 5.2;
 
@@ -126,7 +127,7 @@ export const Pixel3DBot: React.FC<Pixel3DBotProps> = ({
     // 4. Instanced Eye Pixels
     const eyeGeometry = new THREE.PlaneGeometry(PIXEL_SIZE, PIXEL_SIZE);
     const eyeMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color: 0xecf2f8,
       toneMapped: false,
     });
     const eyeMesh = new THREE.InstancedMesh(eyeGeometry, eyeMaterial, MAX_PIXELS);
@@ -179,15 +180,15 @@ export const Pixel3DBot: React.FC<Pixel3DBotProps> = ({
       [grids.left, grids.right].forEach((rows, eyeIndex) => {
         const h = rows.length;
         const w = rows[0]?.length || 0;
-        const originX = EYES_X[eyeIndex] - ((w - 1) * PIXEL_SIZE) / 2;
-        const originY = EYES_Y + ((h - 1) * PIXEL_SIZE) / 2;
+        const originX = EYES_X[eyeIndex] - ((w - 1) * PIXEL_STEP) / 2;
+        const originY = EYES_Y + ((h - 1) * PIXEL_STEP) / 2;
 
         rows.forEach((row, r) => {
           for (let c = 0; c < row.length; c++) {
             if (row[c] === "#" && count < MAX_PIXELS) {
               DUMMY.position.set(
-                originX + c * PIXEL_SIZE,
-                originY - r * PIXEL_SIZE,
+                originX + c * PIXEL_STEP,
+                originY - r * PIXEL_STEP,
                 0.01
               );
               DUMMY.updateMatrix();

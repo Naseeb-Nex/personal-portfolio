@@ -8,6 +8,7 @@
   z-index: 9999;
   will-change: transform;
   user-select: none;
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .pixel-companion-container.reduced-motion {
@@ -94,9 +95,30 @@
   }
 
   .pixel-companion-container {
+    width: 96px;
+    height: 96px;
     /* Respect safe area insets on mobile */
     margin-bottom: env(safe-area-inset-bottom, 0px);
     margin-left: env(safe-area-inset-left, 0px);
     margin-right: env(safe-area-inset-right, 0px);
+  }
+
+  .pixel-companion-hitbox {
+    width: 96px;
+    height: 96px;
+    min-width: 44px;
+    min-height: 44px;
+    top: 0;
+    left: 0;
+  }
+
+  .pixel-2d-bot {
+    transform: scale(0.70);
+    transform-origin: center center;
+  }
+
+  .pixel-3d-bot {
+    transform: scale(0.65);
+    transform-origin: center center;
   }
 }

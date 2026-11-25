@@ -39,8 +39,9 @@ export interface BrainSnapshot {
   reducedMotion: boolean;
 }
 
-const BODY_SIZE = 140; // Companion body visual bounding box in px
-const AVOID_PADDING = 18; // Safety margin around avoid zones
+const BODY_SIZE_DESKTOP = 140; // Desktop companion body bounding box in px
+const BODY_SIZE_MOBILE = 96; // Mobile companion body bounding box in px
+const AVOID_PADDING = 14; // Safety margin around avoid zones
 const SLEEP_TIMEOUT_MS = 20000; // 20s idle -> sleep
 const FAST_SCROLL_VELOCITY = 1.6; // px/ms threshold for dizzy
 
@@ -116,13 +117,13 @@ export class PixelBrain {
       // Mobile plan: bot docks to bottom-left corner, avoiding bottom-right chat widget and safe areas
       this.targetPos = {
         x: 16,
-        y: Math.max(16, h - BODY_SIZE - 32),
+        y: Math.max(16, h - BODY_SIZE_MOBILE - 32),
       };
     } else {
-      // Desktop default: comfortably perched on the right margin of the hero
+      // Desktop default: comfortably perched on the right margin of the hero, below phase tags
       this.targetPos = {
-        x: Math.max(20, w - BODY_SIZE - 60),
-        y: 140,
+        x: Math.max(20, w - BODY_SIZE_DESKTOP - 60),
+        y: 220,
       };
     }
     this.currentPos = { ...this.targetPos };
@@ -243,7 +244,7 @@ export class PixelBrain {
     }, 2400);
   }
 
-  private onScroll() {
+  public onScroll() {
     this.lastActiveTime = performance.now();
     if (this.state === "SLEEP") {
       this.wakeUp();
@@ -266,11 +267,13 @@ export class PixelBrain {
     const candidates: PixelTarget[] = [];
 
     this.targets.forEach((target) => {
+      if (target.element.isConnected) {
+        target.rect = target.element.getBoundingClientRect();
+      }
       if (target.type === "avoid") {
         avoidRects.push(target.rect);
       } else if (target.element.isConnected) {
-        const r = target.element.getBoundingClientRect();
-        target.rect = r;
+        const r = target.rect;
         // Check if inside viewport
         if (r.top < window.innerHeight && r.bottom > 0) {
           if (this.isMobile) {
@@ -292,13 +295,48 @@ export class PixelBrain {
 
     // Sort by proximity to upper-middle viewport
     candidates.sort((a, b) => Math.abs(a.rect.top - 150) - Math.abs(b.rect.top - 150));
-    const chosen = candidates[0];
-    const pos = this.calculatePerchPosition(chosen, avoidRects);
-    if (pos) {
-      this.targetPos = pos;
-      this.state = "PERCH";
-      this.currentExpression = "happy";
-      this.notify();
+
+    for (const chosen of candidates) {
+      const pos = this.calculatePerchPosition(chosen, avoidRects);
+      if (pos) {
+        this.targetPos = pos;
+        this.state = "PERCH";
+        this.currentExpression = "happy";
+        this.notify();
+        return;
+      }
+    }
+
+    // Fallback: If no candidate perch fits, pick a safe corner that avoids all avoid zones
+    if (this.isMobile) {
+      const bSize = BODY_SIZE_MOBILE;
+      const corners: BrainPosition[] = [
+        { x: window.innerWidth - bSize - 16, y: 60 },
+        { x: 16, y: 60 },
+        { x: 16, y: window.innerHeight - bSize - 32 },
+        { x: window.innerWidth - bSize - 16, y: window.innerHeight - bSize - 32 },
+      ];
+      for (const corner of corners) {
+        const candidateRect = {
+          left: corner.x,
+          top: corner.y,
+          right: corner.x + bSize,
+          bottom: corner.y + bSize,
+        };
+        const collides = avoidRects.some((avoid) => {
+          return !(
+            candidateRect.right + AVOID_PADDING < avoid.left ||
+            candidateRect.left - AVOID_PADDING > avoid.right ||
+            candidateRect.bottom + AVOID_PADDING < avoid.top ||
+            candidateRect.top - AVOID_PADDING > avoid.bottom
+          );
+        });
+        if (!collides) {
+          this.targetPos = corner;
+          this.notify();
+          return;
+        }
+      }
     }
   }
 
@@ -418,7 +456,8 @@ export class PixelBrain {
             target.element.tagName === "H1" ||
             target.element.tagName === "H2" ||
             target.element.tagName === "H3" ||
-            target.element.classList.contains("section-title");
+            target.element.classList.contains("section-title") ||
+            target.type === "perch";
           if (isHeading) candidates.push(target);
         } else {
           candidates.push(target);
@@ -427,8 +466,8 @@ export class PixelBrain {
     });
 
     if (candidates.length === 0) {
-      if (this.isMobile) {
-        // Reset to docked corner
+      if (this.isMobile && this.state !== "PERCH") {
+        // Reset to docked corner only if not currently perched
         this.initDefaultPosition();
       }
       return;
@@ -465,29 +504,60 @@ export class PixelBrain {
     const viewW = window.innerWidth;
     const viewH = window.innerHeight;
 
-    // Potential perch anchor points around target:
+    if (this.isMobile) {
+      // Mobile: perch strictly in available header margin above heading
+      const mobileAttempts: BrainPosition[] = [
+        { x: Math.max(16, viewW - BODY_SIZE_MOBILE - 14), y: 12 },
+        { x: 16, y: 12 },
+        { x: Math.max(16, viewW - BODY_SIZE_MOBILE - 14), y: Math.max(10, r.top - BODY_SIZE_MOBILE - 8) },
+        { x: 16, y: Math.max(10, r.top - BODY_SIZE_MOBILE - 8) },
+      ];
+
+      for (const pt of mobileAttempts) {
+        const clampedX = Math.max(8, Math.min(viewW - BODY_SIZE_MOBILE - 8, pt.x));
+        const clampedY = Math.max(12, Math.min(viewH - BODY_SIZE_MOBILE - 16, pt.y));
+        const candidateRect = {
+          left: clampedX,
+          top: clampedY,
+          right: clampedX + BODY_SIZE_MOBILE,
+          bottom: clampedY + BODY_SIZE_MOBILE,
+        };
+        const collidesWithAvoid = avoidRects.some((avoid) => {
+          return !(
+            candidateRect.right + AVOID_PADDING < avoid.left ||
+            candidateRect.left - AVOID_PADDING > avoid.right ||
+            candidateRect.bottom + AVOID_PADDING < avoid.top ||
+            candidateRect.top - AVOID_PADDING > avoid.bottom
+          );
+        });
+        if (!collidesWithAvoid) return { x: clampedX, y: clampedY };
+      }
+      return null;
+    }
+
+    // Potential perch anchor points around target on desktop:
     // 1. Top right corner / edge
     // 2. Top left corner / edge
     // 3. Right margin outside card
     // 4. Left margin outside card
     const attempts: BrainPosition[] = [
-      { x: r.right - 40, y: r.top - BODY_SIZE + 20 },
-      { x: r.left - 40, y: r.top - BODY_SIZE + 20 },
+      { x: r.right - 40, y: r.top - BODY_SIZE_DESKTOP + 20 },
+      { x: r.left - 40, y: r.top - BODY_SIZE_DESKTOP + 20 },
       { x: r.right + 16, y: r.top + 10 },
-      { x: r.left - BODY_SIZE - 16, y: r.top + 10 },
-      { x: r.right - BODY_SIZE / 2, y: r.bottom - 20 },
+      { x: r.left - BODY_SIZE_DESKTOP - 16, y: r.top + 10 },
+      { x: r.right - BODY_SIZE_DESKTOP / 2, y: r.bottom - 20 },
     ];
 
     for (const pt of attempts) {
       // Clamp inside screen bounds
-      const clampedX = Math.max(12, Math.min(viewW - BODY_SIZE - 12, pt.x));
-      const clampedY = Math.max(60, Math.min(viewH - BODY_SIZE - 20, pt.y));
+      const clampedX = Math.max(12, Math.min(viewW - BODY_SIZE_DESKTOP - 12, pt.x));
+      const clampedY = Math.max(60, Math.min(viewH - BODY_SIZE_DESKTOP - 20, pt.y));
 
       const candidateRect = {
         left: clampedX,
         top: clampedY,
-        right: clampedX + BODY_SIZE,
-        bottom: clampedY + BODY_SIZE,
+        right: clampedX + BODY_SIZE_DESKTOP,
+        bottom: clampedY + BODY_SIZE_DESKTOP,
       };
 
       // Check collision with all avoid zones

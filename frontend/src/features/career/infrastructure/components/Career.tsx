@@ -63,7 +63,7 @@ export const Career = () => {
           <br />
           <span className="title-gradient">experience</span>
         </h2>
-        <div className="career-info">
+        <div className="career-info" data-pixel="avoid">
           <div className="career-timeline-wrapper">
             <div className="career-timeline" ref={timelineLine}></div>
             <div className="career-dot" ref={timelineDot}></div>

@@ -5,7 +5,6 @@ import { Pixel2DBot } from "./Pixel2DBot";
 import {
   resolvePixelMode,
   persistPixelMode,
-  isPrefersReducedMotion,
   type PixelMode,
 } from "./mode";
 import "./PixelCompanion.css";
@@ -13,11 +12,9 @@ import "./PixelCompanion.css";
 export const PixelCompanion: React.FC = () => {
   const brainRef = useRef<PixelBrain | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const posRef = useRef({ x: 20, y: 120 });
 
   const [mode, setMode] = useState<PixelMode>(() => resolvePixelMode());
   const [snapshot, setSnapshot] = useState<BrainSnapshot | null>(null);
-  const animFrameRef = useRef<number>(0);
 
   // Initialize brain on mount
   useEffect(() => {
@@ -25,6 +22,7 @@ export const PixelCompanion: React.FC = () => {
 
     const brain = new PixelBrain();
     brainRef.current = brain;
+    (window as unknown as { __pixelBrain?: PixelBrain }).__pixelBrain = brain;
 
     const unsubscribe = brain.subscribe((snap) => {
       setSnapshot(snap);
@@ -39,51 +37,9 @@ export const PixelCompanion: React.FC = () => {
       clearTimeout(timer);
       unsubscribe();
       brain.destroy();
+      delete (window as unknown as { __pixelBrain?: PixelBrain }).__pixelBrain;
     };
   }, [mode]);
-
-  // Spring animation loop for smooth translation
-  useEffect(() => {
-    if (mode === "off" || !snapshot) return;
-
-    const reducedMotion = isPrefersReducedMotion();
-
-    // If reduced motion is requested, snap position statically without roaming
-    if (reducedMotion) {
-      posRef.current = { ...snapshot.targetPos };
-      if (containerRef.current) {
-        containerRef.current.style.transform = `translate3d(${snapshot.targetPos.x}px, ${snapshot.targetPos.y}px, 0)`;
-      }
-      return;
-    }
-
-    let running = true;
-
-    const loop = () => {
-      if (!running) return;
-
-      const target = brainRef.current?.getSnapshot().targetPos || posRef.current;
-      const dx = target.x - posRef.current.x;
-      const dy = target.y - posRef.current.y;
-
-      // Spring damping: ~0.08 per frame for gentle organic floating
-      posRef.current.x += dx * 0.08;
-      posRef.current.y += dy * 0.08;
-
-      if (containerRef.current) {
-        containerRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`;
-      }
-
-      animFrameRef.current = requestAnimationFrame(loop);
-    };
-
-    animFrameRef.current = requestAnimationFrame(loop);
-
-    return () => {
-      running = false;
-      cancelAnimationFrame(animFrameRef.current);
-    };
-  }, [mode, snapshot]);
 
   const handleDegradedPerformance = useCallback(() => {
     setMode("2d");
@@ -106,13 +62,14 @@ export const PixelCompanion: React.FC = () => {
   const expression = snapshot?.expression || "neutral";
   const reducedMotion = snapshot?.reducedMotion || false;
   const speechText = snapshot?.speechText;
+  const targetPos = snapshot?.targetPos || { x: 20, y: 120 };
 
   return (
     <div
       ref={containerRef}
       className={`pixel-companion-container ${reducedMotion ? "reduced-motion" : ""}`}
       style={{
-        transform: `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`,
+        transform: `translate3d(${targetPos.x}px, ${targetPos.y}px, 0)`,
       }}
       aria-label="Pixel Companion"
     >
