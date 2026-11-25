@@ -24,12 +24,12 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
 
     const interval = setInterval(() => {
       if (!isLoaded) {
-        progress += Math.random() * 15;
+        progress += 25;
         if (progress > 90) {
           progress = 90;
         }
       } else {
-        progress += 10;
+        progress += 25;
         if (progress >= 100) {
           progress = 100;
           clearInterval(interval);
@@ -40,12 +40,12 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
               document.body.style.overflow = '';
               window.scrollTo(0, 0);
               onComplete();
-            }, 800);
-          }, 400);
+            }, 400);
+          }, 150);
         }
       }
       setPercentage(Math.floor(progress));
-    }, 150);
+    }, 60);
 
     return () => {
       clearInterval(interval);

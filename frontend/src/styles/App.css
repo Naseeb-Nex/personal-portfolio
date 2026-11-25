@@ -3,12 +3,11 @@
   width: 100vw;
   height: 100vh;
   position: relative;
-
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   color: #fff;
-  perspective: 1000px;
+  z-index: 2;
 }
 
 

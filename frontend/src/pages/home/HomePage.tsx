@@ -1,81 +1,53 @@
-import { Navbar } from '../../features/navbar/infrastructure/components/Navbar';
-import { HeroContent } from '../../features/hero/infrastructure/components/HeroContent';
-import { OrbitalRing } from '../../shared/infrastructure/components/OrbitalRing';
-import { LiquidEther } from '../../shared/infrastructure/components/LiquidEther';
-import heroImg from '../../assets/images/hero.png';
-import { useTheme } from '../../shared/infrastructure/theme';
+import { useEffect, useState } from 'react';
+import { Hero } from '../../features/hero/components/Hero';
+import { ThemeToggle } from '../../features/hero/components/ThemeToggle';
 import { Manifesto } from '../../features/manifesto/infrastructure/components/Manifesto';
 import { PixelTransition } from '../../shared/infrastructure/components/PixelTransition/PixelTransition';
 import { AboutMe } from '../../features/about/infrastructure/components/AboutMe/AboutMe';
 import { Career } from '../../features/career/infrastructure/components/Career';
 import { Contact } from '../../features/contact/infrastructure/components/Contact';
 
+function getInitialTheme(): 'dark' | 'light' {
+  try {
+    const saved = localStorage.getItem('portfolio-theme');
+    if (saved === 'dark' || saved === 'light') {
+      return saved;
+    }
+  } catch {
+    // localStorage unavailable (e.g. security sandbox)
+  }
+  return 'dark';
+}
+
 export const HomePage = () => {
-  const { config } = useTheme();
+  const [theme, setTheme] = useState<'dark' | 'light'>(getInitialTheme);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('portfolio-theme', theme);
+    } catch {
+      // localStorage write error fallback
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   return (
-    <div className="page-wrapper" style={{ backgroundColor: '#040100', minHeight: '100vh' }}>
-      <main className="app-container" style={{ borderRadius: '0 0 40px 40px', overflow: 'hidden', position: 'relative', zIndex: 2 }}>
-        <header>
-          <Navbar />
-        </header>
-
-        <div className="grid-lines" aria-hidden="true">
-          <div className="line">
-            <div className="column-phase">
-              <span className="phase-num">01</span>
-              <span className="phase-name">Discover</span>
-            </div>
-          </div>
-          <div className="line">
-            <div className="column-phase">
-              <span className="phase-num">02</span>
-              <span className="phase-name">Prototype</span>
-            </div>
-          </div>
-          <div className="line"></div>
-          <div className="line">
-            <div className="column-phase">
-              <span className="phase-num">03</span>
-              <span className="phase-name">Launch</span>
-            </div>
-          </div>
-          <div className="line">
-            <div className="column-phase">
-              <span className="phase-num">04</span>
-              <span className="phase-name">Improve</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="liquid-ether-bg" aria-hidden="true">
-          <LiquidEther
-            colors={['#FFFFFF', '#FFD700', config.accentColor, '#5A1A00']}
-            mouseForce={20}
-            cursorSize={100}
-            isViscous={false}
-            viscous={30}
-            iterationsViscous={32}
-            iterationsPoisson={32}
-            resolution={0.5}
-            isBounce={false}
-            autoDemo={true}
-            autoSpeed={0.5}
-            autoIntensity={2.2}
-            takeoverDuration={0.25}
-            autoResumeDelay={3000}
-            autoRampDuration={0.6}
-          />
-        </div>
-
-        <div className="hero-image-container">
-          <img src={heroImg} alt="Muhammed Naseeb — AI Engineer (Naseeb Nex)" className="hero-image" />
-          <OrbitalRing />
-        </div>
-
-        <section className="fg-layer" aria-label="Hero Introduction">
-          <HeroContent />
-        </section>
+    <div
+      className="page-wrapper"
+      style={{
+        backgroundColor: 'var(--bg-dark, #000000)',
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      <main className="app-container">
+        <Hero theme={theme} />
       </main>
 
       <Manifesto />

@@ -37,13 +37,37 @@
   font-style: normal;
 }
 
-:root {
+:root,
+:root[data-theme="dark"] {
   --primary-orange: #FF5A00;
-  --bg-dark: #0a0200;
+  --primary-accent: #a391d3;
+  --bg-dark: #000000;
+  --bg-color: #000000;
   --text-main: #FFFFFF;
   --text-muted: rgba(255, 255, 255, 0.7);
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.15);
+  --theme-toggle-bg: rgba(255, 255, 255, 0.12);
+  --theme-toggle-bg-hover: rgba(255, 255, 255, 0.22);
+  --theme-toggle-color: #ffffff;
+  --theme-toggle-border: rgba(255, 255, 255, 0.2);
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --primary-orange: #FF5A00;
+  --primary-accent: #7b61b8;
+  --bg-dark: #a391d3;
+  --bg-color: #a391d3;
+  --text-main: #141120;
+  --text-muted: rgba(20, 17, 32, 0.7);
+  --glass-bg: rgba(0, 0, 0, 0.05);
+  --glass-border: rgba(0, 0, 0, 0.12);
+  --theme-toggle-bg: rgba(0, 0, 0, 0.06);
+  --theme-toggle-bg-hover: rgba(0, 0, 0, 0.12);
+  --theme-toggle-color: #141120;
+  --theme-toggle-border: rgba(0, 0, 0, 0.15);
+  color-scheme: light;
 }
 
 * {
@@ -58,16 +82,17 @@ body {
   color: var(--text-main);
   overflow-x: hidden;
   margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .app-container {
   position: relative;
   min-height: 100vh;
   width: 100vw;
-  background: radial-gradient(circle at 50% 50%, #FFC107 0%, #FF5A00 25%, #5A1A00 55%, var(--bg-dark) 85%);
+  background: transparent;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Navbar */
