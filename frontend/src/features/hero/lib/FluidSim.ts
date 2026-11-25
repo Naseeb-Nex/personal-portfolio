@@ -100,8 +100,8 @@ export class FluidSim {
     return this.helper.createRawShaderMaterial({
       vertexShader: fluidVert,
       fragmentShader,
-      vertexShaderPrefix: `precision ${precision} float;\n`,
-      fragmentShaderPrefix: `precision ${precision} float;\n`,
+      vertexShaderPrefix: `precision ${precision} float;\nprecision ${precision} sampler2D;\n`,
+      fragmentShaderPrefix: `precision ${precision} float;\nprecision ${precision} sampler2D;\n`,
       uniforms,
       defines,
     });
@@ -114,14 +114,16 @@ export class FluidSim {
 
     return {
       splat: this.createPassMaterial(fluidSplatFrag, high, {
+        ...texelSize(),
         u_tTarget: { value: null },
         u_aspectRatio: { value: 1 },
-        u_color: { value: new Vector3() },
-        u_point: { value: new Vector2() },
-        u_radius: { value: this.config.splatRadius / 100 },
+        u_splatColor: { value: new Vector3() },
+        u_splatPosition: { value: new Vector2() },
+        u_prevPoint: { value: new Vector2() },
+        u_splatRadius: { value: 1 },
       }),
 
-      curl: this.createPassMaterial(fluidCurlFrag, high, {
+      curl: this.createPassMaterial(fluidCurlFrag, medium, {
         ...texelSize(),
         u_tVelocity: { value: null },
       }),
@@ -225,10 +227,12 @@ export class FluidSim {
     this.point.position.copy(mouseScreenXY);
     const point = this.point;
 
+    // Skip if updated too recently (60fps throttle)
     if (time - point.lastUpdate < 0.016) return;
 
     pointerDelta.subVectors(point.position, point.prevPosition);
     const distance = pointerDelta.length();
+
     point.velocity += distance * 2;
 
     if (distance > 0) {
@@ -240,14 +244,15 @@ export class FluidSim {
 
       this.materials.splat.uniforms.u_tTarget!.value = this.fbos.velocity.read.texture;
       this.materials.splat.uniforms.u_aspectRatio!.value = this.config.aspect;
-      this.materials.splat.uniforms.u_point!.value.copy(point.position);
-
-      const force = this.config.splatForce * (shouldStartNewLine ? 0.3 : 1);
-      (this.materials.splat.uniforms.u_color!.value as Vector3).set(
-        pointerDelta.x * force,
-        pointerDelta.y * force,
-        0
+      (this.materials.splat.uniforms.u_splatPosition!.value as Vector2).copy(point.position);
+      (this.materials.splat.uniforms.u_prevPoint!.value as Vector2).copy(
+        shouldStartNewLine ? point.position : point.prevPosition
       );
+      (this.materials.splat.uniforms.u_splatColor!.value as Vector3)
+        .set(pointerDelta.x * this.config.aspect, pointerDelta.y, 0)
+        .multiplyScalar(this.config.splatForce)
+        .multiplyScalar(shouldStartNewLine ? 0 : 1);
+      this.materials.splat.uniforms.u_splatRadius!.value = this.config.splatRadius * point.velocity;
 
       this.helper.render(this.materials.splat, this.fbos.velocity.write, renderer);
       this.fbos.velocity.swap();

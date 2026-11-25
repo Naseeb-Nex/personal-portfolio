@@ -1,10 +1,16 @@
 uniform vec3 u_color;
+uniform float u_isDark;
 uniform float u_debugPattern;
 
 varying vec2 v_uv;
 
 void main() {
-  // diagonal ramp, bottom-left -> top-right
+  if (u_isDark > 0.5) {
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+    return;
+  }
+
+  // diagonal ramp, bottom-left -> top-right (source xylophone)
   float t = smoothstep(0.0, 1.0, v_uv.y * 0.5 + (1.0 - v_uv.x) * 0.5);
   vec3 color = mix(u_color, vec3(1.0), t - 0.3);
 

@@ -100,6 +100,7 @@ export class XylophoneScene {
   // Background
   private bgMesh: Mesh;
   private bgMaterial: ShaderMaterial;
+  private mainBgMaterial: ShaderMaterial;
   private bgGeometry: PlaneGeometry;
 
   // Xylophone
@@ -157,8 +158,15 @@ export class XylophoneScene {
     u_iridBody: { value: 0.12 },
   };
 
-  private bgUniforms = {
-    u_color: { value: new Color(0x000000) },
+  private backdropBgUniforms = {
+    u_color: { value: new Color(0xa391d3) },
+    u_isDark: { value: 0 },
+    u_debugPattern: { value: 0 },
+  };
+
+  private mainBgUniforms = {
+    u_color: { value: new Color(0xa391d3) },
+    u_isDark: { value: 1 },
     u_debugPattern: { value: 0 },
   };
 
@@ -205,12 +213,12 @@ export class XylophoneScene {
     });
     this.xylophoneUniforms.u_tBackdrop.value = this.backdropTarget.texture;
 
-    // Background scene & mesh
+    // Background scene & mesh for backdrop reflection/transmission
     this.bgScene = new Scene();
     this.bgCamera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
     this.bgGeometry = new PlaneGeometry(2, 2);
     this.bgMaterial = new ShaderMaterial({
-      uniforms: this.bgUniforms,
+      uniforms: this.backdropBgUniforms,
       vertexShader: xylophoneBgVert,
       fragmentShader: xylophoneBgFrag,
       side: DoubleSide,
@@ -224,7 +232,15 @@ export class XylophoneScene {
     // Main scene
     this.scene = new Scene();
     // Add bg to main scene as well (behind bars)
-    const mainBg = new Mesh(this.bgGeometry, this.bgMaterial);
+    this.mainBgMaterial = new ShaderMaterial({
+      uniforms: this.mainBgUniforms,
+      vertexShader: xylophoneBgVert,
+      fragmentShader: xylophoneBgFrag,
+      side: DoubleSide,
+      depthTest: false,
+      depthWrite: false,
+    });
+    const mainBg = new Mesh(this.bgGeometry, this.mainBgMaterial);
     mainBg.renderOrder = -1;
     mainBg.frustumCulled = false;
     this.scene.add(mainBg);
@@ -312,12 +328,13 @@ export class XylophoneScene {
   setTheme(theme: "dark" | "light") {
     this.currentTheme = theme;
     // Keep every element/glass colour exactly as in the xylophone source.
-    // LIGHT theme background = xylophone source (0xa391d3).
-    // DARK theme background = pure black #000000.
+    // LIGHT theme background = xylophone source (0xa391d3 diagonal ramp to white).
+    // DARK theme background = flat pure #000000.
     if (theme === "dark") {
-      this.bgUniforms.u_color.value.set(0x000000);
+      this.mainBgUniforms.u_isDark.value = 1;
     } else {
-      this.bgUniforms.u_color.value.set(0xa391d3);
+      this.mainBgUniforms.u_isDark.value = 0;
+      this.mainBgUniforms.u_color.value.set(0xa391d3);
     }
 
     if (this.reduceMotion) {
@@ -502,6 +519,7 @@ export class XylophoneScene {
 
     this.bgGeometry.dispose();
     this.bgMaterial.dispose();
+    this.mainBgMaterial.dispose();
 
     if (this.instances) {
       this.instances.geometry.dispose();
