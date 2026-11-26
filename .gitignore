@@ -77,5 +77,6 @@ coverage/
 .npm/
 .yarn/
 screenshots/
-scripts/
+test-results/
+playwright-report/
 
