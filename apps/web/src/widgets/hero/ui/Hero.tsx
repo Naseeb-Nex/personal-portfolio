@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { XylophoneScene } from '../lib/XylophoneScene';
+import { HeroContent } from './HeroContent';
+import { RobotFace } from './RobotFace';
 import './Hero.css';
 
 interface HeroProps {
@@ -36,9 +38,20 @@ export const Hero: React.FC<HeroProps> = ({ theme }) => {
   }, [theme]);
 
   return (
-    <section className="hero-container" aria-label="Interactive 3D Glass Hero">
+    <section className="hero-container" aria-label="Interactive 3D Glass Hero with lilpix robot">
+      {/* Background Xylophone WebGL canvas */}
       <div ref={containerRef} className="hero-canvas-wrap" aria-hidden="true">
         <canvas ref={canvasRef} className="hero-canvas" />
+      </div>
+
+      {/* Foreground Hero Layout */}
+      <div className="hero-content-wrap">
+        <div className="hero-left-col">
+          <HeroContent />
+        </div>
+        <div className="hero-right-col">
+          <RobotFace theme={theme} />
+        </div>
       </div>
     </section>
   );
