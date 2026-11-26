@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Hero } from '../../features/hero/components/Hero';
 import { ThemeToggle } from '../../features/hero/components/ThemeToggle';
 import { Manifesto } from '../../features/manifesto/infrastructure/components/Manifesto';
-import { PixelTransition } from '../../shared/infrastructure/components/PixelTransition/PixelTransition';
+import { PixelTransition } from '../../shared/ui/PixelTransition';
 import { AboutMe } from '../../features/about/infrastructure/components/AboutMe/AboutMe';
 import { Career } from '../../features/career/infrastructure/components/Career';
 import { Contact } from '../../features/contact/infrastructure/components/Contact';

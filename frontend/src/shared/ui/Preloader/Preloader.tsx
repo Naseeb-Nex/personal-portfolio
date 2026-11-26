@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Preloader.css';
-import heroImg from '../../../../assets/images/hero.png';
+import heroImg from '../../assets/images/hero.png';
 
 export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const [percentage, setPercentage] = useState(0);

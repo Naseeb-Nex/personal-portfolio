@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { CreativeButton } from '../../../../shared/infrastructure/components/CreativeButton/CreativeButton';
+import { CreativeButton } from '../../../../shared/ui/CreativeButton';
 import './Contact.css';
 
 gsap.registerPlugin(useGSAP);

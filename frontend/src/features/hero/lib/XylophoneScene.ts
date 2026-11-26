@@ -29,7 +29,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import modelUrl from "../../../assets/models/xylophone-09.glb?url";
+import modelUrl from "../../../shared/assets/models/xylophone-09.glb?url";
 import xylophoneFrag from "../shaders/xylophone/xylophoneFrag.glsl?raw";
 import xylophoneVert from "../shaders/xylophone/xylophoneVert.glsl?raw";
 import xylophoneBgFrag from "../shaders/xylophoneBg/xylophoneBgFrag.glsl?raw";

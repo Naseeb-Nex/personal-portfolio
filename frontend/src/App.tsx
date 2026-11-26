@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { ThemeProvider } from './shared/infrastructure/theme';
+import { ThemeProvider } from './shared/theme';
 import { HomePage } from './pages/home';
-import { Preloader } from './shared/infrastructure/components/Preloader';
-import './styles/global.css';
-import './styles/App.css';
+import { Preloader } from './shared/ui/Preloader';
+import './app/styles/global.css';
+import './app/styles/App.css';
 
 function App() {
   const [loading, setLoading] = useState(true);
