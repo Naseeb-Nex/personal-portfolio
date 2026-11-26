@@ -5,8 +5,8 @@ import asyncpg
 from datetime import datetime, timezone
 import uuid
 import jwt
-from app.infra.database.database import get_db
-from app.infra.repositories.session import SessionRepository
+from app.infrastructure.database.database import get_db
+from app.infrastructure.repositories.session import SessionRepository
 from app.domain.modules.session.entity import Session
 from app.config import settings
 

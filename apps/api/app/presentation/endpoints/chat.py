@@ -2,14 +2,14 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import Annotated
-from app.infra.database.database import get_db, DB_URL
+from app.infrastructure.database.database import get_db, DB_URL
 import asyncpg
-from app.infra.services.agent import PortfolioAgent
-from app.infra.adapters.llm import GeminiLLMProvider
-from app.infra.adapters.vector_store import ChromaDBAdapter
+from app.infrastructure.services.agent import PortfolioAgent
+from app.infrastructure.adapters.llm import GeminiLLMProvider
+from app.infrastructure.adapters.vector_store import ChromaDBAdapter
 import json
 import asyncio
-from app.api.deps import get_current_session_id
+from app.presentation.deps import get_current_session_id
 
 router = APIRouter()
 

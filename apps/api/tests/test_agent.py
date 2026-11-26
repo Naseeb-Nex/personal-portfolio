@@ -1,7 +1,7 @@
 import pytest
-from app.infra.adapters.llm import GeminiLLMProvider
-from app.infra.adapters.vector_store import ChromaDBAdapter
-from app.infra.services.agent import PortfolioAgent
+from app.infrastructure.adapters.llm import GeminiLLMProvider
+from app.infrastructure.adapters.vector_store import ChromaDBAdapter
+from app.infrastructure.services.agent import PortfolioAgent
 from langchain_core.messages import AIMessage
 
 class MockLLM:

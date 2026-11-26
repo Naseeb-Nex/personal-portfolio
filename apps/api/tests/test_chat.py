@@ -11,7 +11,7 @@ async def test_chat_stream():
     # A better test uses mocked dependencies, but for now we just verify the endpoint exists
     # To prevent LLM API calls in CI, we'll mock the PortfolioAgent in the endpoint
     from unittest.mock import patch
-    with patch("app.api.endpoints.chat.PortfolioAgent.run") as mock_run:
+    with patch("app.presentation.endpoints.chat.PortfolioAgent.run") as mock_run:
         from langchain_core.messages import AIMessage
         mock_run.return_value = [AIMessage(content="Mocked answer")]
         

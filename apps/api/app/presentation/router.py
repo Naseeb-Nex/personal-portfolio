@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.endpoints import health, session, chat
+from app.presentation.endpoints import health, session, chat
 
 api_router = APIRouter()
 api_router.include_router(health.router, tags=["health"])

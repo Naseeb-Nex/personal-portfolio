@@ -1,8 +1,8 @@
 import asyncio
-from app.infra.services.agent import PortfolioAgent
-from app.infra.adapters.llm import GeminiLLMProvider
-from app.infra.adapters.vector_store import ChromaDBAdapter
-from app.infra.database.database import DB_URL
+from app.infrastructure.services.agent import PortfolioAgent
+from app.infrastructure.adapters.llm import GeminiLLMProvider
+from app.infrastructure.adapters.vector_store import ChromaDBAdapter
+from app.infrastructure.database.database import DB_URL
 
 # Patch agent run method for local testing
 async def run_patched(self, message: str, session_id: str, db_url: str):
