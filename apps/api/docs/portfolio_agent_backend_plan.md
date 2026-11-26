@@ -1,4 +1,5 @@
 # Portfolio Chat Agent — Backend Implementation Plan
+> *Note: This is a historical planning document. Paths and structure predated the `apps/api` monorepo migration.*
 
 ## Goal Description
 Implement the backend for a public-facing portfolio website chat widget. The backend will use FastAPI for edge routing/SSE streaming, LangGraph for agent orchestration, ChromaDB for profile data RAG, and Redis/Postgres for session/rate limiting/bot protection. The system is designed for public access without user login, featuring robust abuse prevention and tool calling for rendering structured UI cards.

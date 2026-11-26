@@ -1,4 +1,4 @@
-# FastAPI Backend Rules &amp; Guidelines
+# FastAPI Backend Rules & Guidelines
 
 This document defines the rules and protocols for building the FastAPI backend using **Clean Architecture** and **SOLID** principles.
 
@@ -6,45 +6,53 @@ This document defines the rules and protocols for building the FastAPI backend u
 
 ## 1. Core Architecture Principles
 
-### Three-Layer Architecture
+### Clean Architecture Layers
 
-The project is structured into three distinct layers to ensure separation of concerns:
+The backend project in `apps/api/` is structured into clean architectural layers:
 
 ```
-backend/app/
-├── api/              # API Layer (Controllers, Routes, Schemas/DTOs)
-├── domain/           # Domain Layer (Pure Business Logic, Entities, Abstract Interfaces)
-└── infra/            # Infrastructure Layer (DB models, Repositories, Adapters, Concrete Services)
+apps/api/app/
+├── presentation/     # Presentation Layer (Endpoints, Routers, Dependencies, DTOs)
+├── domain/           # Domain Layer (Pure Business Entities, Repository Interfaces)
+└── infrastructure/   # Infrastructure Layer (DB repos, Adapters, Concrete Services)
 ```
 
 ### Dependency Flow Rule
 
 ```
-API Layer ──> Domain Layer <── Infrastructure Layer
+Presentation Layer ──> Domain Layer <── Infrastructure Layer
 ```
 
-- **Domain Layer** is the core. It must be completely framework-agnostic and database-agnostic. It must **NEVER** import anything from the `api` or `infra` layers.
-- **API Layer** depends on the `domain` layer (interfaces, exceptions, entities).
+- **Domain Layer** is the core. It must be completely framework-agnostic and database-agnostic. It must **NEVER** import anything from `presentation` or `infrastructure`.
+- **Presentation Layer** depends on the `domain` layer (interfaces, exceptions, entities).
 - **Infrastructure Layer** implements the interfaces defined in the `domain` layer and imports domain models.
-- Use dependency injection (e.g., `dependency_injector` or FastAPI dependency system) to wire components together.
+- Use dependency injection via FastAPI `Depends` system to wire components together.
 
 ---
 
-## 2. Directory Layout &amp; Layer Responsibilities
+## 2. Directory Layout & Layer Responsibilities
 
 ```
-backend/app/
-├── api/             # API layer (v1/, schemas/, middlewares/)
-├── domain/          # Core entities, interfaces, exceptions
-└── infra/           # Native DB access, repos, adapters, services
-├── main.py          # Entry point
-├── config.py        # App settings
+apps/api/app/
+├── presentation/    # HTTP endpoints, routing, request validation
+│   ├── endpoints/   # Route handlers (chat, session, health)
+│   ├── router.py    # FastAPI router aggregation
+│   └── deps.py      # Request-scoped dependencies
+├── domain/          # Core entities and abstract interfaces
+│   └── modules/     # Domain modules (agent, session)
+├── infrastructure/  # Concrete adapters and persistence
+│   ├── database/    # Asyncpg connection pool and schema
+│   ├── repositories/# Concrete repository implementations
+│   ├── adapters/    # LLM and vector store clients
+│   └── services/    # Orchestrator & agent services
+├── main.py          # Entry point & FastAPI app
+├── config.py        # Pydantic Settings
 └── dependencies.py  # DI Container setup
 ```
 
 ---
 
-## 3. Protocol &amp; Implementation Patterns
+## 3. Protocol & Implementation Patterns
 
 ### 1. Domain Entities (`domain/modules/*/entity.py`)
 
@@ -86,7 +94,7 @@ class IUserRepository(ABC):
         pass
 ```
 
-### 3. Concrete Repository (`infra/repositories/*.py`)
+### 3. Concrete Repository (`infrastructure/repositories/*.py`)
 
 - Implements the domain contract interface.
 - Uses asynchronous PostgreSQL native packages (e.g. `asyncpg`), **NOT** an ORM.
@@ -116,7 +124,7 @@ class UserRepository(IUserRepository):
 
 ---
 
-## 4. Endpoints &amp; Exception Flow
+## 4. Endpoints & Exception Flow
 
 - **Endpoint Rules:** No business logic in endpoints. They handle parsing, executing service, and returning response models. Annotate dependencies cleanly (e.g. `DbPool = Annotated[asyncpg.Pool, Depends(get_db)]`).
 - **Exception Flow:** Services raise domain-specific exceptions. Middlewares convert domain exceptions to proper HTTP status codes. Endpoints do not require `try/except` blocks for these standard domain exceptions.
@@ -134,4 +142,4 @@ class UserRepository(IUserRepository):
 
 ## 6. Database Schema
 
-Information about the database schema from the MCP server is stored locally in `app/infra/database/schema.json`.
+Information about the database schema from the MCP server is stored locally in `app/infrastructure/database/schema.json`.
