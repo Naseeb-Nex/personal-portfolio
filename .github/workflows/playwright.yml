@@ -14,13 +14,13 @@ jobs:
       with:
         node-version: lts/*
     - name: Install dependencies
-      working-directory: frontend
+      working-directory: apps/web
       run: npm ci
     - name: Install Playwright Browsers
-      working-directory: frontend
+      working-directory: apps/web
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      working-directory: frontend
+      working-directory: apps/web
       run: npx playwright test
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
