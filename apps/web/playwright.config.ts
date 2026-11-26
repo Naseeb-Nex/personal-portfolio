@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests',
   webServer: {
     command: 'npm run dev',
-    url: 'http://localhost:5173',
+    url: 'http://localhost:5181',
     reuseExistingServer: !process.env.CI,
   },
 });

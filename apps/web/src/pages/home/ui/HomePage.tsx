@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Hero } from '../../widgets/hero';
-import { ThemeToggle } from '../../features/theme-toggle';
-import { Manifesto } from '../../widgets/manifesto';
-import { PixelTransition } from '../../shared/ui/PixelTransition';
-import { AboutMe } from '../../widgets/about';
-import { Career } from '../../widgets/career';
-import { Contact } from '../../widgets/contact';
+import { Hero } from '../../../widgets/hero';
+import { ThemeToggle } from '../../../features/theme-toggle';
+import { Manifesto } from '../../../widgets/manifesto';
+import { PixelTransition } from '../../../shared/ui/PixelTransition';
+import { AboutMe } from '../../../widgets/about';
+import { Career } from '../../../widgets/career';
+import { Contact } from '../../../widgets/contact';
 
 function getInitialTheme(): 'dark' | 'light' {
   try {
