@@ -41,7 +41,7 @@ export const HomePage = () => {
             </div>
           </div>
           <div className="line">
-            <div className="column-phase">
+            <div className="column-phase" data-pixel="avoid">
               <span className="phase-num">04</span>
               <span className="phase-name">Improve</span>
             </div>

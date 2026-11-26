@@ -35,12 +35,12 @@ export const Manifesto = () => {
   }, { scope: containerRef });
 
   return (
-    <section className="manifesto-section" aria-label="Manifesto" ref={containerRef}>
-      <div className="manifesto-tag">
+    <section className="manifesto-section" aria-label="Manifesto" ref={containerRef} data-pixel="perch">
+      <div className="manifesto-tag" data-pixel="point">
         <span className="dot"></span>
         MANIFESTO
       </div>
-      <div className="manifesto-text" ref={textRef}>
+      <div className="manifesto-text" ref={textRef} data-pixel="avoid">
         <span className="word">I</span> <span className="word">DON’T</span> <span className="word">JUST</span> <span className="word">PROMPT</span> <span className="word">MODELS.</span><br />
         <span className="word">I</span> <span className="word">SPEND</span> <span className="word">MY</span> <span className="word">DAYS</span> <span className="word">WIRING</span><br />
         <span className="word">AUTONOMOUS</span> <span className="word">AGENTS</span> <span className="word">TO</span><br />

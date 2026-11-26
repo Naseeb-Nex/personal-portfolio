@@ -76,3 +76,5 @@ coverage/
 .stylelintcache
 .npm/
 .yarn/
+screenshots/
+test-results/

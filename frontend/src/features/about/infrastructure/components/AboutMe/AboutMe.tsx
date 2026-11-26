@@ -22,16 +22,16 @@ export const AboutMe = () => {
   return (
     <section className="about-me-section" ref={containerRef}>
       <div className="about-me-container">
-        
+
         <div className="about-me-grid">
-          
+
           {/* HEADER (Top Left on Desktop) */}
-          <div className="about-header">
+          <div className="about-header" data-pixel="perch">
             <div className="about-tag">
               <span className="dot"></span>
               ABOUT ME
             </div>
-            
+
             <h2 className="about-heading">
               ORCHESTRATING<br />
               REAL <span className="gradient-text">INTELLIGENCE.</span>
@@ -39,7 +39,7 @@ export const AboutMe = () => {
           </div>
 
           {/* LEFT SIDE */}
-          <div className="about-left">
+          <div className="about-left" data-pixel="avoid">
             <div className="photo-wrapper">
               {/* Photo */}
               <img src={aboutImage} alt="Muhammed Naseeb — Naseeb Nex AI Engineer" className="photo-image" />
@@ -72,7 +72,7 @@ export const AboutMe = () => {
           </div>
           
           {/* RIGHT SIDE */}
-          <div className="about-right">
+          <div className="about-right" data-pixel="avoid">
             <p>
               I'm <strong>Muhammed Naseeb</strong>, an <strong>AI Engineer</strong> based in Pune. A couple of years deep into <strong>production GenAI</strong>, and I still get a little too obsessed every time a <strong>multi-agent system</strong> successfully reasons its way through a complex handoff.
             </p>
