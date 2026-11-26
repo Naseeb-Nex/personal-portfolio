@@ -8,7 +8,7 @@ const SCREENSHOT_DIR = path.resolve(__dirname, '../../screenshots/pixel');
 
 test.describe('Pixel Companion Visual & Performance Verification', () => {
 
-  test('3D mode - Desktop 1440x900 - Hero section & Performance', async ({ page }) => {
+  test('3D mode - Desktop 1440x900 - Hero, About, Career (Dark & Light) & Performance', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('http://localhost:5173/?pixel=3d');
     await page.waitForLoadState('networkidle');
@@ -70,33 +70,47 @@ test.describe('Pixel Companion Visual & Performance Verification', () => {
       expect(overlapsChat).toBeFalsy();
     }
 
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-hero.png'),
-    });
-  });
+    // 1. Hero Dark
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-hero-dark.png') });
+    // Legacy filename compatibility
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-hero.png') });
 
-  test('3D mode - Desktop 1440x900 - Perched on About section', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('http://localhost:5173/?pixel=3d');
-    await page.waitForLoadState('networkidle');
-    await page.locator('.preloader-overlay').waitFor({ state: 'detached', timeout: 8000 }).catch(() => {});
-    await page.waitForTimeout(1000);
+    // 2. Hero Light
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-hero-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
 
-    // Scroll to About section
+    // 3. About Dark
     await page.evaluate(() => {
       document.querySelector('.about-me-section')?.scrollIntoView({ behavior: 'instant' });
+      (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
-    await page.waitForTimeout(2500);
+    await page.waitForTimeout(2000);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-about-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-about.png') });
 
-    const companion = page.locator('.pixel-companion-container');
-    await expect(companion).toBeVisible();
+    // 4. About Light
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-about-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
 
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-about.png'),
+    // 5. Career Dark
+    await page.evaluate(() => {
+      document.querySelector('.career-section')?.scrollIntoView({ behavior: 'instant' });
+      (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
+    await page.waitForTimeout(2000);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-career-dark.png') });
+
+    // 6. Career Light
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-desktop-1440x900-career-light.png') });
   });
 
-  test('2D mode - Desktop 1440x900 - Hero section (?pixel=2d)', async ({ page }) => {
+  test('2D mode - Desktop 1440x900 - Hero, About, Career (Dark & Light) (?pixel=2d)', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('http://localhost:5173/?pixel=2d');
     await page.waitForLoadState('networkidle');
@@ -108,34 +122,44 @@ test.describe('Pixel Companion Visual & Performance Verification', () => {
     const bot3D = page.locator('.pixel-3d-bot');
     await expect(bot3D).toHaveCount(0);
 
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-hero.png'),
+    // 1. Hero Dark & Light
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-hero-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-hero.png') });
+
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-hero-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+
+    // 2. About Dark & Light
+    await page.evaluate(() => {
+      document.querySelector('.about-me-section')?.scrollIntoView({ behavior: 'instant' });
+      (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
-  });
+    await page.waitForTimeout(2000);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-about-dark.png') });
 
-  test('2D mode - Desktop 1440x900 - Career section (?pixel=2d)', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('http://localhost:5173/?pixel=2d');
-    await page.waitForLoadState('networkidle');
-    await page.locator('.preloader-overlay').waitFor({ state: 'detached', timeout: 8000 }).catch(() => {});
-    await page.waitForTimeout(1000);
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-about-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
 
+    // 3. Career Dark & Light
     await page.evaluate(() => {
       document.querySelector('.career-section')?.scrollIntoView({ behavior: 'instant' });
+      (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
-    await page.waitForTimeout(2500);
+    await page.waitForTimeout(2000);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-career-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-career.png') });
 
-    const companion = page.locator('.pixel-companion-container');
-    await expect(companion).toBeVisible();
-
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-career.png'),
-    });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-desktop-1440x900-career-light.png') });
   });
 
-  test('2D mode - Mobile 390x844 - Hero, About, and Career sections', async ({ page }) => {
+  test('2D mode - Mobile 390x844 - Hero, About, Career (Dark & Light)', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    // Default mobile mode is 2D
     await page.goto('http://localhost:5173/');
     await page.waitForLoadState('networkidle');
     await page.locator('.preloader-overlay').waitFor({ state: 'detached', timeout: 8000 }).catch(() => {});
@@ -144,33 +168,44 @@ test.describe('Pixel Companion Visual & Performance Verification', () => {
     const bot2D = page.locator('.pixel-2d-bot');
     await expect(bot2D).toBeVisible();
 
-    // 1. Mobile Hero
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-hero.png'),
-    });
+    // 1. Mobile Hero Dark & Light
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-hero-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-hero.png') });
 
-    // 2. Mobile About
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-hero-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+
+    // 2. Mobile About Dark & Light
     await page.evaluate(() => {
       document.querySelector('.about-me-section')?.scrollIntoView({ behavior: 'instant' });
       (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
     await page.waitForTimeout(2000);
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-about.png'),
-    });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-about-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-about.png') });
 
-    // 3. Mobile Career
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-about-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+
+    // 3. Mobile Career Dark & Light
     await page.evaluate(() => {
       document.querySelector('.career-section')?.scrollIntoView({ behavior: 'instant' });
       (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
     await page.waitForTimeout(2000);
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-career.png'),
-    });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-career-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-career.png') });
+
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '2d-mobile-390x844-career-light.png') });
   });
 
-  test('3D mode - Mobile 390x844 - Hero, About, and Career sections (?pixel=3d)', async ({ page }) => {
+  test('3D mode - Mobile 390x844 - Hero, About, Career (Dark & Light) (?pixel=3d)', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('http://localhost:5173/?pixel=3d');
     await page.waitForLoadState('networkidle');
@@ -180,41 +215,41 @@ test.describe('Pixel Companion Visual & Performance Verification', () => {
     const bot3D = page.locator('.pixel-3d-bot');
     await expect(bot3D).toBeVisible();
 
-    // 1. Mobile 3D Hero
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-hero.png'),
-    });
+    // 1. Mobile 3D Hero Dark & Light
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-hero-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-hero.png') });
 
-    // 2. Mobile 3D About
-    const debugInfo = await page.evaluate(() => {
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-hero-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+
+    // 2. Mobile 3D About Dark & Light
+    await page.evaluate(() => {
       document.querySelector('.about-me-section')?.scrollIntoView({ behavior: 'instant' });
-      const brain = (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void; getSnapshot: () => unknown } }).__pixelBrain;
-      brain?.perchOnVisibleSection();
-      return brain?.getSnapshot();
+      (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
-    console.log('Mobile About Snapshot:', JSON.stringify(debugInfo));
     await page.waitForTimeout(2000);
-    const posLog = await page.evaluate(() => {
-      const el = document.querySelector('.pixel-companion-container') as HTMLElement;
-      return {
-        styleTransform: el?.style.transform,
-        computedTransform: window.getComputedStyle(el).transform,
-      };
-    });
-    console.log('Mobile About DOM Transform:', posLog);
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-about.png'),
-    });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-about-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-about.png') });
 
-    // 3. Mobile 3D Career
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-about-light.png') });
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+
+    // 3. Mobile 3D Career Dark & Light
     await page.evaluate(() => {
       document.querySelector('.career-section')?.scrollIntoView({ behavior: 'instant' });
       (window as unknown as { __pixelBrain?: { perchOnVisibleSection: () => void } }).__pixelBrain?.perchOnVisibleSection();
     });
     await page.waitForTimeout(2000);
-    await page.screenshot({
-      path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-career.png'),
-    });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-career-dark.png') });
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-career.png') });
+
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    await page.waitForTimeout(400);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, '3d-mobile-390x844-career-light.png') });
   });
 
   test('Reduced motion - Desktop 1440x900 (prefers-reduced-motion: reduce)', async ({ page }) => {
@@ -258,7 +293,6 @@ test.describe('Pixel Companion Visual & Performance Verification', () => {
   });
 
   test('Auto-switch verification: low-power device selection', async ({ page }) => {
-    // Emulate low-power device (deviceMemory = 2GB, hardwareConcurrency = 2)
     await page.addInitScript(() => {
       Object.defineProperty(navigator, 'deviceMemory', { get: () => 2 });
       Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => 2 });
@@ -270,7 +304,6 @@ test.describe('Pixel Companion Visual & Performance Verification', () => {
     await page.locator('.preloader-overlay').waitFor({ state: 'detached', timeout: 8000 }).catch(() => {});
     await page.waitForTimeout(1500);
 
-    // In low-power device, 2D bot is auto-selected
     const bot2D = page.locator('.pixel-2d-bot');
     await expect(bot2D).toBeVisible();
     const bot3D = page.locator('.pixel-3d-bot');

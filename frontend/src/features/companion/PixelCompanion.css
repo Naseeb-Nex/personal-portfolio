@@ -44,17 +44,17 @@
   bottom: calc(100% - 10px);
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(18, 18, 22, 0.94);
+  background: var(--surface-1, rgba(18, 18, 22, 0.94));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--hairline, rgba(255, 255, 255, 0.15));
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 229, 255, 0.2);
   border-radius: 12px;
   padding: 6px 12px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-size: 13px;
   font-weight: 500;
-  color: #f1f5f9;
+  color: var(--ink, #f1f5f9);
   white-space: normal;
   text-align: center;
   max-width: 200px;
@@ -72,7 +72,22 @@
   transform: translateX(-50%);
   border-width: 5px 5px 0 5px;
   border-style: solid;
-  border-color: rgba(18, 18, 22, 0.94) transparent transparent transparent;
+  border-color: var(--surface-1, rgba(18, 18, 22, 0.94)) transparent transparent transparent;
+}
+
+:root[data-theme="light"] .pixel-speech-bubble {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #111827;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 0 12px rgba(0, 153, 255, 0.2);
+}
+
+:root[data-theme="light"] .pixel-speech-bubble::after {
+  border-color: rgba(255, 255, 255, 0.96) transparent transparent transparent;
+}
+
+:root[data-theme="light"] .pixel-2d-bot {
+  filter: drop-shadow(0 6px 18px rgba(0, 120, 220, 0.28)) !important;
 }
 
 @keyframes pixelBubbleFadeIn {
