@@ -12,7 +12,7 @@ fi
 
 # 1. Setup Backend
 echo "Setting up backend..."
-cd "$ORCA_WORKTREE_PATH/backend" || exit 1
+cd "$ORCA_WORKTREE_PATH/apps/api" || exit 1
 
 if [ ! -d "venv" ]; then
   echo "Creating virtual environment..."
@@ -26,7 +26,7 @@ deactivate
 
 # 2. Setup Frontend
 echo "Setting up frontend..."
-cd "$ORCA_WORKTREE_PATH/frontend" || exit 1
+cd "$ORCA_WORKTREE_PATH/apps/web" || exit 1
 
 echo "Installing frontend dependencies..."
 npm install
