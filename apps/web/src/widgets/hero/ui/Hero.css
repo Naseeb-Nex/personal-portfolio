@@ -3,16 +3,16 @@
   width: 100vw;
   height: 100vh;
   min-height: 100vh;
-  overflow: visible;
+  overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
-  background-color: #000000;
+  background-color: #000000; /* canvas dark token */
   transition: background-color 0.3s ease;
 }
 
 [data-theme="light"] .hero-container {
-  background-color: #ffffff;
+  background-color: #ffffff; /* canvas light token */
 }
 
 /* Background Canvas wrapper with soft gradient fade */
@@ -21,11 +21,11 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh + 200px);
+  height: 100%;
   pointer-events: none;
   z-index: 1;
-  mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 200px), transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - 200px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 88%, transparent 100%);
 }
 
 .hero-canvas {
@@ -34,64 +34,90 @@
   display: block;
 }
 
-/* Hero Content Grid (Left Text, Right Robot) */
+/* Foreground Hero Layout */
 .hero-content-wrap {
   position: relative;
   z-index: 5;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1440px;
+  height: 100%;
   margin: 0 auto;
-  padding: 0 56px;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  align-items: center;
+  padding: 80px 56px 48px;
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
-  gap: 48px;
+  align-items: flex-end; /* Text sits bottom-left */
   pointer-events: none;
+  box-sizing: border-box;
 }
 
+/* Left Column: Headline, Subtitle, Chat Widget (Bottom-Left) */
 .hero-left-col {
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
+  align-items: flex-start;
+  max-width: 640px;
+  z-index: 6;
+  margin-bottom: 8px;
 }
 
+/* Right Column: Lilpix 3D Robot (Vertically Centered on the Right) */
 .hero-right-col {
   pointer-events: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  align-self: center; /* Center robot vertically on the right */
+  flex-shrink: 0;
+  width: 440px;
+  max-width: 35vw;
+  z-index: 6;
 }
 
-/* Tablet & Mobile Responsiveness: Stack text above robot */
-@media (max-width: 900px) {
+/* Tablet & Mobile Responsiveness (≤ 960px, including 650x720 & 390x844) */
+@media (max-width: 960px) {
   .hero-container {
     height: auto;
     min-height: 100vh;
-    padding: 80px 0 40px;
+    padding: 72px 0 32px;
+    overflow: hidden;
   }
 
   .hero-content-wrap {
-    display: flex;
+    height: auto;
+    min-height: calc(100vh - 104px);
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 24px;
-    gap: 32px;
-  }
-
-  .hero-left-col {
-    order: 1;
-    width: 100%;
-    align-items: center;
-    text-align: center;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 24px 24px;
+    gap: 20px;
   }
 
   .hero-right-col {
-    order: 2;
+    order: 1; /* Robot on top */
     width: 100%;
     justify-content: center;
+    align-self: center;
+    margin: 12px 0;
+  }
+
+  .hero-left-col {
+    order: 2; /* Text block at bottom-left */
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+    text-align: left;
+    margin-bottom: 0;
+  }
+}
+
+/* Compact screens (≤ 480px, e.g. 390x844 mobile) */
+@media (max-width: 480px) {
+  .hero-content-wrap {
+    padding: 12px 18px 20px;
+    gap: 16px;
   }
 }
 
