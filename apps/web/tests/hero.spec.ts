@@ -12,7 +12,7 @@ interface TestRobotWindow {
 }
 
 test.describe('Hero Section with Lilpix Robot', () => {
-  test('renders main heading "Engineering the Next Wave of AI" and subheading "AI built for the real world" in bottom-left layout', async ({
+  test('renders main heading "Engineering the Future" and subheading "AI built for the real world" in bottom-left layout', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
@@ -22,8 +22,8 @@ test.describe('Hero Section with Lilpix Robot', () => {
     const heading = page.locator('h1.hero-heading');
     await expect(heading).toBeVisible();
     await expect(heading).toContainText('Engineering the');
-    await expect(heading).toContainText('Next Wave');
-    await expect(heading).toContainText('of AI');
+    await expect(heading).toContainText('Future');
+    await expect(heading).not.toContainText('Next Wave');
 
     // Check subheading (p.hero-subheading)
     const subheading = page.locator('.hero-subheading');
