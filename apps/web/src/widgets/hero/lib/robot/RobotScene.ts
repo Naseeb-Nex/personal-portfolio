@@ -49,10 +49,13 @@ const EYES_Y = -0.95;
 const EAR_HX = 17.7 / 2;
 const VENTS = Array.from({ length: 11 }, (_, i) => (i - 5) * 0.73);
 
-const LOOK_X = 1.1;
-const LOOK_Y = 0.75;
-const TURN_Y = 0.3;
-const TURN_X = 0.18;
+// Rotation clamps: +/-35 deg yaw (~0.6109 rad), +/-25 deg pitch (~0.4363 rad)
+const MAX_YAW = (35 * Math.PI) / 180;
+const MAX_PITCH = (25 * Math.PI) / 180;
+
+// Eye travel limits inside screen boundary
+const LOOK_X = 1.0;
+const LOOK_Y = 0.65;
 
 const MAX_PIXELS = 96;
 const LED_GLOW = 2.4;
@@ -90,13 +93,20 @@ export class RobotScene {
   private currentExpression: ExpressionName = 'neutral';
   private expressionIndex = 0;
 
-  private look = { x: 0, y: 0 };
-  private turn = { x: 0, y: 0 };
-  private target = { x: 0, y: 0 };
+  // Smoothing & tracking state
+  public currentTurn = { x: 0, y: 0 };
+  public targetTurn = { x: 0, y: 0 };
+  public currentLook = { x: 0, y: 0 };
+  public targetLook = { x: 0, y: 0 };
+
+  private lastPointerPos: { x: number; y: number } | null = null;
+  private lastPointerTime = performance.now();
   private lastTime = performance.now();
   private animationFrameId = 0;
   private isDisposed = false;
+  private isPaused = false;
   private prefersReducedMotion = false;
+  private resizeObserver?: ResizeObserver;
 
   private scratchColor = new Color();
 
@@ -156,12 +166,24 @@ export class RobotScene {
 
     this.scene.add(this.bodyGroup);
 
-    // Initial expression
+    // Initial expression (square eyes)
     this.setExpression('neutral');
 
-    // Events
+    // Events & Observers
     this.bindEvents();
     this.onResize();
+
+    // Expose test hook for verification in Playwright
+    if (typeof window !== 'undefined') {
+      (window as unknown as { __HERO_ROBOT__: unknown }).__HERO_ROBOT__ = {
+        getTurn: () => ({ ...this.currentTurn }),
+        getTargetTurn: () => ({ ...this.targetTurn }),
+        getLook: () => ({ ...this.currentLook }),
+        getTargetLook: () => ({ ...this.targetLook }),
+        getExpression: () => this.currentExpression,
+        nextExpression: () => this.nextExpression(),
+      };
+    }
 
     // Loop
     this.animate = this.animate.bind(this);
@@ -181,7 +203,7 @@ export class RobotScene {
       metalness: 0.1,
     });
 
-    // Main body box
+    // Main body box (15.8 x 15.8 square face)
     const bodyGeometry = new RoundedBoxGeometry(15.8, 15.8, DEPTH, 4, 0.25);
     const bodyMesh = new Mesh(bodyGeometry, shellMaterial);
     this.bodyGroup.add(bodyMesh);
@@ -303,10 +325,10 @@ export class RobotScene {
     this.fillLight.intensity = theme === 'dark' ? 0.6 : 0.8;
   }
 
-  private updateCameraFit() {
-    const width = this.container.clientWidth || 400;
-    const height = this.container.clientHeight || 400;
-    const aspect = width / height;
+  private updateCameraFit(forcedWidth?: number, forcedHeight?: number) {
+    const width = forcedWidth ?? this.container.clientWidth ?? 400;
+    const height = forcedHeight ?? this.container.clientHeight ?? 400;
+    const aspect = width / (height || 1);
 
     const halfV = MathUtils.degToRad(this.camera.fov) / 2;
     const halfH = Math.atan(Math.tan(halfV) * aspect);
@@ -318,18 +340,59 @@ export class RobotScene {
     this.camera.updateProjectionMatrix();
   }
 
-  private onPointerMove = (e: PointerEvent) => {
+  /**
+   * Convert client coordinates to normalized coordinates relative to
+   * the robot canvas on-screen center, working on full window and while scrolled.
+   */
+  private updatePointerTarget(clientX: number, clientY: number) {
     if (this.prefersReducedMotion) return;
-    const rect = this.container.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-    this.target.x = MathUtils.clamp(x, -1, 1);
-    this.target.y = MathUtils.clamp(y, -1, 1);
+
+    const rect = this.canvas.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const spanX = Math.max(centerX, window.innerWidth - centerX) || (window.innerWidth / 2);
+    const spanY = Math.max(centerY, window.innerHeight - centerY) || (window.innerHeight / 2);
+
+    const normX = MathUtils.clamp((clientX - centerX) / spanX, -1, 1);
+    const normY = MathUtils.clamp((centerY - clientY) / spanY, -1, 1); // positive pointing up
+
+    // Clamped head rotation: yaw +/-35 deg, pitch +/-25 deg
+    this.targetTurn.y = normX * MAX_YAW;
+    this.targetTurn.x = -normY * MAX_PITCH;
+
+    // Small eye offset following cursor within screen face
+    this.targetLook.x = normX * LOOK_X;
+    this.targetLook.y = normY * LOOK_Y;
+
+    this.lastPointerPos = { x: clientX, y: clientY };
+    this.lastPointerTime = performance.now();
+  }
+
+  private onWindowPointerMove = (e: PointerEvent) => {
+    this.updatePointerTarget(e.clientX, e.clientY);
   };
 
-  private onPointerLeave = () => {
-    this.target.x = 0;
-    this.target.y = 0;
+  private onWindowPointerDown = (e: PointerEvent) => {
+    this.updatePointerTarget(e.clientX, e.clientY);
+  };
+
+  private onScroll = () => {
+    if (this.lastPointerPos) {
+      this.updatePointerTarget(this.lastPointerPos.x, this.lastPointerPos.y);
+    }
+  };
+
+  private onVisibilityChange = () => {
+    if (document.visibilityState === 'hidden') {
+      this.isPaused = true;
+    } else {
+      this.isPaused = false;
+      this.lastTime = performance.now();
+      if (!this.animationFrameId) {
+        this.animate(performance.now());
+      }
+    }
   };
 
   private onClick = () => {
@@ -338,28 +401,51 @@ export class RobotScene {
 
   private onResize = () => {
     if (this.isDisposed) return;
-    const width = this.container.clientWidth;
-    const height = this.container.clientHeight;
+    const rect = this.container.getBoundingClientRect();
+    const width = Math.round(rect.width);
+    const height = Math.round(rect.height);
     if (width === 0 || height === 0) return;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.canvas.style.width = '100%';
+    this.canvas.style.height = '100%';
     this.renderer.setSize(width, height, false);
     this.renderer.setPixelRatio(dpr);
-    this.updateCameraFit();
+    this.updateCameraFit(width, height);
+
+    if (this.lastPointerPos) {
+      this.updatePointerTarget(this.lastPointerPos.x, this.lastPointerPos.y);
+    }
   };
 
   private bindEvents() {
-    this.container.addEventListener('pointermove', this.onPointerMove, { passive: true });
-    this.container.addEventListener('pointerleave', this.onPointerLeave, { passive: true });
-    this.container.addEventListener('click', this.onClick);
+    window.addEventListener('pointermove', this.onWindowPointerMove, { passive: true });
+    window.addEventListener('pointerdown', this.onWindowPointerDown, { passive: true });
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
     window.addEventListener('resize', this.onResize, { passive: true });
+    this.container.addEventListener('click', this.onClick);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.onResize();
+      });
+      this.resizeObserver.observe(this.container);
+    }
   }
 
   private unbindEvents() {
-    this.container.removeEventListener('pointermove', this.onPointerMove);
-    this.container.removeEventListener('pointerleave', this.onPointerLeave);
-    this.container.removeEventListener('click', this.onClick);
+    window.removeEventListener('pointermove', this.onWindowPointerMove);
+    window.removeEventListener('pointerdown', this.onWindowPointerDown);
+    window.removeEventListener('scroll', this.onScroll);
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
     window.removeEventListener('resize', this.onResize);
+    this.container.removeEventListener('click', this.onClick);
+
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = undefined;
+    }
   }
 
   private updateLeds(leds: Leds, t: number) {
@@ -385,38 +471,53 @@ export class RobotScene {
   }
 
   private animate(now: number) {
-    if (this.isDisposed) return;
+    if (this.isDisposed || this.isPaused) return;
     this.animationFrameId = requestAnimationFrame(this.animate);
 
     const delta = Math.min((now - this.lastTime) / 1000, 1 / 30);
     this.lastTime = now;
     const t = now / 1000;
 
-    // Blinking
+    // After ~3s without pointer activity, gently return to neutral
+    if (now - this.lastPointerTime > 3000) {
+      this.targetTurn.x = 0;
+      this.targetTurn.y = 0;
+      this.targetLook.x = 0;
+      this.targetLook.y = 0;
+    }
+
+    // Blinking animation
     const blinking = t % 4 > 3.85;
     const targetOpenness = blinking ? 0.08 : 1.0;
     this.eyesGroup.scale.y = MathUtils.damp(this.eyesGroup.scale.y, targetOpenness, 18, delta);
 
-    // Movement & Follow
+    // Frame-rate independent exponential damping
     if (this.prefersReducedMotion) {
       this.eyesGroup.position.x = 0;
       this.eyesGroup.position.y = EYES_Y;
       this.bodyGroup.position.y = 0;
       this.bodyGroup.rotation.set(0, 0, 0);
     } else {
-      this.look.x = MathUtils.damp(this.look.x, this.target.x, 8, delta);
-      this.look.y = MathUtils.damp(this.look.y, this.target.y, 8, delta);
-      this.eyesGroup.position.x = this.look.x * LOOK_X;
-      this.eyesGroup.position.y = EYES_Y + this.look.y * LOOK_Y;
+      // Damped pointer follow
+      this.currentTurn.x = MathUtils.damp(this.currentTurn.x, this.targetTurn.x, 6, delta);
+      this.currentTurn.y = MathUtils.damp(this.currentTurn.y, this.targetTurn.y, 6, delta);
+      this.currentLook.x = MathUtils.damp(this.currentLook.x, this.targetLook.x, 10, delta);
+      this.currentLook.y = MathUtils.damp(this.currentLook.y, this.targetLook.y, 10, delta);
 
-      this.turn.y = MathUtils.damp(this.turn.y, this.target.x * TURN_Y, 3, delta);
-      this.turn.x = MathUtils.damp(this.turn.x, -this.target.y * TURN_X, 3, delta);
-
-      // Subtle float
+      // Additive idle float & wobble
       const floatY = Math.sin(t * 2) * 0.35;
       const floatRotZ = Math.sin(t * 1.5) * 0.025;
+      const idlePitch = Math.sin(t * 1.2) * 0.015;
+
       this.bodyGroup.position.y = floatY;
-      this.bodyGroup.rotation.set(this.turn.x, this.turn.y, floatRotZ);
+      this.bodyGroup.rotation.set(
+        this.currentTurn.x + idlePitch,
+        this.currentTurn.y,
+        floatRotZ
+      );
+
+      this.eyesGroup.position.x = this.currentLook.x;
+      this.eyesGroup.position.y = EYES_Y + this.currentLook.y;
     }
 
     // LEDs
@@ -430,6 +531,10 @@ export class RobotScene {
     this.isDisposed = true;
     cancelAnimationFrame(this.animationFrameId);
     this.unbindEvents();
+
+    if (typeof window !== 'undefined') {
+      delete (window as unknown as { __HERO_ROBOT__?: unknown }).__HERO_ROBOT__;
+    }
 
     this.scene.traverse((obj) => {
       if (obj instanceof Mesh) {

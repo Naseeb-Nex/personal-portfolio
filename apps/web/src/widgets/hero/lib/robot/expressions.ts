@@ -27,7 +27,7 @@ const BLUE = '#2a6bff';
 
 export const EXPRESSIONS = {
   neutral: {
-    left: ['##', '##', '##', '##', '##', '##'],
+    left: ['####', '####', '####', '####'],
     leds: { colors: [RED, GREEN, BLUE], mode: 'breathe', speed: 0.25 },
   },
   happy: {
@@ -59,7 +59,7 @@ export const EXPRESSIONS = {
     leds: { colors: [RED, GREEN, BLUE], mode: 'rainbow', speed: 0.8 },
   },
   wink: {
-    left: ['##', '##', '##', '##', '##', '##'],
+    left: ['####', '####', '####', '####'],
     right: ['....', '....', '####', '....'],
     leds: { colors: [GREEN, GREEN, '#00e5ff'], mode: 'chase', speed: 3 },
   },
