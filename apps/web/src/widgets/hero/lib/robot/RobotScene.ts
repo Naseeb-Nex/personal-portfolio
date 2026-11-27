@@ -369,11 +369,11 @@ export class RobotScene {
     this.lastPointerTime = performance.now();
   }
 
-  private onWindowPointerMove = (e: PointerEvent) => {
+  private onWindowPointerMove = (e: MouseEvent | PointerEvent) => {
     this.updatePointerTarget(e.clientX, e.clientY);
   };
 
-  private onWindowPointerDown = (e: PointerEvent) => {
+  private onWindowPointerDown = (e: MouseEvent | PointerEvent) => {
     this.updatePointerTarget(e.clientX, e.clientY);
   };
 
@@ -419,8 +419,11 @@ export class RobotScene {
   };
 
   private bindEvents() {
-    window.addEventListener('pointermove', this.onWindowPointerMove, { passive: true });
-    window.addEventListener('pointerdown', this.onWindowPointerDown, { passive: true });
+    window.addEventListener('pointermove', this.onWindowPointerMove, { capture: true, passive: true });
+    window.addEventListener('pointerdown', this.onWindowPointerDown, { capture: true, passive: true });
+    window.addEventListener('mousemove', this.onWindowPointerMove, { capture: true, passive: true });
+    document.addEventListener('pointermove', this.onWindowPointerMove, { capture: true, passive: true });
+    document.addEventListener('mousemove', this.onWindowPointerMove, { capture: true, passive: true });
     window.addEventListener('scroll', this.onScroll, { passive: true });
     document.addEventListener('visibilitychange', this.onVisibilityChange);
     window.addEventListener('resize', this.onResize, { passive: true });
@@ -435,8 +438,11 @@ export class RobotScene {
   }
 
   private unbindEvents() {
-    window.removeEventListener('pointermove', this.onWindowPointerMove);
-    window.removeEventListener('pointerdown', this.onWindowPointerDown);
+    window.removeEventListener('pointermove', this.onWindowPointerMove, { capture: true });
+    window.removeEventListener('pointerdown', this.onWindowPointerDown, { capture: true });
+    window.removeEventListener('mousemove', this.onWindowPointerMove, { capture: true });
+    document.removeEventListener('pointermove', this.onWindowPointerMove, { capture: true });
+    document.removeEventListener('mousemove', this.onWindowPointerMove, { capture: true });
     window.removeEventListener('scroll', this.onScroll);
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
     window.removeEventListener('resize', this.onResize);

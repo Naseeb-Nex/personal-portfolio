@@ -12,28 +12,30 @@ interface TestRobotWindow {
 }
 
 test.describe('Hero Section with Lilpix Robot', () => {
-  test('renders headline, subtitle, xylophone canvas, and robot face in bottom-left layout', async ({
+  test('renders main heading "Engineering the Next Wave of AI" and subheading "AI built for the real world" in bottom-left layout', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
 
-    // Check headline and subtitle
-    const heading = page.locator('.hero-heading');
+    // Check main heading (h1)
+    const heading = page.locator('h1.hero-heading');
     await expect(heading).toBeVisible();
-    await expect(heading).toContainText('AI built for the');
-    await expect(heading).toContainText('real world');
+    await expect(heading).toContainText('Engineering the');
+    await expect(heading).toContainText('Next Wave');
+    await expect(heading).toContainText('of AI');
 
-    const subtitle = page.locator('.hero-subtitle');
-    await expect(subtitle).toBeVisible();
-    await expect(subtitle).toHaveText('Engineering the Next Wave of AI');
+    // Check subheading (p.hero-subheading)
+    const subheading = page.locator('.hero-subheading');
+    await expect(subheading).toBeVisible();
+    await expect(subheading).toHaveText('AI built for the real world');
 
     // Verify bottom-left positioning on desktop
     const headingBox = await heading.boundingBox();
     expect(headingBox).not.toBeNull();
     if (headingBox) {
       expect(headingBox.x).toBeLessThan(120); // Flush with left margin (56px)
-      expect(headingBox.y + headingBox.height).toBeGreaterThan(500); // Sits in bottom-left area of 900px viewport
+      expect(headingBox.y + headingBox.height).toBeGreaterThan(500); // Sits in bottom-left area
     }
 
     // Check canvases
@@ -73,55 +75,77 @@ test.describe('Hero Section with Lilpix Robot', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   });
 
-  test('robot tracks pointer to 4 corners and center across the whole window and after scroll', async ({
+  test('robot tracks pointer outside canvas but inside hero, across 4 corners, and outside hero when scrolled', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/');
     await page.waitForTimeout(600);
 
-    // 1. Move to Top-Left
-    await page.mouse.move(20, 20);
+    // 1. Move outside canvas but inside hero over the text block (left side)
+    await page.mouse.move(100, 700);
+    await page.waitForTimeout(300);
+    const textTurn = await page.evaluate(() => {
+      const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
+      return r ? r.getTargetTurn() : null;
+    });
+    expect(textTurn).not.toBeNull();
+    expect(textTurn!.y).toBeLessThan(0); // Turns left toward the headline
+    expect(textTurn!.x).toBeGreaterThan(0); // Tilts down toward the text at the bottom
+
+    // 2. Move outside canvas but inside hero over the center top of hero
+    await page.mouse.move(720, 60);
+    await page.waitForTimeout(300);
+    const topHeroTurn = await page.evaluate(() => {
+      const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
+      return r ? r.getTargetTurn() : null;
+    });
+    expect(topHeroTurn).not.toBeNull();
+    expect(topHeroTurn!.y).toBeLessThan(0); // Robot is on the right, so center is to its left
+    expect(topHeroTurn!.x).toBeLessThan(0); // Tilts up toward top of hero
+
+    // 3. Move to 4 corners of window
+    // Top-Left corner (0, 0)
+    await page.mouse.move(10, 10);
     await page.waitForTimeout(300);
     const tlTurn = await page.evaluate(() => {
       const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
       return r ? r.getTargetTurn() : null;
     });
-    expect(tlTurn).not.toBeNull();
-    expect(tlTurn.y).toBeLessThan(0); // Turns left (negative yaw)
-    expect(tlTurn.x).toBeLessThan(0); // Tilts up (negative pitch in Three.js camera coord)
+    expect(tlTurn!.y).toBeLessThan(0); // Left
+    expect(tlTurn!.x).toBeLessThan(0); // Up
 
-    // 2. Move to Top-Right
-    await page.mouse.move(1420, 20);
+    // Top-Right corner
+    await page.mouse.move(1430, 10);
     await page.waitForTimeout(300);
     const trTurn = await page.evaluate(() => {
       const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
       return r ? r.getTargetTurn() : null;
     });
-    expect(trTurn.y).toBeGreaterThan(0); // Turns right
-    expect(trTurn.x).toBeLessThan(0); // Tilts up
+    expect(trTurn!.y).toBeGreaterThan(0); // Right
+    expect(trTurn!.x).toBeLessThan(0); // Up
 
-    // 3. Move to Bottom-Left
-    await page.mouse.move(20, 880);
+    // Bottom-Left corner
+    await page.mouse.move(10, 890);
     await page.waitForTimeout(300);
     const blTurn = await page.evaluate(() => {
       const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
       return r ? r.getTargetTurn() : null;
     });
-    expect(blTurn.y).toBeLessThan(0); // Turns left
-    expect(blTurn.x).toBeGreaterThan(0); // Tilts down
+    expect(blTurn!.y).toBeLessThan(0); // Left
+    expect(blTurn!.x).toBeGreaterThan(0); // Down
 
-    // 4. Move to Bottom-Right
-    await page.mouse.move(1420, 880);
+    // Bottom-Right corner
+    await page.mouse.move(1430, 890);
     await page.waitForTimeout(300);
     const brTurn = await page.evaluate(() => {
       const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
       return r ? r.getTargetTurn() : null;
     });
-    expect(brTurn.y).toBeGreaterThan(0); // Turns right
-    expect(brTurn.x).toBeGreaterThan(0); // Tilts down
+    expect(brTurn!.y).toBeGreaterThan(0); // Right
+    expect(brTurn!.x).toBeGreaterThan(0); // Down
 
-    // 5. Move to Robot Canvas Center
+    // 4. Center of robot canvas
     const robotBox = await page.locator('.hero-robot-canvas').boundingBox();
     expect(robotBox).not.toBeNull();
     if (robotBox) {
@@ -131,20 +155,22 @@ test.describe('Hero Section with Lilpix Robot', () => {
         const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
         return r ? r.getTargetTurn() : null;
       });
-      expect(Math.abs(centerTurn.y)).toBeLessThan(0.08);
-      expect(Math.abs(centerTurn.x)).toBeLessThan(0.08);
+      expect(Math.abs(centerTurn!.y)).toBeLessThan(0.08);
+      expect(Math.abs(centerTurn!.x)).toBeLessThan(0.08);
     }
 
-    // 6. Test tracking after scroll
-    await page.mouse.wheel(0, 300);
-    await page.waitForTimeout(300);
-    await page.mouse.move(100, 200);
+    // 5. Outside the hero when scrolled down into lower sections
+    await page.mouse.wheel(0, 800);
+    await page.waitForTimeout(400);
+    // Cursor in lower section outside the hero
+    await page.mouse.move(250, 750);
     await page.waitForTimeout(300);
     const scrolledTurn = await page.evaluate(() => {
       const r = (window as unknown as TestRobotWindow).__HERO_ROBOT__;
       return r ? r.getTargetTurn() : null;
     });
-    expect(scrolledTurn.y).toBeLessThan(0); // Stays responsive to cursor position
+    expect(scrolledTurn).not.toBeNull();
+    expect(scrolledTurn!.y).toBeLessThan(0); // Follows pointer while scrolled
   });
 
   test('preserves 1:1 square canvas aspect ratio on narrow 650x720 and mobile 390x844 viewports', async ({
@@ -165,6 +191,7 @@ test.describe('Hero Section with Lilpix Robot', () => {
 
     // Mobile 390x844 viewport
     await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/');
     await page.waitForTimeout(600);
     await page.evaluate(() => window.scrollTo(0, 0));
 
@@ -176,7 +203,7 @@ test.describe('Hero Section with Lilpix Robot', () => {
     }
 
     // On mobile, robot is placed above the text block
-    const headingMobile = await page.locator('.hero-heading').boundingBox();
+    const headingMobile = await page.locator('h1.hero-heading').boundingBox();
     expect(headingMobile).not.toBeNull();
     if (robotMobile && headingMobile) {
       expect(robotMobile.y).toBeLessThan(headingMobile.y); // Robot is above text
