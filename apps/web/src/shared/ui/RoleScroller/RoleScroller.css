@@ -19,7 +19,7 @@
     inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4),
     inset 0 0 12px 2px rgba(255, 255, 255, 0.08);
   pointer-events: auto;
-  font-family: 'Stack Sans Notch', sans-serif;
+  font-family: var(--font-display);
   z-index: 25;
 }
 
@@ -85,9 +85,12 @@
 }
 
 .scroller-prefix-top {
-  font-size: 10px;
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-micro-lh);
   letter-spacing: 2px;
+  font-feature-settings: var(--text-micro-features);
   color: var(--accent-color, #FF5A00);
   margin-bottom: 6px;
   opacity: 0.95;
@@ -102,8 +105,11 @@
 }
 
 .fixed-ai-text {
-  font-size: 26px;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-size: var(--text-subhead-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-subhead-lh);
+  letter-spacing: var(--text-subhead-ls);
   background: linear-gradient(135deg, #FFC107 0%, var(--accent-color, #FF5A00) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -129,8 +135,11 @@
   height: 36px;
   display: flex;
   align-items: center;
-  font-size: 24px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--text-subhead-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-subhead-lh);
+  letter-spacing: var(--text-subhead-ls);
   color: #ffffff;
   white-space: nowrap;
 }
@@ -207,8 +216,11 @@
 
 .dynamic-word-solutions {
   display: inline-block;
-  font-size: 24px;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--text-subhead-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-subhead-lh);
+  letter-spacing: var(--text-subhead-ls);
   background: linear-gradient(180deg, #ffffff 60%, rgba(255, 255, 255, 0.85) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

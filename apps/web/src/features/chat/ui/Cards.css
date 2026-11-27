@@ -5,14 +5,18 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 16px;
   color: #fff;
-  font-family: inherit;
+  font-family: var(--font-body);
   margin-top: 8px;
   margin-bottom: 8px;
 }
 
 .chat-card h3 {
   margin: 0 0 12px 0;
-  font-size: 16px;
+  font-family: var(--font-display);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-body-lg-lh);
+  letter-spacing: var(--text-body-lg-ls);
   color: var(--primary-orange, #FF5A00);
 }
 
@@ -28,21 +32,34 @@
 }
 
 .chat-card-title {
-  font-weight: 600;
-  font-size: 15px;
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-body-lh);
+  letter-spacing: var(--text-body-ls);
+  font-feature-settings: var(--text-body-features);
   margin-bottom: 4px;
 }
 
 .chat-card-subtitle {
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-size: var(--text-caption-size);
+  font-weight: var(--text-caption-weight);
+  line-height: var(--text-caption-lh);
+  letter-spacing: var(--text-caption-ls);
+  font-feature-settings: var(--text-caption-features);
   color: #aaa;
   margin-bottom: 6px;
 }
 
 .chat-card-desc {
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-weight);
+  line-height: var(--text-body-sm-lh);
+  letter-spacing: var(--text-body-sm-ls);
+  font-feature-settings: var(--text-body-sm-features);
   color: #eee;
-  line-height: 1.4;
 }
 
 .chat-badge-container {
@@ -58,15 +75,23 @@
   color: #ff9500;
   padding: 4px 10px;
   border-radius: 100px;
-  font-size: 12px;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-micro-lh);
+  letter-spacing: var(--text-micro-ls);
+  font-feature-settings: var(--text-micro-features);
 }
 
 .chat-card ul {
   margin: 8px 0 0 0;
   padding-left: 20px;
   color: #ddd;
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-lh);
+  letter-spacing: var(--text-caption-ls);
+  font-feature-settings: var(--text-caption-features);
 }
 .chat-card ul li {
   margin-bottom: 4px;

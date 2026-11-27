@@ -244,3 +244,11 @@
     margin-right: auto;
   }
 }
+
+@media (max-width: 480px) {
+  .circular-badge {
+    right: -10px;
+    bottom: -15px;
+    transform: scale(0.9);
+  }
+}

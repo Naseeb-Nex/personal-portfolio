@@ -1,5 +1,10 @@
 .creative-button {
-  line-height: 1;
+  font-family: var(--font-body);
+  font-size: var(--text-button-size);
+  font-weight: var(--text-button-weight);
+  line-height: var(--text-button-lh);
+  letter-spacing: var(--text-button-ls);
+  font-feature-settings: var(--text-button-features);
   text-decoration: none;
   display: inline-flex;
   border: none;
@@ -9,7 +14,6 @@
   background-color: var(--clr);
   color: #fff;
   border-radius: 10rem;
-  font-weight: 600;
   padding: 0.75rem 1.5rem;
   padding-left: 20px;
   white-space: nowrap;

@@ -49,10 +49,12 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   pointer-events: none;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 12px; /* typography.micro */
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-caption-weight);
+  line-height: var(--text-micro-lh);
+  letter-spacing: var(--text-micro-ls);
+  font-feature-settings: var(--text-micro-features);
   text-transform: uppercase;
   color: #ffffff; /* ink dark */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);

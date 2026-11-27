@@ -126,8 +126,11 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 600;
-  font-size: 16px;
+  font-family: var(--font-display);
+  font-weight: var(--text-headline-weight);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-lh);
+  letter-spacing: var(--text-body-lg-ls);
   color: #fff;
 }
 
@@ -192,8 +195,12 @@
   max-width: 85%;
   padding: 12px 18px;
   border-radius: 20px;
-  font-size: 14.5px;
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-body-weight);
+  line-height: var(--text-body-lh);
+  letter-spacing: var(--text-body-ls);
+  font-feature-settings: var(--text-body-features);
   color: #fff;
   position: relative;
 }
@@ -217,7 +224,10 @@
   border: 1px dashed rgba(255, 255, 255, 0.2);
   color: #aaa;
   font-style: italic;
-  font-size: 13px;
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-lh);
+  letter-spacing: var(--text-caption-ls);
+  font-feature-settings: var(--text-caption-features);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -261,10 +271,13 @@
   border-radius: 100px;
   padding: 14px 20px;
   color: #fff;
-  font-size: 15px;
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-lh);
+  letter-spacing: var(--text-body-ls);
+  font-feature-settings: var(--text-body-features);
   outline: none;
   transition: all 0.2s;
-  font-family: inherit;
 }
 
 .chat-input::placeholder {
@@ -309,8 +322,11 @@
   padding: 16px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  font-family: monospace;
-  font-size: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--text-micro-size);
+  line-height: var(--text-micro-lh);
+  letter-spacing: var(--text-micro-ls);
+  font-feature-settings: var(--text-micro-features);
   color: #ff9500;
 }
 
