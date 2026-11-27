@@ -57,11 +57,13 @@ typography:
       fontWeight: 500
       lineHeight: 0.95
       letterSpacing: "-4.25px"
+      fontFeature: "ss02"
     display-lg:
       fontSize: "62px"
       fontWeight: 500
       lineHeight: 1.0
       letterSpacing: "-3.1px"
+      fontFeature: "ss02"
     display-md:
       fontSize: "32px"
       fontWeight: 500
@@ -72,41 +74,49 @@ typography:
       fontWeight: 700
       lineHeight: 1.2
       letterSpacing: "-0.8px"
+      fontFeature: "cv05"
     subhead:
       fontSize: "24px"
       fontWeight: 400
       lineHeight: 1.3
-      letterSpacing: "normal"
+      letterSpacing: "-0.01px"
+      fontFeature: "cv11"
     body-lg:
       fontSize: "18px"
       fontWeight: 400
       lineHeight: 1.3
       letterSpacing: "-0.18px"
+      fontFeature: "cv11"
     body:
       fontSize: "15px"
       fontWeight: 400
       lineHeight: 1.3
       letterSpacing: "-0.15px"
+      fontFeature: "cv11"
     body-sm:
       fontSize: "14px"
       fontWeight: 500
       lineHeight: 1.4
-      letterSpacing: "normal"
+      letterSpacing: "-0.14px"
+      fontFeature: "cv11"
     caption:
       fontSize: "13px"
       fontWeight: 500
       lineHeight: 1.2
-      letterSpacing: "normal"
+      letterSpacing: "-0.13px"
+      fontFeature: "cv11"
     micro:
       fontSize: "12px"
       fontWeight: 400
       lineHeight: 1.2
-      letterSpacing: "normal"
+      letterSpacing: "-0.12px"
+      fontFeature: "cv11"
     button:
       fontSize: "14px"
       fontWeight: 500
       lineHeight: 1.0
       letterSpacing: "-0.14px"
+      fontFeature: "cv11"
 rounded:
   xs: "4px"
   sm: "6px"
@@ -210,23 +220,30 @@ Derived from hero capsules:
 ## Typography
 Framer-derived typographic scale with high display impact and tight tracking:
 - Existing project fonts: `'Stack Sans Notch'` for brand titles / hero headings, `'Inter'` for UI/body, and `'Geist'` for career/supporting copy. Fallback: sans-serif.
+- *Note on Framer analysis source fonts*: Framer used GT Walsheim Medium for display with Inter Variable for body; our equivalents are Stack Sans Notch / Inter.
 
 ### Scale Table
-- `display-xxl`: 110px / Weight: 500 / Line-height: 0.85 / Letter-spacing: -5.5px
-- `display-xl`: 85px / Weight: 500 / Line-height: 0.95 / Letter-spacing: -4.25px
-- `display-lg`: 62px / Weight: 500 / Line-height: 1.0 / Letter-spacing: -3.1px
-- `display-md`: 32px / Weight: 500 / Line-height: 1.13 / Letter-spacing: -1.0px
-- `headline`: 22px / Weight: 700 / Line-height: 1.2 / Letter-spacing: -0.8px
-- `subhead`: 24px / Weight: 400 / Line-height: 1.3 / Letter-spacing: normal
-- `body-lg`: 18px / Weight: 400 / Line-height: 1.3 / Letter-spacing: -0.18px
-- `body`: 15px / Weight: 400 / Line-height: 1.3 / Letter-spacing: -0.15px
-- `body-sm`: 14px / Weight: 500 / Line-height: 1.4 / Letter-spacing: normal
-- `caption`: 13px / Weight: 500 / Line-height: 1.2 / Letter-spacing: normal
-- `micro`: 12px / Weight: 400 / Line-height: 1.2 / Letter-spacing: normal
-- `button`: 14px / Weight: 500 / Line-height: 1.0 / Letter-spacing: -0.14px
+- `display-xxl`: 110px / Weight: 500 / Line-height: 0.85 / Letter-spacing: -5.5px / Largest hero headline
+- `display-xl`: 85px / Weight: 500 / Line-height: 0.95 / Letter-spacing: -4.25px / OpenType: `ss02` / Section opener headlines
+- `display-lg`: 62px / Weight: 500 / Line-height: 1.00 / Letter-spacing: -3.1px / OpenType: `ss02` / Sub-section openers
+- `display-md`: 32px / Weight: 500 / Line-height: 1.13 / Letter-spacing: -1.0px / Card titles, smaller display
+- `headline`: 22px / Weight: 700 / Line-height: 1.20 / Letter-spacing: -0.8px / OpenType: `cv05` / Pricing tier headlines, category titles
+- `subhead`: 24px / Weight: 400 / Line-height: 1.30 / Letter-spacing: -0.01px / OpenType: `cv11` / Lead body next to display headlines
+- `body-lg`: 18px / Weight: 400 / Line-height: 1.30 / Letter-spacing: -0.18px / OpenType: `cv11` / Hero subhead, lead paragraphs
+- `body`: 15px / Weight: 400 / Line-height: 1.30 / Letter-spacing: -0.15px / OpenType: `cv11` / Default body, card descriptions
+- `body-sm`: 14px / Weight: 500 / Line-height: 1.40 / Letter-spacing: -0.14px / OpenType: `cv11` / Dense data rows
+- `caption`: 13px / Weight: 500 / Line-height: 1.20 / Letter-spacing: -0.13px / OpenType: `cv11` / Eyebrows, footer columns, meta
+- `micro`: 12px / Weight: 400 / Line-height: 1.20 / Letter-spacing: -0.12px / OpenType: `cv11` / Disclaimer, footnote
+- `button`: 14px / Weight: 500 / Line-height: 1.0 / Letter-spacing: -0.14px / OpenType: `cv11` / Pill buttons
 
-## Layout
-- Base spacing unit: 5px grid.
+### Typography Principles
+- **Letter-spacing scales with size, hard**: `display-xxl` at -5.5px is ~5% of font size; body sizes scale down to about -1%.
+- **Narrow weight band**: Weight stays in a narrow band (`display` 500, `body` 400, `body-sm`/`caption` 500). Visual hierarchy is established by size + tracking contrast, not 700/900 bold ramps.
+- **Tight line-heights everywhere**: Line-heights remain tight throughout the scale (even body text is 1.30).
+- **Display accessibility rule**: Do not reduce negative letter-spacing on display sizes for accessibility; reduce font size instead while preserving the percentage-negative letter-spacing.
+
+## Layout & Spacing
+- Base unit: 5px (non-standard 5/10/15/20/30 increments).
 - Scale:
   - `hair`: 1px
   - `xxs`: 4px
@@ -238,23 +255,29 @@ Framer-derived typographic scale with high display impact and tight tracking:
   - `xxl`: 40px
   - `section`: 96px
 - Nav height: 56px fixed header height.
+- Card padding: `lg` (20px) on pricing-style cards; `xl` (30px) on gradient spotlight cards.
+- Pill button padding: `10px 15px`.
+- Section vertical padding: ~96px (~64px on dense sections).
+- Dark canvas whitespace philosophy: The dark canvas is the whitespace—long stretches of black with one oversized statement.
+
+## Shapes / Border Radius
+- `xs`: 4px (small chip/utility)
+- `sm`: 6px (inline tag, badge)
+- `md`: 10px (form input, list item)
+- `lg`: 15px (template card thumbnails)
+- `xl`: 20px (pricing cards, mockup tiles)
+- `xxl`: 30px (gradient spotlight cards, oversized panels)
+- `pill`: 100px (all primary text CTAs)
+- `full`: 9999px (circular icon buttons, avatars)
+- Corner preservation: Gradient spotlight cards keep `xxl` (30px) corners at every viewport.
 
 ## Elevation & Depth
-- **Level 0 (Flat)**: Pure `#000000` canvas.
-- **Level 1 (Surface Lift)**: Background `#141414` on canvas.
-- **Level 2 (Border Lift)**: Top edge highlight `rgba(255, 255, 255, 0.10) 0.5px` with shadow `0 10px 30px rgba(0, 0, 0, 0.25)`.
-- **Level 3 (Interactive Active / Focus)**: Active spectrum hue glow ring (`0 0 0 1px` at 15% opacity, e.g. `rgba(0,153,255,0.15)`).
-- **Rule**: On dark canvas, do NOT use drop shadows on cards. Use surface color contrast and hairline borders (`#262626` / `#1a1a1a`) to establish boundaries.
-
-## Shapes
-- `xs`: 4px
-- `sm`: 6px
-- `md`: 10px (inputs)
-- `lg`: 15px (small cards)
-- `xl`: 20px (standard cards)
-- `xxl`: 30px (spotlight cards, translucent buttons)
-- `pill`: 100px (primary and secondary buttons)
-- `full`: 9999px (circular icon buttons, avatars)
+- **Level 0 (Flat)**: Pure `#000000` canvas (no shadow, no border) for canvas-mounted display type, FAQ rows, footer.
+- **Level 1 (Charcoal)**: Surface-1 (`#141414`) lift on canvas (cards, mockup tiles, secondary buttons).
+- **Level 2 (Light-edge)**: `rgba(255, 255, 255, 0.10) 0.5px` top edge highlight + `rgba(0, 0, 0, 0.25) 0px 10px 30px` drop shadow. Used ONLY for floating product cards and modal cards. Standard dark cards get no drop shadows.
+- **Level 3 (Selected Ring & Focus)**: `rgba(0, 153, 255, 0.15) 0px 0px 0px 1px` ring for focused inputs / selected option. For hover states, interactive elements take ONE spectrum hue glow ring at 15% opacity (`0 0 0 1px rgba(<hue>, 0.15)`).
+- **Decorative Depth**: Gradient spotlight cards substitute colour saturation for shadow; the subtle blue ring is the only chromatic depth signal.
+- **Rules**: Standard dark cards get no drop shadows against the dark canvas (Level 2 drop shadow is strictly for floating/modal cards). Level 3 uses the blue ring for focus/selected and the spectrum hue ring for hover. Surface color contrast and hairline borders (`#262626` / `#1a1a1a`) establish boundaries on dark canvas.
 
 ## Components
 
@@ -291,9 +314,31 @@ Framer-derived typographic scale with high display impact and tight tracking:
 - Do not invent arbitrary hex colors, corner radii, or spacing outside this token sheet.
 
 ## Responsive Behavior
-- **Desktop (1199px+)**: Full multi-column layout, 4-up cards grid, full display-xxl typography (110px).
-- **Tablet (810px - 1198px)**: Cards step down from 4-up to 2-up; desktop nav converts to hamburger menu; display type steps down from 110px to 62px.
-- **Mobile (≤480px)**: 1-column layouts; display type steps to 32px; touch target minimum 44px enforced across all interactives.
+
+### Breakpoint Table
+| Viewport | Width | Layout Behavior |
+| :--- | :--- | :--- |
+| **Desktop** | 1199px | Default desktop layout, multi-column grids |
+| **Tablet** | 810px | Card grids collapse from 4-up to 2-up, nav collapses to hamburger overlay |
+| **Mobile-Lg** | 809px | Pricing comparison table becomes per-tier accordion |
+| **Mobile-XS** | 98px | Single-column everything |
+
+*Note*: Our hero and layout QA specifically checks 1920, 1440, 1280, 650, and 390px widths.
+
+### Touch Targets
+- **Pill buttons**: Minimum 44px tap height across touch devices.
+- **Circular icon buttons**: 40px diameter on desktop, growing to 44px on touch viewports.
+- **Tabs**: At least 40px tap height; may transition to a horizontal-scroll row below 810px.
+
+### Collapsing & Hierarchy
+- **Navigation**: Collapses to hamburger overlay below 810px; primary CTA remains visible on the bar.
+- **Card Grids**: Collapse from 4-up / 2-up on desktop toward 1-up on mobile; spotlight cards keep `xxl` (30px) corners and never bleed.
+- **Comparison Tables**: Transition into per-tier accordions below 810px.
+- **Display Typography**: Scales down proportionally from `display-xxl` (110px) toward `display-lg` (62px) on tablet and `display-md` (32px) on mobile, preserving the percentage-negative letter-spacing.
+
+### Images & Visuals
+- **Mockups**: Keep aspect ratio, never crop.
+- **Gradients**: Gradient orientation is strictly kept across breakpoints.
 
 ## Iteration Guide
 1. Inspect `DESIGN.md` for tokens before writing any UI style rule.
