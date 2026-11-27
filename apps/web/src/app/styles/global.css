@@ -1,40 +1,47 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import '../../shared/theme/typography.css';
 
 @font-face {
   font-family: 'Stack Sans Notch';
   src: url('../../shared/assets/fonts/StackSansNotch-ExtraLight.ttf') format('truetype');
   font-weight: 200;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Stack Sans Notch';
   src: url('../../shared/assets/fonts/StackSansNotch-Light.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Stack Sans Notch';
   src: url('../../shared/assets/fonts/StackSansNotch-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Stack Sans Notch';
   src: url('../../shared/assets/fonts/StackSansNotch-Medium.ttf') format('truetype');
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Stack Sans Notch';
   src: url('../../shared/assets/fonts/StackSansNotch-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: 'Stack Sans Notch';
   src: url('../../shared/assets/fonts/StackSansNotch-Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 :root {
@@ -95,7 +102,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   background-color: var(--bg-dark);
   color: var(--text-main);
   overflow-x: hidden;
@@ -130,9 +137,12 @@ body {
 }
 
 .logo-text {
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-family: var(--font-display);
+  font-size: var(--text-headline-size);
+  font-weight: var(--text-headline-weight);
+  line-height: var(--text-headline-lh);
+  letter-spacing: var(--text-headline-ls);
+  font-feature-settings: var(--text-headline-features);
 }
 
 .logo-nex {
@@ -141,7 +151,7 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: logoGradientShift 4s linear infinite;
-  font-weight: 800;
+  font-weight: var(--text-headline-weight);
   text-transform: lowercase;
 }
 
@@ -166,8 +176,12 @@ body {
 .nav-link {
   color: var(--text-muted);
   text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-lh);
+  letter-spacing: var(--text-body-ls);
+  font-feature-settings: var(--text-body-features);
   transition: color 0.3s;
   display: flex;
   align-items: center;
@@ -184,8 +198,12 @@ body {
   border: none;
   border-radius: 40px;
   padding: 14px 28px;
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: var(--text-button-size);
+  font-weight: var(--text-button-weight);
+  line-height: var(--text-button-lh);
+  letter-spacing: var(--text-button-ls);
+  font-feature-settings: var(--text-button-features);
   cursor: pointer;
   transition: transform 0.2s;
 }
@@ -229,11 +247,13 @@ body {
     rgba(255, 255, 255, 0.02);
 
   background: var(--bg);
-  font-family: 'Stack Sans Notch', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: var(--text-button-size);
+  font-weight: var(--text-button-weight);
+  line-height: var(--text-button-lh);
+  letter-spacing: var(--text-button-ls);
+  font-feature-settings: var(--text-button-features);
   text-transform: lowercase;
-  letter-spacing: 0.5px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   cursor: pointer;
   padding: 10px 22px;
@@ -448,20 +468,23 @@ body {
 }
 
 .phase-num {
-  font-family: 'Stack Sans Notch', sans-serif;
-  font-size: 10px;
-  font-weight: 300;
+  font-family: var(--font-display);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  line-height: var(--text-micro-lh);
+  letter-spacing: var(--text-micro-ls);
+  font-feature-settings: var(--text-micro-features);
   color: var(--primary-orange);
-  letter-spacing: 0.1em;
   margin-bottom: 2px;
 }
 
 .phase-name {
-  font-family: 'Stack Sans Notch', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
   letter-spacing: 0.25em;
+  text-transform: uppercase;
   color: #FFFFFF;
 }
 
@@ -475,19 +498,21 @@ body {
 }
 
 .bg-title {
-  font-size: 110px;
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -3px;
+  font-family: var(--font-display);
+  font-size: var(--text-display-xxl-size);
+  line-height: var(--text-display-xxl-lh);
+  font-weight: var(--text-display-xxl-weight);
+  letter-spacing: var(--text-display-xxl-ls);
+  font-feature-settings: var(--text-display-xxl-features);
   color: rgba(255, 255, 255, 0.95);
   margin: 0;
   text-align: left;
 }
 
 .italic-text {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-display);
   font-style: italic;
-  font-weight: 500;
+  font-weight: var(--text-display-xxl-weight);
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -534,9 +559,13 @@ body {
 }
 
 .subtitle {
-  font-size: 20px;
+  font-family: var(--font-body);
+  font-size: var(--text-subhead-size);
+  font-weight: var(--text-subhead-weight);
+  line-height: var(--text-subhead-lh);
+  letter-spacing: var(--text-subhead-ls);
+  font-feature-settings: var(--text-subhead-features);
   color: #fff;
-  line-height: 1.6;
   margin-bottom: 32px;
   max-width: 500px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
@@ -555,8 +584,12 @@ body {
   border: none;
   border-radius: 40px;
   padding: 12px 12px 12px 28px;
-  font-size: 16px;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: var(--text-button-size);
+  font-weight: var(--text-button-weight);
+  line-height: var(--text-button-lh);
+  letter-spacing: var(--text-button-ls);
+  font-feature-settings: var(--text-button-features);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -615,13 +648,16 @@ body {
 }
 
 .clients-text {
-  font-size: 13px;
-  line-height: 1.4;
+  font-family: var(--font-body);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-lh);
+  letter-spacing: var(--text-caption-ls);
+  font-feature-settings: var(--text-caption-features);
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.8);
 }
 
 .clients-num {
-  font-weight: 600;
+  font-weight: var(--text-caption-weight);
   color: #fff;
 }
 
@@ -662,22 +698,30 @@ body {
 }
 
 .card-val {
-  font-size: 42px;
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg-size);
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-lh);
+  letter-spacing: var(--text-display-lg-ls);
+  font-feature-settings: var(--text-display-lg-features);
   margin-bottom: 8px;
   display: flex;
   align-items: flex-start;
   gap: 4px;
-  letter-spacing: -1px;
 }
 
 .card-val .asterisk {
-  font-size: 20px;
+  font-size: var(--text-headline-size);
   color: var(--primary-orange);
 }
 
 .card-lbl {
-  font-size: 14px;
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
+  letter-spacing: var(--text-body-sm-ls);
+  font-feature-settings: var(--text-body-sm-features);
   color: var(--text-muted);
 }
 
@@ -743,14 +787,18 @@ body {
 }
 
 .bar-text {
-  font-size: 11px;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-micro-weight);
+  line-height: var(--text-micro-lh);
+  letter-spacing: var(--text-micro-ls);
+  font-feature-settings: var(--text-micro-features);
   color: var(--text-muted);
-  line-height: 1.4;
 }
 
 .bar-text .highlight {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: var(--text-body-size);
+  font-weight: var(--text-headline-weight);
   color: #fff;
 }
 
@@ -764,7 +812,8 @@ body {
   }
 
   .bg-title {
-    font-size: 80px;
+    font-size: var(--text-display-lg-size);
+    letter-spacing: var(--text-display-lg-ls);
   }
 
   .fg-layer {
@@ -823,20 +872,20 @@ body {
   }
 
   .logo-text {
-    font-size: 20px !important;
+    font-size: var(--text-headline-size) !important;
   }
 
   .sp .sparkle-button {
     padding: 8px 16px;
-    font-size: 14px;
+    font-size: var(--text-button-size);
   }
-  
+
   .phase-name {
-    font-size: 10px;
+    font-size: var(--text-micro-size);
     letter-spacing: 0.15em;
   }
-  
+
   .phase-num {
-    font-size: 8px;
+    font-size: var(--text-micro-size);
   }
 }

@@ -32,11 +32,13 @@
 }
 
 .contact-title {
-  font-size: clamp(4rem, 10vw, 8rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--text-display-xxl-size);
+  font-weight: var(--text-display-xxl-weight);
   margin: 0;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  line-height: var(--text-display-xxl-lh);
+  letter-spacing: var(--text-display-xxl-ls);
+  font-feature-settings: var(--text-display-xxl-features);
   color: #ffffff;
 }
 
@@ -53,7 +55,12 @@
 }
 
 .contact-subtitle {
-  font-size: 1.2rem;
+  font-family: var(--font-body);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-lh);
+  letter-spacing: var(--text-body-lg-ls);
+  font-feature-settings: var(--text-body-lg-features);
   color: #888888;
   max-width: 500px;
   margin: 0;
@@ -71,7 +78,12 @@
 
 .contact-copy {
   color: #666666;
-  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-size: var(--text-body-sm-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-body-sm-lh);
+  letter-spacing: var(--text-body-sm-ls);
+  font-feature-settings: var(--text-body-sm-features);
 }
 
 .contact-socials {
@@ -83,7 +95,11 @@
 .contact-socials a {
   color: #aaaaaa;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-size: var(--text-button-size);
+  font-weight: var(--text-button-weight);
+  line-height: var(--text-button-lh);
+  font-feature-settings: var(--text-button-features);
   text-transform: uppercase;
   letter-spacing: 0.1em;
   transition: color 0.3s ease;

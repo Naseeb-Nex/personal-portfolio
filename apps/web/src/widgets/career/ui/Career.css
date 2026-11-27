@@ -24,10 +24,12 @@
 }
 
 .career-title {
-  font-size: clamp(2rem, 3.5vw, 3.25rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg-size);
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-lh);
+  letter-spacing: var(--text-display-lg-ls);
+  font-feature-settings: var(--text-display-lg-features);
   text-align: center;
   margin-top: 0;
   margin-bottom: 80px;
@@ -40,8 +42,8 @@
 }
 
 .ampersand {
-  font-family: "Geist", sans-serif;
-  font-weight: 300;
+  font-family: var(--font-support);
+  font-weight: var(--text-body-lg-weight);
 }
 
 .title-gradient {
@@ -105,9 +107,12 @@
 
 .career-info-box p {
   width: 42%;
-  font-size: 18px;
-  font-weight: 300;
-  line-height: 1.6;
+  font-family: var(--font-support);
+  font-size: var(--text-body-lg-size);
+  font-weight: var(--text-body-lg-weight);
+  line-height: var(--text-body-lg-lh);
+  letter-spacing: var(--text-body-lg-ls);
+  font-feature-settings: var(--text-body-lg-features);
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
   white-space: normal;
@@ -122,25 +127,34 @@
 }
 
 .career-info h3 {
-  font-family: 'Stack Sans Notch', sans-serif;
-  font-size: 54px;
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg-size);
   margin: 0;
-  font-weight: 600;
-  line-height: 1;
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-lh);
+  letter-spacing: var(--text-display-lg-ls);
+  font-feature-settings: var(--text-display-lg-features);
   color: #fff;
 }
 
 .career-role h4 {
-  font-size: 26px;
-  line-height: 1.2;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--text-subhead-size);
+  line-height: var(--text-subhead-lh);
+  font-weight: var(--text-subhead-weight);
+  letter-spacing: var(--text-subhead-ls);
+  font-feature-settings: var(--text-subhead-features);
   margin: 0;
   color: #fff;
 }
 
 .career-role h5 {
-  font-weight: 400;
-  font-size: 18px;
+  font-family: var(--font-support);
+  font-weight: var(--text-body-lg-weight);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-lh);
+  letter-spacing: var(--text-body-lg-ls);
+  font-feature-settings: var(--text-body-lg-features);
   margin: 8px 0 0 0;
   color: #FFC107; /* Yellow theme color */
 }
@@ -155,13 +169,16 @@
   }
   .career-info-box p {
     width: 46%;
-    font-size: 16px;
+    font-size: var(--text-body-size);
+    letter-spacing: var(--text-body-ls);
   }
   .career-role h4 {
-    font-size: 20px;
+    font-size: var(--text-headline-size);
+    letter-spacing: var(--text-headline-ls);
   }
   .career-info h3 {
-    font-size: 40px;
+    font-size: var(--text-display-lg-size);
+    letter-spacing: var(--text-display-lg-ls);
   }
 }
 

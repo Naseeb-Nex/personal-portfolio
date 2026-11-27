@@ -73,9 +73,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-micro-lh);
   letter-spacing: 0.15em;
-  font-weight: 500;
+  font-feature-settings: var(--text-micro-features);
   margin-bottom: 24px;
   text-transform: uppercase;
   color: #52525b;
@@ -95,10 +98,12 @@
 }
 
 .about-heading {
-  font-size: clamp(2rem, 3.5vw, 3.25rem);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg-size);
+  font-weight: var(--text-display-lg-weight);
+  line-height: var(--text-display-lg-lh);
+  letter-spacing: var(--text-display-lg-ls);
+  font-feature-settings: var(--text-display-lg-features);
   margin-bottom: 0;
   color: #040100;
 }
@@ -184,17 +189,19 @@
 }
 
 .about-right p {
-  font-family: "Switzer", "Aeonik", "Inter", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(1.125rem, 1.5vw, 1.35rem);
-  line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: var(--text-body-lg-size);
+  line-height: var(--text-body-lg-lh);
+  letter-spacing: var(--text-body-lg-ls);
+  font-feature-settings: var(--text-body-lg-features);
   margin-bottom: 32px;
-  font-weight: 400;
+  font-weight: var(--text-body-lg-weight);
   color: #27272a;
 }
 
 .about-right p strong {
-  font-weight: 700;
-  font-family: 'Stack Sans Notch', sans-serif;
+  font-weight: var(--text-headline-weight);
+  font-family: var(--font-display);
   color: #040100;
 }
 
