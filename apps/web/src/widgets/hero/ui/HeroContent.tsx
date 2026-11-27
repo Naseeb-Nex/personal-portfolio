@@ -5,7 +5,7 @@ export const HeroContent = () => {
   return (
     <div className="hero-content">
       <h1 className="hero-heading">
-        Engineering the
+        <span className="hero-heading-line">Engineering the</span>
         <br />
         <span className="hero-heading-accent">Future</span>
       </h1>

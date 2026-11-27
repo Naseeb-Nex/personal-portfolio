@@ -2,39 +2,26 @@
   display: flex;
   flex-direction: column;
   gap: 15px; /* spacing.md (15px) */
-  max-width: 640px;
+  max-width: 680px;
   position: relative;
   z-index: 10;
-  /* Subtle backdrop to ensure legibility over 3D xylophone glass tubes */
-  background: radial-gradient(
-    ellipse at 15% 85%,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.35) 55%,
-    transparent 85%
-  );
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 20px 24px;
-  margin-left: -24px;
-  border-radius: 20px; /* rounded.xl (20px) */
-  transition: background 0.3s ease;
+  padding: 0;
+  margin: 0;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 [data-theme="light"] .hero-content {
-  background: radial-gradient(
-    ellipse at 15% 85%,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(255, 255, 255, 0.5) 55%,
-    transparent 85%
-  );
+  background: none;
 }
 
 .hero-heading {
   font-family: 'Stack Sans Notch', 'Inter', sans-serif;
-  font-size: clamp(38px, 5vw, 72px);
+  font-size: 62px; /* display-lg token */
   font-weight: 500;
-  line-height: 0.95;
-  letter-spacing: -3px;
+  line-height: 1.0;
+  letter-spacing: -3.1px;
   color: #ffffff; /* ink dark token */
   margin: 0;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9), 0 4px 40px rgba(0, 0, 0, 0.85);
@@ -46,14 +33,18 @@
   text-shadow: 0 1px 16px rgba(255, 255, 255, 0.9), 0 2px 30px rgba(255, 255, 255, 0.7);
 }
 
-/* Orange gradient on 'Future' */
+.hero-heading-line {
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* Orange gradient on 'Future' - Dark theme: vivid spectrum coral/orange/red */
 .hero-heading-accent {
   background: linear-gradient(
     100deg,
-    #FFD700 0%,
-    #FF8800 33%,
-    #FF5A00 66%,
-    #CC2200 100%
+    #FF8800 0%,
+    #FF5A00 45%,
+    #ff0a3c 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -70,10 +61,9 @@
   top: 2px;
   background: linear-gradient(
     100deg,
-    #FFD700 0%,
-    #FF8800 33%,
-    #FF5A00 66%,
-    #CC2200 100%
+    #FF8800 0%,
+    #FF5A00 45%,
+    #ff0a3c 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -82,6 +72,33 @@
   opacity: 0.35;
   pointer-events: none;
   z-index: -1;
+}
+
+/* Light theme: deep high-contrast spectrum red/orange with 4.5+:1 contrast vs white */
+[data-theme="light"] .hero-heading-accent {
+  background: linear-gradient(
+    100deg,
+    #CC2200 0%,
+    #B83200 50%,
+    #991B00 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="light"] .hero-heading-accent::after {
+  background: linear-gradient(
+    100deg,
+    #CC2200 0%,
+    #B83200 50%,
+    #991B00 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: blur(8px) brightness(0.8);
+  opacity: 0.2;
 }
 
 /* Subheading: 'AI built for the real world' with high contrast over xylophone */
@@ -110,17 +127,26 @@
     text-align: left;
     max-width: 100%;
     gap: 12px;
-    padding: 16px 20px;
-    margin-left: -20px;
+    padding: 0;
+    margin: 0;
   }
 
   .hero-heading {
-    letter-spacing: -2px;
-    font-size: clamp(32px, 6.5vw, 44px);
+    letter-spacing: -2.4px;
+    font-size: 48px;
+    line-height: 1.05;
   }
 
   .hero-subheading {
     max-width: 100%;
     font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-heading {
+    letter-spacing: -1.0px;
+    font-size: 32px; /* display-md token */
+    line-height: 1.13;
   }
 }
