@@ -7,7 +7,7 @@ export const HeroContent = () => {
       <h1 className="hero-heading">
         Engineering the
         <br />
-        <span className="hero-heading-accent">Next Wave</span> of AI
+        <span className="hero-heading-accent">Future</span>
       </h1>
 
       <p className="hero-subheading">

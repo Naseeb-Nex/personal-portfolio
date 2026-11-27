@@ -46,7 +46,7 @@
   text-shadow: 0 1px 16px rgba(255, 255, 255, 0.9), 0 2px 30px rgba(255, 255, 255, 0.7);
 }
 
-/* Orange gradient on 'Next Wave' */
+/* Orange gradient on 'Future' */
 .hero-heading-accent {
   background: linear-gradient(
     100deg,
@@ -64,7 +64,7 @@
 }
 
 .hero-heading-accent::after {
-  content: 'Next Wave';
+  content: 'Future';
   position: absolute;
   left: 0;
   top: 2px;
