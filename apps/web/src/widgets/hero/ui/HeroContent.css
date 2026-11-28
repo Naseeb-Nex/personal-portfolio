@@ -38,67 +38,14 @@
   display: inline-block;
 }
 
-/* Orange gradient on 'Future' - Dark theme: vivid spectrum coral/orange/red */
+/* Solid accent on 'Future' - Option A (DESIGN.md spectrum coral in dark, violet-deep in light) */
 .hero-heading-accent {
-  background: linear-gradient(
-    100deg,
-    #FF8800 0%,
-    #FF5A00 45%,
-    #ff0a3c 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--hero-accent-color, var(--spectrum-coral, #ff5577));
   display: inline-block;
   padding: 2px 0 6px 0;
   position: relative;
-}
-
-.hero-heading-accent::after {
-  content: 'Future';
-  position: absolute;
-  left: 0;
-  top: 2px;
-  background: linear-gradient(
-    100deg,
-    #FF8800 0%,
-    #FF5A00 45%,
-    #ff0a3c 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: blur(12px) brightness(1.5);
-  opacity: 0.35;
-  pointer-events: none;
-  z-index: -1;
-}
-
-/* Light theme: deep high-contrast spectrum red/orange with 4.5+:1 contrast vs white */
-[data-theme="light"] .hero-heading-accent {
-  background: linear-gradient(
-    100deg,
-    #CC2200 0%,
-    #B83200 50%,
-    #991B00 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-[data-theme="light"] .hero-heading-accent::after {
-  background: linear-gradient(
-    100deg,
-    #CC2200 0%,
-    #B83200 50%,
-    #991B00 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: blur(8px) brightness(0.8);
-  opacity: 0.2;
+  text-shadow: none;
+  transition: color 0.2s ease;
 }
 
 /* Subheading: 'AI built for the real world' with high contrast over xylophone */

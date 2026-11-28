@@ -37,6 +37,22 @@
   font-style: normal;
 }
 
+:root {
+  /* DESIGN.md Spectrum tokens */
+  --spectrum-red: #ff0a3c;
+  --spectrum-coral: #ff5577;
+  --spectrum-magenta: #d44df0;
+  --spectrum-violet: #6a4cf5;
+  --spectrum-blue: #0099ff;
+  --spectrum-teal: #1ee0c8;
+  --spectrum-pink: #fa7faa;
+  --spectrum-lime: #c2ef4e;
+  --spectrum-violet-deep: #422082;
+
+  /* Theme-selected accent for hero headline */
+  --hero-accent-color: var(--spectrum-coral);
+}
+
 :root,
 :root[data-theme="dark"] {
   --primary-orange: #FF5A00;
@@ -51,6 +67,7 @@
   --theme-toggle-bg-hover: rgba(255, 255, 255, 0.22);
   --theme-toggle-color: #ffffff;
   --theme-toggle-border: rgba(255, 255, 255, 0.2);
+  --hero-accent-color: var(--spectrum-coral);
   color-scheme: dark;
 }
 
@@ -67,6 +84,7 @@
   --theme-toggle-bg-hover: rgba(0, 0, 0, 0.12);
   --theme-toggle-color: #141120;
   --theme-toggle-border: rgba(0, 0, 0, 0.15);
+  --hero-accent-color: var(--spectrum-violet-deep);
   color-scheme: light;
 }
 
