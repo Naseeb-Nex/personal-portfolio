@@ -33,11 +33,13 @@
   right: 24px;
   bottom: 100%;
   margin-bottom: 12px;
-  font-family: 'Stack Sans Notch', sans-serif;
-  font-size: 32px;
-  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: var(--text-display-md-size);
+  font-weight: var(--text-display-md-weight);
+  line-height: var(--text-display-md-lh);
+  letter-spacing: var(--text-display-md-ls);
+  font-feature-settings: var(--text-display-md-features);
   color: #ffffff;
-  letter-spacing: -1px;
   white-space: nowrap;
 }
 

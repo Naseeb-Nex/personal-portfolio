@@ -84,10 +84,12 @@
   color: #fff;
   padding: 4px 10px;
   border-radius: 6px;
-  font-size: 10px;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-micro-lh);
+  letter-spacing: var(--text-micro-ls);
+  font-feature-settings: var(--text-micro-features);
   white-space: nowrap;
   opacity: 0;
   visibility: hidden;

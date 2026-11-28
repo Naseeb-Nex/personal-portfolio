@@ -59,7 +59,7 @@ export const AboutMe = () => {
                     d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" 
                     fill="transparent" 
                   />
-                  <text fontSize="9.5" fontWeight="700" letterSpacing="0.1em" fill="url(#textGradient)">
+                  <text fontFamily="var(--font-display)" fontSize="9.5" fontWeight="var(--text-headline-weight)" letterSpacing="0.1em" fill="url(#textGradient)">
                     <textPath href="#circlePath" startOffset="0%">
                       CURRENTLY RESEARCHING • DEEP IN LATENT SPACE •&nbsp;
                     </textPath>

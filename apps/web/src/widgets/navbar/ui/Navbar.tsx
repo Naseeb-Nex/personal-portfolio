@@ -24,7 +24,7 @@ export const Navbar = () => {
   return (
     <nav className="navbar" aria-label="Main Navigation">
       <div className="logo-area">
-        <span className="logo-text" style={{ fontFamily: "'Stack Sans Notch', sans-serif", letterSpacing: '-0.5px', fontSize: '28px', userSelect: 'none', fontWeight: 700, color: '#ffffff' }}>
+        <span className="logo-text" style={{ userSelect: 'none', color: '#ffffff' }}>
           Naseeb{' '}
           <span className="logo-nex">nex</span>
           <span style={{ color: 'var(--accent-color, #FF5A00)' }}>.</span>

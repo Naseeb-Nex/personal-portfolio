@@ -13,9 +13,12 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-body-sm-weight);
+  line-height: var(--text-micro-lh);
   letter-spacing: 0.15em;
-  font-weight: 500;
+  font-feature-settings: var(--text-micro-features);
   margin-bottom: 40px;
   text-transform: uppercase;
 }
@@ -34,13 +37,14 @@
 }
 
 .manifesto-text {
-  font-size: clamp(32px, 4.5vw, 64px);
-  line-height: 1.15;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: var(--text-display-lg-size);
+  line-height: var(--text-display-lg-lh);
+  font-weight: var(--text-display-lg-weight);
+  letter-spacing: var(--text-display-lg-ls);
+  font-feature-settings: var(--text-display-lg-features);
   max-width: 1400px;
   color: #fff;
-  font-family: 'Inter', sans-serif;
 }
 
 .manifesto-text .word {

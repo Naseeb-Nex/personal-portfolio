@@ -5,10 +5,14 @@ export const HeroContent = () => {
   return (
     <div className="hero-content">
       <h1 className="hero-heading">
-        <span className="hero-heading-nowrap">Building the</span><br />
-        <span className="hero-heading-accent">Intelligent</span><br />
-        Future.
+        <span className="hero-heading-line">Engineering the</span>
+        <br />
+        <span className="hero-heading-accent">Future</span>
       </h1>
+
+      <p className="hero-subheading">
+        AI built for the real world
+      </p>
 
       <ChatWidget />
     </div>

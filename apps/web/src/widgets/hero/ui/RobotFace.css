@@ -1,0 +1,111 @@
+.hero-robot-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-robot-wrapper:hover {
+  transform: scale(1.02);
+}
+
+.hero-robot-wrapper:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 8px;
+  border-radius: 20px; /* rounded.xl (20px) */
+}
+
+.hero-robot-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  pointer-events: auto;
+}
+
+/* Neutral status badge adhering to DESIGN.md pill badge tokens */
+.hero-robot-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px; /* spacing.xs */
+  padding: 6px 14px;
+  background: #141414; /* surface-1 dark */
+  border: 1px solid #262626; /* hairline dark */
+  border-radius: 100px; /* rounded.pill */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+  font-family: var(--font-body);
+  font-size: var(--text-micro-size);
+  font-weight: var(--text-caption-weight);
+  line-height: var(--text-micro-lh);
+  letter-spacing: var(--text-micro-ls);
+  font-feature-settings: var(--text-micro-features);
+  text-transform: uppercase;
+  color: #ffffff; /* ink dark */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+[data-theme="light"] .hero-robot-badge {
+  background: #f5f5f5; /* surface-1 light */
+  border-color: #e5e5e5; /* hairline light */
+  color: #000000; /* ink light */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Green online pulse dot using semantic-success token */
+.hero-robot-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e; /* semantic.success */
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}
+
+.hero-robot-expression {
+  line-height: 1;
+}
+
+@media (max-width: 960px) {
+  .hero-robot-wrapper {
+    max-width: 300px;
+  }
+  .hero-robot-badge {
+    bottom: -4px;
+    font-size: var(--text-micro-size);
+    padding: 4px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-robot-wrapper {
+    max-width: 250px;
+  }
+}
