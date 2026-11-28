@@ -103,6 +103,11 @@
 
 body {
   font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  font-weight: var(--text-body-weight);
+  line-height: var(--text-body-lh);
+  letter-spacing: var(--text-body-ls);
+  font-feature-settings: var(--text-body-features);
   background-color: var(--bg-dark);
   color: var(--text-main);
   overflow-x: hidden;
